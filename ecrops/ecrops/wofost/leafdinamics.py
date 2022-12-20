@@ -220,6 +220,32 @@ class WOFOST_Leaf_Dynamics:
         status.rates.FYSAGE = 0
         status.rates.SLAT = 0
         status.rates.GLAIEX = 0
+
+
+        # CALCULATE INITIAL STATE VARIABLES at sowing/emergence day
+        if status.day == status.states.DOS or status.day == status.states.DOE:
+            params = status.leafdinamics.params
+            FL = status.states.FL
+            FR = status.states.FR
+            DVS = status.states.DVS
+
+            # Initial leaf biomass
+            status.states.WLV = (params.TDWI * (1 - FR)) * FL
+            status.states.DWLV = 0.
+            status.states.TWLV = status.states.WLV + status.states.DWLV
+            status.states.TAGP = 0.0
+            # First leaf class (SLA, age and weight)
+            status.states.SLA = deque([params.SLATB(DVS)])
+            status.states.LVAGE = deque([0.])
+            status.states.LV = deque([status.states.WLV])
+
+            # Initial values for leaf area
+            status.states.LAIEM = status.states.LV[0] * status.states.SLA[0]
+            status.states.LASUM = status.states.LAIEM
+            status.states.LAIEXP = status.states.LAIEM
+            status.states.LAIMAX = status.states.LAIEM
+            status.states.LAI = status.states.LASUM + status.states.SAI + status.states.PAI
+
         if (states.DOE is None or status.day < states.DOE) or (states.DOE is not None and status.day >= states.DOE and (
                 states.DOM is not None and status.day >= states.DOM)):  # execute only after emergence and before maturity
             return status
@@ -299,29 +325,7 @@ class WOFOST_Leaf_Dynamics:
         rates = status.rates
         states = status.states
 
-        # CALCULATE INITIAL STATE VARIABLES at sowing/emergence day
-        if status.day == status.states.DOS or status.day == status.states.DOE:
-            params = status.leafdinamics.params
-            FL = status.states.FL
-            FR = status.states.FR
-            DVS = status.states.DVS
 
-            # Initial leaf biomass
-            status.states.WLV = (params.TDWI * (1 - FR)) * FL
-            status.states.DWLV = 0.
-            status.states.TWLV = status.states.WLV + status.states.DWLV
-            status.states.TAGP = 0.0
-            # First leaf class (SLA, age and weight)
-            status.states.SLA = deque([params.SLATB(DVS)])
-            status.states.LVAGE = deque([0.])
-            status.states.LV = deque([status.states.WLV])
-
-            # Initial values for leaf area
-            status.states.LAIEM = status.states.LV[0] * status.states.SLA[0]
-            status.states.LASUM = status.states.LAIEM
-            status.states.LAIEXP = status.states.LAIEM
-            status.states.LAIMAX = status.states.LAIEM
-            status.states.LAI = status.states.LASUM + status.states.SAI + status.states.PAI
 
         # --------- leave death ---------
         tLV = array('d', states.LV)

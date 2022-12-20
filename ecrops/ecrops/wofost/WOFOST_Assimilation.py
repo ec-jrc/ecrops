@@ -3,7 +3,7 @@ from math import pi
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
-
+from collections import deque
 
 def totass(DAYL, AMAX, EFF, LAI, KDIF, AVRAD, DIFPP, DSINBE, SINLD, COSLD):
     """ This routine calculates the daily total gross CO2 assimilation by performing a Gaussian integration over
@@ -204,6 +204,46 @@ class WOFOST_Assimilation():
                 (states.DOE is not None and status.day >= states.DOE and
                  (states.DOM is not None and status.day >= states.DOM)):  # execute only after emergence and before maturity
             return status
+
+        # CALCULATE INITIAL STATE VARIABLES at sowing/emergence day
+        if status.day == status.states.DOS or status.day == status.states.DOE:
+            params = status.leafdinamics.params
+            FL = status.states.FL
+            FR = status.states.FR
+            FS = status.states.FS
+            DVS = status.states.DVS
+
+            # Initial leaf biomass
+            status.states.WLV = (params.TDWI * (1 - FR)) * FL
+            status.states.DWLV = 0.
+            status.states.TWLV = status.states.WLV + status.states.DWLV
+            status.states.TAGP = 0.0
+            # First leaf class (SLA, age and weight)
+            status.states.SLA = deque([params.SLATB(DVS)])
+            status.states.LVAGE = deque([0.])
+            status.states.LV = deque([status.states.WLV])
+
+            # Initial values for leaf area
+            status.states.LAIEM = status.states.LV[0] * status.states.SLA[0]
+            status.states.LASUM = status.states.LAIEM
+            status.states.LAIEXP = status.states.LAIEM
+            status.states.LAIMAX = status.states.LAIEM
+            status.states.LAI = status.states.LASUM + status.states.SAI + status.states.PAI
+            # Set initial stem biomass
+            status.states.WST = (params.TDWI * (1 - FR)) * FS
+            status.states.DWST = 0.
+            status.states.TWST = status.states.WST + status.states.DWST
+            # initial root biomass states
+            FR = status.states.FR
+            status.states.WRT = params.TDWI * FR
+            status.states.DWRT = 0.
+            status.states.TWRT = status.states.WRT + status.states.DWRT
+            # Initial storage organ biomass
+            FO = status.states.FO
+            FR = status.states.FR
+            status.states.WSO = (params.TDWI * (1 - FR)) * FO
+            status.states.DWSO = 0.
+            status.states.TWSO = status.states.WSO + status.states.DWSO
 
         # 2.20  daily dry matter production
 

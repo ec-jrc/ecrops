@@ -94,6 +94,19 @@ class WOFOST_Storage_Organ_Dynamics:
         status.rates.GRSO = 0.
         status.rates.DRSO = 0.0
         status.rates.GWSO = 0.
+
+        # INITIAL STATES at sowing/emergence day
+        if status.day == status.states.DOS or status.day == status.states.DOE:
+            params = status.storageorgansdynamics.params
+            # Initial storage organ biomass
+            FO = status.states.FO
+            FR = status.states.FR
+            status.states.WSO = (params.TDWI * (1 - FR)) * FO
+            status.states.DWSO = 0.
+            status.states.TWSO = status.states.WSO + status.states.DWSO
+            # Initial Pod Area Index
+            status.states.PAI = status.states.WSO * params.SPA
+
         if (states.DOE is None or status.day < states.DOE) or (states.DOE is not None and status.day >= states.DOE and (
                 states.DOM is not None and status.day >= states.DOM)):  # execute only after emergence and before maturity
             return status
@@ -117,16 +130,6 @@ class WOFOST_Storage_Organ_Dynamics:
         states = status.states
         params = status.storageorgansdynamics.params
 
-        # INITIAL STATES at sowing/emergence day
-        if status.day == status.states.DOS or status.day == status.states.DOE:
-            # Initial storage organ biomass
-            FO = status.states.FO
-            FR = status.states.FR
-            status.states.WSO = (params.TDWI * (1 - FR)) * FO
-            status.states.DWSO = 0.
-            status.states.TWSO = status.states.WSO + status.states.DWSO
-            # Initial Pod Area Index
-            status.states.PAI = status.states.WSO * params.SPA
 
         # Stem biomass (living, dead, total)
         states.WSO += rates.GWSO

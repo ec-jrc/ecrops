@@ -96,3 +96,16 @@ class Afgen(object):
             v *= self.unit
 
         return v
+
+    def toString(self):
+
+        v="["
+        i=0
+        for x in self.x_list:
+            v = v + "\n[" + str(x) + ","
+            if len(self.y_list)>i:
+                v = v + "" + str(self.y_list[i]) + "]"
+            i=i+1
+
+        v = v + "]"
+        return v

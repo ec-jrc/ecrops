@@ -101,6 +101,20 @@ class WOFOST_Stem_Dynamics:
         status.rates.GRST = 0
         status.rates.DRST = 0
         status.rates.GWST = 0
+
+        # INITIAL STATES at sowing/emergence day
+        if status.day == status.states.DOS or status.day == status.states.DOE:
+            params = status.stemdynamics.params
+            # Set initial stem biomass
+            FS = status.states.FS
+            FR = status.states.FR
+            status.states.WST = (params.TDWI * (1 - FR)) * FS
+            status.states.DWST = 0.
+            status.states.TWST = status.states.WST + status.states.DWST
+            # Initial Stem Area Index
+            DVS = status.states.DVS
+            status.states.SAI = status.states.WST * params.SSATB(DVS)
+
         if (states.DOE is None or status.day < states.DOE) or (states.DOE is not None and status.day >= states.DOE and (
                 states.DOM is not None and status.day >= states.DOM)):  # execute only after emergence and before maturity
             return status
@@ -125,18 +139,7 @@ class WOFOST_Stem_Dynamics:
         rates = status.rates
         states = status.states
 
-        # INITIAL STATES at sowing/emergence day
-        if status.day == status.states.DOS or status.day == status.states.DOE:
-            params = status.stemdynamics.params
-            # Set initial stem biomass
-            FS = status.states.FS
-            FR = status.states.FR
-            status.states.WST = (params.TDWI * (1 - FR)) * FS
-            status.states.DWST = 0.
-            status.states.TWST = status.states.WST + status.states.DWST
-            # Initial Stem Area Index
-            DVS = status.states.DVS
-            status.states.SAI = status.states.WST * params.SSATB(DVS)
+
 
         # Stem biomass (living, dead, total)
         states.WST += rates.GWST

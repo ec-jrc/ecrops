@@ -32,39 +32,71 @@ class Weather:
         return status
 
     def runstep(self, status):
+
+        status=self.setweatherdata(status)
+
+        # dfumagalli -28-07-2021 : modification to make it equal to bioma implementation
+        # added IF to start calculation of minumum temperature 7 days average only after emergence
+        if not hasattr(status,"START_EVENT"):
+            if(status.states.DOE is not None and status.states.DOE <= status.day):
+                status.weather.TMINRA = (self._7day_running_avg(status))
+        else:
+            if (status.START_EVENT!=1 and status.simulation_start_day <= status.day) or (status.START_EVENT==1 and status.states.DOE is not None and status.states.DOE <= status.day):
+                status.weather.TMINRA = (self._7day_running_avg(status))
+            else:
+                status.weather.TMINRA = None
+
+        return status
+
+    def initialize(self, status):
+        """ initialize the weather variables"""
+
+        # initialize TMNSAV (7-days running mean of minimum temperature) to a deque of size 7
+        status.weather.TMNSAV = deque(maxlen=7)
+        status.weather.TMINRA = None
+        return self.setweatherdata(status)
+
+    def setweatherdata(self,status):
+
         """ Every day moves data from tatus.weather.WeatherDataArray to the proper status weather variables"""
         status.doy = doy(status.day)
         number_progr_days = (status.day - status.first_day).days
-        numberOfColumnsInWeatherInputArray = len(status.weather.WeatherDataArray[number_progr_days])
 
         # extract data from input data array
-        status.weather.TEMP_MAX = (status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['TEMP_MAX']])  # C
-        status.weather.TEMP_MIN = (status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['TEMP_MIN']])  # C
+        status.weather.TEMP_MAX = (status.weather.WeatherDataArray[number_progr_days][
+                                       status.weather.WeatherColumnForVariable['TEMP_MAX']])  # C
+        status.weather.TEMP_MIN = (status.weather.WeatherDataArray[number_progr_days][
+                                       status.weather.WeatherColumnForVariable['TEMP_MIN']])  # C
 
         # if daily avg temperature is in the input use it, otherwise calculate it as (tmax+tmin)/2
         if 'TEMP_AVG' in status.weather.WeatherColumnForVariable:
-            status.weather.TEMP = (status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['TEMP_AVG']])  # C
+            status.weather.TEMP = (status.weather.WeatherDataArray[number_progr_days][
+                                       status.weather.WeatherColumnForVariable['TEMP_AVG']])  # C
         else:
             status.weather.TEMP = ((status.weather.TEMP_MAX + status.weather.TEMP_MIN) / 2)
 
         status.weather.DTEMP = ((status.weather.TEMP_MAX + status.weather.TEMP) / 2)
 
-        status.weather.IRRAD = (status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['IRRAD']])  # J/m^2 *day
+        status.weather.IRRAD = (status.weather.WeatherDataArray[number_progr_days][
+                                    status.weather.WeatherColumnForVariable['IRRAD']])  # J/m^2 *day
 
-        # dfumagalli -28-07-2021 : modification to make it equal to bioma implementation
-        # added IF to start calculation of minumum temperature 7 days average only after emergence
-        if hasattr(status, 'states') and hasattr(status.states,
-                                                 'DOE') and status.states.DOE is not None and status.day >= status.states.DOE:
-            status.weather.TMINRA = (self._7day_running_avg(status))
+
+        status.weather.RAIN = (
+        status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['RAIN']])  # cm
+
+        # if wind is not present in the weather dataset, it is set to zero
+        if 'WIND' in status.weather.WeatherColumnForVariable:
+            status.weather.WIND = (status.weather.WeatherDataArray[number_progr_days][
+                                       status.weather.WeatherColumnForVariable['WIND']])  # m/s
         else:
-            status.weather.TMINRA = None
+            status.weather.WIND = 0
 
-        status.weather.RAIN = (status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['RAIN']])  # cm
-        status.weather.WIND = (status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['WIND']])  # m/s
-
-        # retrieve the Relative Humidity [%]
-        status.weather.RH = (status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['RH']])
-
+        # if relative humidity is not present in the weather dataset, it is set to 80%
+        if 'RH' in status.weather.WeatherColumnForVariable:
+            status.weather.RH = (
+            status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['RH']])
+        else:
+            status.weather.RH = 80
 
         # calculate here saturated VAP from temperatures and RH
         SVAP = 6.10588 * exp(17.32491 * status.weather.TEMP / (status.weather.TEMP + 238.102))
@@ -77,11 +109,14 @@ class Weather:
         # retrieve the evapotraspiration values from input array, or calculate them if not present
         if 'E0' in status.weather.WeatherColumnForVariable and 'ES0' in status.weather.WeatherColumnForVariable and 'ET0' in status.weather.WeatherColumnForVariable:
             status.weather.E0 = (
-            status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['E0']])  # cm
+                status.weather.WeatherDataArray[number_progr_days][
+                    status.weather.WeatherColumnForVariable['E0']])  # cm
             status.weather.ES0 = (
-            status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['ES0']])  # cm
+                status.weather.WeatherDataArray[number_progr_days][
+                    status.weather.WeatherColumnForVariable['ES0']])  # cm
             status.weather.ET0 = (
-            status.weather.WeatherDataArray[number_progr_days][status.weather.WeatherColumnForVariable['ET0']])  # cm
+                status.weather.WeatherDataArray[number_progr_days][
+                    status.weather.WeatherColumnForVariable['ET0']])  # cm
 
         else:
             angstA = 0.25
@@ -98,13 +133,6 @@ class Weather:
                                                                                      ANGOT=status.astrodata.ANGOT)
 
         return status
-
-    def initialize(self, status):
-        """ initialize the weather variables"""
-
-        # initialize TMNSAV (7-days running mean of minimum temperature) to a deque of size 7
-        status.weather.TMNSAV = deque(maxlen=7)
-        return self.runstep(status)
 
     def _7day_running_avg(self, status):
         """Calculate 7-days running mean of minimum temperature.

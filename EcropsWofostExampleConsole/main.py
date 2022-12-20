@@ -25,9 +25,23 @@ def ExtractWeather(allrecords, fromdate, todate, firstyear):
     t = (todate - firstday).days
     return allrecords[f:t, ]
 
-# initialize wofost by reading the workflow file
+#initialize wofost by reading one of the available workflow files
 print('read workflow file')
-w = ModelEngine("WorkflowWofostSimple.xml")
+
+
+#REMOVE THE COMMENT of one of the following lines to use one of the workflow files
+#potential phenology simulation
+#w = ModelEngine("WorkflowWofostPhenology.xml")
+
+#potential and water limited basic simulation
+#w = ModelEngine("WorkflowWofostSimple.xml")
+
+#potential and water limited basic simulation
+w = ModelEngine("WorkflowWofostSimpleWithCo2.xml")
+
+#simulation run by using the partitioning factors based on the co2 effect
+#w = ModelEngine("WorkflowWofostCo2Partitioning.xml")
+
 
 # get all available run modes, as defined in the workflow file
 runModes = w.getRunModeNames();
@@ -57,7 +71,7 @@ initial_water_content = (example_soil.FC - example_soil.WP) * example_soil.thick
 # define sowing date
 sowingDate = 105  # day of the year from 1 to 365
 
-# define co2concentrations for the years to run
+# define co2concentrations for the years to run. Values should be provided for every year to run.
 Co2Concentrations = {}
 Co2Concentrations["1959"]=360 #co2 contentration in ppm for year 1959
 Co2Concentrations["1960"]=361 #co2 contentration in ppm for year 1960

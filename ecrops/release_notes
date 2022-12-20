@@ -88,3 +88,7 @@ Description: ECroPS (Engine for Crop Parallelizable Simulations)  is a software 
  - added DrivingVariables section in workflow file
 + New in version 1.4.2
  - added debug_timing_mode, added WeatherColumnForVariable setting
++ New in version 1.4.3
+ - fixed nitrogen qrez calculation parameters - fixed START_MODE initialization of phenology
++ New in version 1.4.4
+ - initialization of leaves, roots, stems and storage organs moved from integrate to runstep methods. Avoid calling nitgth temperature (TMINRA) calculation twice the first simulated day

@@ -3,12 +3,17 @@ import ecrops.wofost_util.Afgen
 from ecrops.wofost_util.util import limit
 
 
-def stopAtMaturity(crop):
-    """For crops 6 and 7 returns False, because for some crop we simulate the phenology after maturity. For other
+def stopAtMaturity(status,crop):
+    """For crops that have END_EVENT=4 (harvest,like crops 6 and 7) returns False, because for some crop we simulate the phenology after maturity. For other
     crops return True """
-    if crop == 6 or crop == 7:
-        return False
-    return True
+    if hasattr(status, 'END_EVENT'):
+        if status.END_EVENT == 4:
+            return False
+        else:
+            return True
+    else:  # NOTE: this case is left for backward compatibility, but should removed because it is always better to explicit the END_EVENT in the driving variables
+        return True
+
 
 
 class DVS_Phenology:
@@ -51,7 +56,18 @@ class DVS_Phenology:
             status.phenology.params.TSUM2 = cropparams['TSUM2']
             status.phenology.params.TSUMEM = cropparams['TSUMEM']
             status.phenology.params.DVSEND = cropparams['DVSEND']
-            status.phenology.params.CROP_START_TYPE = "sowing"
+
+
+            if hasattr(status,'START_EVENT'):
+                if status.START_EVENT==1:
+                    status.phenology.params.CROP_START_TYPE = "sowing"
+                else:
+                    status.phenology.params.CROP_START_TYPE = "emergence"
+                    #if starts at emergence, TSUMEM should be forced to zero
+                    cropparams['TSUMEM'] = 0
+                    status.phenology.params.TSUMEM = 0
+            else: #NOTE: this case is left for backward compatibility, but should removed because it is always better to explicit the START_EVENT in the driving variables
+                status.phenology.params.CROP_START_TYPE ="sowing"
         except  Exception as e:
             print('Error in method setparameters of class Phenology:' + str(e))
         return status
@@ -169,7 +185,7 @@ class DVS_Phenology:
             if status.day == status.sowing_emergence_day:
                 # Define initial stage type (emergence/sowing) and fill the
                 # respective day of sowing/emergence (DOS/DOE)
-                if status.phenology.params.CROP_START_TYPE == "emergence":
+                if status.phenology.params.CROP_START_TYPE == "emergence" :
                     s.STAGE = "vegetative"
                     s.DOE = status.day
                     s.DOS = None

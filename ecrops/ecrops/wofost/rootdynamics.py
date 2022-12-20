@@ -128,6 +128,19 @@ class WOFOST_Root_Dynamics:
         status.rates.DRRT = 0
         status.rates.GWRT = 0
         status.rates.RR = 0.
+
+        # INITIAL STATES at sowing/emergence day
+        if status.day == status.states.DOS or status.day == status.states.DOE:
+            params = status.rootdinamics.params
+            status.states.RD = params.RDI
+            # initial root biomass states
+            FR = status.states.FR
+            status.states.WRT = params.TDWI * FR
+            status.states.DWRT = 0.
+            status.states.TWRT = status.states.WRT + status.states.DWRT
+            states.WRT_previousDay = 0
+
+
         if (states.DOE is None or status.day < states.DOE) or (states.DOE is not None and status.day >= states.DOE and (
                 states.DOM is not None and status.day >= states.DOM)):  # execute only after emergence and before maturity
             return status
@@ -158,17 +171,7 @@ class WOFOST_Root_Dynamics:
         states = status.states
         params = status.rootdinamics.params
 
-        # INITIAL STATES at sowing/emergence day
-        if status.day == status.states.DOS or status.day == status.states.DOE:
-            status.states.RD = params.RDI
-            # initial root biomass states
-            FR = status.states.FR
-            status.states.WRT = params.TDWI * FR
-            status.states.DWRT = 0.
-            status.states.TWRT = status.states.WRT + status.states.DWRT
-            states.WRT_previousDay = 0
-        else:
-            states.WRT_previousDay = states.WRT
+        states.WRT_previousDay = states.WRT
 
         # Dry weight of living roots
         states.WRT += rates.GWRT

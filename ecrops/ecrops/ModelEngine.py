@@ -13,40 +13,42 @@ import time
 
 class ModelEngine:
     """
-    This class is the engine of the ecrops model.
+    The ModelEngine class is used to run the ecrops model. When an instance of this class is created, it reads the
+    configuration from a provided configuration file. This file defines the structure of the model execution in terms
+    of steps to be executed, input data, and output variables. The class has several properties that define the
+    driving variables, the instructions to initialize the status variables, the steps to run, and the output variables.
 
-    Class to implement the engine workflow: when the instance of this class is created, the configuration is read
-    from the provided configuration file. The reading of the workflow file is done at the beginning of the workflow,
-    since that files defines the structure of the model execution in terms of steps to execute, input data and output
-    variables. The configuration file contains:
-    - the declarations of the driving variables (= all the inputs except
-    the model parameters). All the driving variables declared are mandatory to run the model. (property drivingVariables)
-    - the instructions to initialize the status variables  (property initVariables) - the steps to run (property Workflows)
+    The simulation cycle is divided into three parts: the initialize method checks that the required driving variables
+    are present and initializes the status variables with the provided input data; the executeStep method performs the
+    simulation by calling the steps in the correct order for each day in the cycle; and the finalize method returns the
+    calculated output variables.
+
+    The status of the model and its variables are stored in a "status" variable, which is modified by each model method.
+    This variable is created by the initialize method and returned to the caller. It is the caller's responsibility to
+    manage the status variable and pass it to the executeStep and finalize methods as needed. This approach allows the
+    caller to have full control over the status variable and perform custom tasks.
+
+    To use the ModelEngine class, a caller can follow the generic workflow:
+
+    -Create a ModelEngine instance with the config file: model = ModelEngine(config_file)
+    -Initialize the model with
+    the required input variables: status = model.initialize(timedependantvariables, drivingVariables, allparameters,
+    first_day, simulation_start_day, simulation_end_day)
+    -For each simulation cycle, run the executeStep method with
+    the current status: status = model.executeStep(status)
+    -After the last simulation cycle, run the finalize method
+    to get the output: result = model.finalize(status)
+
+    The ModelEngine class can be used in different "run modes" that define which steps to execute. This allows the
+    same model to be run in slightly different ways.
+
+    The configuration file contains:
+    - the declarations of the driving variables (= all the inputs except the model
+    parameters). All the driving variables declared are mandatory to run the model. (property drivingVariables)
+    - the instructions to initialize the status variables  (property initVariables)
+    - the steps to run (property Workflows)
     - the variables to return as output (property Workflows)
 
-
-    The simulation cycle is divided in 3 parts: - initialize method checks the driving variables are present,
-    initializes the status variable from the property initVariables and the provided input data - executeStep method
-    performs the simulation by calling the steps in the correct order for every day in the cycle. For every day
-    between simulation_start_day and simulation_end_day, if requested, populates a dailydetails array with the daily
-    value of the output variables - finalize method returns an array with output variables calculated after the last
-    time interval executed
-
-    The model’s status and variables are all contained in a variable called “status”, which is modified by every
-    model method. The status variable is NOT contained in the ModelEngine class: it is created by the initialize
-    method and returned to the caller. The status is a required input of both executeStep and finalize methods. Every
-    call to the executeStep method updates the status with the variable values calculated inside the step. It is duty
-    of the caller to manage the status variable properly. This approach allow the caller to have a full control of
-    the status variable to perform specific tasks.
-
-    Here the generic workflow of the caller:
-
-    model = ModelEngine(config_file)
-    status=model.initialize(timedependantvariables, drivingVariables, allparameters, first_day, simulation_start_day,
-                   simulation_end_day)
-    for simulation cycle:
-        status=model.executeStep(status)
-    result=model.finalize(status)
 
     The reading of the workflow is done in the constructor method of the ModelEngine class. Example: model =
     ModelEngine(“my_workflow_file.xml”) The workflow can be executed on more than one “run mode”. A “run mode”
@@ -116,8 +118,6 @@ class ModelEngine:
     def initialize(self, timedependantvariables, timeDependantVariableColumn, drivingVariables, allparameters, first_day, simulation_start_day,
                    simulation_end_day):
         """
-        It checks that all the DrivingVariables defined in the configuration file are set. In case one is missing an
-        exception is thrown.
 
         Initializes the status variable, by using all the inputs defined in the “Init” section of the workflow file,
         and reading values from the six arguments.
@@ -137,7 +137,10 @@ class ModelEngine:
         first_day: first value for status.day variable
         simulation_start_day: the simulation of the steps is performed only when simulation_start_day >= status.day
         simulation_end_day: the simulation of the steps is performed only when simulation_start_day <= status.day
-
+        drivingVariables:The driving variables are all the variables that defines the configuration of the simulation to run, for example the crop to be run, the years to be run, the latitude and logitude of the simulated location, the soil properties of the location,…
+        In practice, the driving variables contains all the input data except the time dependant variables and the model parameters.
+        If the driving variables where defined in the DrivingVariables section of the workflow configuration file, it checks that all the DrivingVariables defined in the configuration file are set. In case one is missing an
+        exception is thrown. If the DrivingVariables section was not defined in the file, the check is not performed.
 
         Returns the status variable.
         """
