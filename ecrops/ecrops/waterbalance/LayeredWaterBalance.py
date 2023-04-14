@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2004-2014 Alterra, Wageningen-UR
-# Allard de Wit (allard.dewit@wur.nl), April 2014
+# This component is derived from PCSE software/Wofost model
+# (Copyright @ 2004-2014 Alterra, Wageningen-UR; Allard de Wit allard.dewit@wur.nl, April 2014)
+# and modified by EC-JRC for the eCrops framework under the European Union Public License (EUPL), Version 1.2
+# European Commission, Joint Research Centre, March 2023
+
+
+
+
 from __future__ import print_function
 
 from math import log10, sqrt, exp
@@ -389,7 +395,7 @@ class WaterbalanceLayered:
 
         DELT = 1
         RD = s.RD
-        if RD != self.RDold:
+        if RD != self.RDold and self.RDold >0:
             msg = "Rooting depth changed unexpectedly"
             raise RuntimeError(msg)
 

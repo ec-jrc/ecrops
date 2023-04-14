@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+# This component is derived from PCSE software/Wofost model
+# (Copyright @ 2004-2014 Alterra, Wageningen-UR; Allard de Wit allard.dewit@wur.nl, April 2014)
+# and modified by EC-JRC for the eCrops framework under the European Union Public License (EUPL), Version 1.2
+# European Commission, Joint Research Centre, March 2023
+
+
 from math import sqrt
 
 from ecrops.wofost_util.util import limit
@@ -6,6 +13,7 @@ from ecrops.Printable import Printable
 
 from ecrops.wofost_util import Afgen
 
+RootDepthForWaterbalanceInAdvance = 10 #10 cm
 
 class WaterbalanceFD:
     """Classic mono layer water balance for freely draining soils under water-limited production.
@@ -167,6 +175,8 @@ class WaterbalanceFD:
 
     def setparameters(self, status):
 
+
+
         status.classicwaterbalance = Printable()
         status.classicwaterbalance.states = Printable()
         status.classicwaterbalance.rates = Printable()
@@ -174,7 +184,14 @@ class WaterbalanceFD:
         status.soildata = status.soilparameters
         status.classicwaterbalance.params = Printable()
         status.classicwaterbalance.params.RDMSOL = status.soildata['RDMSOL']
-        status.classicwaterbalance.params.WAV = status.soildata['WAV']
+        status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance = 'CALC_SOILWATER_BEFORE_SOWING' in status.allparameters and status.allparameters[
+            'CALC_SOILWATER_BEFORE_SOWING']==1
+        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False:
+            # in case of soil water from sowing, the soil initial water is given by WAV
+            status.classicwaterbalance.params.WAV = status.soildata['WAV']
+        else:
+            #in case of soil water in advance, the soil initial water is given by ROOTING_DEPTH_POT_WATER_ISV
+            status.classicwaterbalance.params.WAV = status.soildata['ROOTING_DEPTH_POT_WATER_ISV']
         status.classicwaterbalance.params.SSI = status.soildata['SSI']
         status.classicwaterbalance.params.SMW = status.soildata['SMW']
         status.classicwaterbalance.params.SMFCF = status.soildata['SMFCF']
@@ -240,6 +257,10 @@ class WaterbalanceFD:
 
         # soil evaporation, days since last rain (DLSR) set to 1
         s.DSLR = 1.
+        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance:
+            #initialize days since last rain (DLSR) set to 1 if the soil is wetter then halfway between SMW and SMFCF, else DSLR=5.
+            if s.SM < p.SMW + 0.5 * (p.SMFCF - p.SMW):
+                s.DSLR = 5.
 
         # Initialize some remaining helper variables
         s.RINold = 0.
@@ -279,17 +300,61 @@ class WaterbalanceFD:
 
         return status
 
+
+
     def runstep(self, status):
         s = status.classicwaterbalance.states
         p = status.classicwaterbalance.params
         r = status.classicwaterbalance.rates
 
-        # start calculating the water balance only after emergence
-        if s.DOE is None or (status.day - s.DOE).days < 0:
-            return status
+        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False:
+            # start calculating the water balance only after emergence
+            if s.DOE is None or (status.day - s.DOE).days < 0:
+                return status
+        else:
+            # start calculating the water balance only after POTENTIAL_WATER_STARTDATE
+            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days < 0 :
+                return status
+            # during the period to calculated water balance in advance
+            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days <= 90:
+                s.RD = RootDepthForWaterbalanceInAdvance
+            #at the end of the period to calculated water balance in advance
+            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days == 90: #this period takes 90 days
+                #redistribute the current water between root depth and below root depth
+                currentSoilWater = s.SM * RootDepthForWaterbalanceInAdvance + s.SMUR * (s.RDM-RootDepthForWaterbalanceInAdvance)
+                calculatedWAV = currentSoilWater - p.SMW  * s.RDM
+                s.SM = limit(p.SMW, p.SMFCF, (p.SMW + calculatedWAV / s.RD))
+                s.W = s.SM * s.RD
+                initialWaterContentUnrooted_WLOWI = max(0,min(p.SM0 * (s.RDM-s.RD),calculatedWAV+(s.RDM*p.SMW)-s.W))
+
+                s.WLOW = initialWaterContentUnrooted_WLOWI
+                s.SMUR = s.WLOW / (s.RDM - s.RD)
+
+                # at the end of the period in advance, reset the cumulated outputs (LossToSubSoil,SoilEvaporation,RootWaterUptakeCum), so that they represent only the real crop period
+                s.WTRAT = 0
+                s.LOSST = 0
+                s.PERCT =0
+                s.EVWT=0
+                s.EVST = 0
+                s.RAINT = 0
+                s.TOTINF = 0
+                s.TOTIRR = 0
+
 
         # Rate of irrigation (RIRR)
         r.RIRR = 0.
+
+        # calculation of new amount of soil moisture in rootzone by root growth
+        RD = s.RD
+        if (RD - s.RDold) > 0.001:
+            # water added to root zone by root growth, in cm
+            WDR = s.WLOW * (RD - s.RDold) / (s.RDM - s.RDold)
+            s.WLOW -= WDR
+
+            # total water addition to rootzone by root growth
+            s.WDRT += WDR
+            # amount of soil moisture in extended rootzone
+            s.W += WDR
 
         # Rainfall rate
 
@@ -370,17 +435,17 @@ class WaterbalanceFD:
         # rates of change in amounts of moisture W and WLOW
         r.DW = r.RIN - r.WTRA - r.EVS - r.PERC
         r.DWLOW = r.PERC - r.LOSS
-        return status
 
-    def integrate(self,status):
-        s = status.classicwaterbalance.states
-        p = status.classicwaterbalance.params
-        r = status.classicwaterbalance.rates
 
-        # start calculating the water balance only after emergence
-        if s.DOE is None or (status.day -s.DOE).days<=0:
-            return status
-
+        #integrate
+        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False:
+            # start calculating the water balance only after emergence
+            if s.DOE is None or (status.day - s.DOE).days < 0:
+                return status
+        else:
+            # start calculating the water balance only after POTENTIAL_WATER_STARTDATE
+            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days < 0:
+                return status
 
         # INTEGRALS OF THE WATERBALANCE: SUMMATIONS AND STATE VARIABLES
         # total transpiration
@@ -431,26 +496,16 @@ class WaterbalanceFD:
         # that the rooting depth is user as to define a layer in the WOFOST
         # water balance.
         if s.rooted_layer_needs_reset is True:
-            status=self._reset_rootzone(status)
+            status = self._reset_rootzone(status)
 
-        # calculation of new amount of soil moisture in rootzone by root growth
-        RD = s.RD
-        if (RD - s.RDold) > 0.001:
-            # water added to root zone by root growth, in cm
-            WDR = s.WLOW * (RD - s.RDold) / (s.RDM - s.RDold)
-            s.WLOW -= WDR
 
-            # total water addition to rootzone by root growth
-            s.WDRT += WDR
-            # amount of soil moisture in extended rootzone
-            s.W += WDR
 
         # mean soil moisture content in rooted zone
         s.SM = s.W / RD
-        if s.RDM==RD:
-            s.SMUR=0
+        if s.RDM == RD:
+            s.SMUR = 0
         else:
-            s.SMUR=s.WLOW/(s.RDM-RD)
+            s.SMUR = s.WLOW / (s.RDM - RD)
         # save rooting depth
         s.RDold = RD
 
@@ -461,7 +516,7 @@ class WaterbalanceFD:
                     s.WLOW - s.WTRAT - s.EVWT - s.EVST - s.TSR - s.LOSST - s.SS)
         if abs(s.WBALRT) > 0.0001:
             msg = "Water balance for root zone does not close."
-            #raise Exception(msg)
+            # raise Exception(msg)
 
         if abs(s.WBALTT) > 0.0001:
             msg = "Water balance for complete soil profile does not close.\n"
@@ -469,7 +524,17 @@ class WaterbalanceFD:
                                                  s.RAINT))
             msg += ("Total FINAL + OUT: %f\n" % (s.W + s.WLOW + s.SS + s.EVWT + s.EVST +
                                                  s.WTRAT + s.TSR + s.LOSST))
-            #raise Exception(msg)
+            # raise Exception(msg)
+
+
+        return status
+
+    def integrate(self,status):
+        s = status.classicwaterbalance.states
+        p = status.classicwaterbalance.params
+        r = status.classicwaterbalance.rates
+
+
 
         return status
 

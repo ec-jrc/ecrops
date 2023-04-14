@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+# This component is derived from PCSE software/Wofost model
+# (Copyright @ 2004-2014 Alterra, Wageningen-UR; Allard de Wit allard.dewit@wur.nl, April 2014)
+# and modified by EC-JRC for the eCrops framework under the European Union Public License (EUPL), Version 1.2
+# European Commission, Joint Research Centre, March 2023
+
+
+
 """AFGEN table implementation in ecrops. AFEGN tables are used to store functions as tables of X and Y"""
 
 from bisect import bisect_left
@@ -89,7 +97,7 @@ class Afgen(object):
             return self.y_list[-1]
 
         i = bisect_left(self.x_list, x) - 1
-        v = self.y_list[i] + self.slopes[i] * (x - self.x_list[i])
+        v = round(self.y_list[i] + self.slopes[i] * (x - self.x_list[i]),6)
 
         # if a unum unit is defined, multiply with a unit
         if self.unit is not None:

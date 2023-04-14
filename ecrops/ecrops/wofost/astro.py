@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+# This component is derived from PCSE software/Wofost model
+# (Copyright @ 2004-2014 Alterra, Wageningen-UR; Allard de Wit allard.dewit@wur.nl, April 2014)
+# and modified by EC-JRC for the eCrops framework under the European Union Public License (EUPL), Version 1.2
+# European Commission, Joint Research Centre, March 2023
+
+
 from math import cos, sin, asin, sqrt, exp
 from ..Printable import Printable
 

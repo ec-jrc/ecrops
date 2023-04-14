@@ -1,4 +1,9 @@
-from .SoilLayerHermes import SoilLayerHermes
+# -*- coding: utf-8 -*-
+#
+# This component was derived from Hermes model (by professor Kurt Christian Kersebaum (Leibniz Centre for Agricultural Landscape Research)) and traslated and adapted by JRC for the eCrops framework
+# European Commission, Joint Research Centre, March 2023
+
+
 from ..Printable import Printable
 import math
 

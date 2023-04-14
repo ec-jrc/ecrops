@@ -1,7 +1,7 @@
 **Ecrops Manual**
 
 This is the manual of the ECroPS model platform.
-The present document refers to ECroPS version 1.4.4 (released December 2022).
+The present document refers to ECroPS version 1.5.0 (released April 2023).
 More information regarding the agronomic description of the models and the parallelization of the model can be found in the ECroPS technical report
 
 # What is ECroPS
@@ -258,22 +258,61 @@ Considering our example, the application searches the file LinkCo2DataToAssimila
 
 Besides the final output variables returned by finalize method, the model engine can also fill and return a ‘daily details array’, where the engine saves the output variables at the end of every simulation time interval. So that the caller can save and analyse the behaviour of each output variable during the simulation.
 The daily details is particularly useful when analysing a single simulation output. The array can become huge, so it is recommended to disable it for batch simulations. 
-To enable the ‘daily details array’, the Boolean property ‘ReturnDailyDetails’ of ModelEngine should be set to True. To retrieve the daily details array at the end of the simulation, it is sufficient to read property status.dailydetails.
+To enable the ‘daily details array’, the Boolean property ‘ReturnDailyDetails’ of ModelEngine should be set to True. 
+To retrieve the daily details array at the end of the simulation, it is sufficient to read property status.dailydetails.
+
 Another property, called ‘PrintDailyDetails’, manages the print of the daily details. When set to true, the ModelEngine prints the daily details directly to the output console (standard output).
-Example of usage:
+To print the daily details to a file, the user should set the boolean property 'PrintDailyDetailsToFile' to true and set the property 'PrintDailyDetails_OutputFile' to the desired output file path.
+
+Example of usage (returning but not printing daily details):
 
 
     #initialize model
     w = ModelEngine("Workflow.xml")
     #return daily details
     w.ReturnDailyDetails = True
-     do not print automatically daily details
+    # do not print automatically daily details
     w.PrintDailyDetails = False
     #....
     #execute model
     #....
     #read the daily details
     details=status.dailydetails
+
+
+Example of usage (returning and printing daily details to a file):
+
+
+    #initialize model
+    w = ModelEngine("Workflow.xml")
+    #return daily details
+    w.ReturnDailyDetails = True
+    # print automatically daily details to file 'output.csv'
+    w.PrintDailyDetails = True
+    w.PrintDailyDetailsToFile = True
+    w.PrintDailyDetails_OutputFile = 'output.csv'
+    #....
+    #execute model
+    #....
+    #read the daily details
+    details=status.dailydetails
+
+ 
+
+### 10-days details managements
+
+Similarly to what explained in daily details management paragraph, it is possible to configure the model to return the details of the simulations at the end of every 'dekad': a 'dekad' is a period of circa 10 days defined as the first 10 days of the month, the second 10 days of the month, and the last days of the month starting from day 21.
+
+* 1 - 10 first dekad of the month
+* 11 - 20 second dekad of the month
+* 21 - end-of-month third dekad of the month
+
+As for the daily details, the resulting array can become huge, so it is recommended to disable it for batch simulations. 
+To enable the ‘dekadal details array’, the Boolean property ‘ReturnDekadalDetails’ of ModelEngine should be set to True. To retrieve the dekad details array at the end of the simulation, it is sufficient to read property status.dailydetails. In this case the status.dailydetails object will contain only values for the 10th , the 20th and the last day of the month.
+If both ‘ReturnDekadalDetails’ and ‘ReturnDailyDetails’ are set to true, the daily results will be returned.
+
+To print the dekad values, it should be used the property ‘PrintDailyDetails’ already described in the daily details managements paragraph.
+Also, it is possible to use the properties 'PrintDailyDetailsToFile' and 'PrintDailyDetails_OutputFile' as described in the previous paragraph to plot dedak output to file.
 
 ### How to add a step into an model workflow
 To add an existing step in a model workflow, the user should add the step definition in the XML workflow file, inside the 'Workflow' section, in the desired position.

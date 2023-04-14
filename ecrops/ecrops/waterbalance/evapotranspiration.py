@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+# This component is derived from PCSE software/Wofost model
+# (Copyright @ 2004-2014 Alterra, Wageningen-UR; Allard de Wit allard.dewit@wur.nl, April 2014)
+# and modified by EC-JRC for the eCrops framework under the European Union Public License (EUPL), Version 1.2
+# European Commission, Joint Research Centre, March 2023
+
+
+
 import array
 from math import exp
 
@@ -109,6 +117,8 @@ class Evapotranspiration():
         status.evapotranspiration = Printable()
         status.evapotranspiration.params = Printable()
         cropparams = status.allparameters
+        status.evapotranspiration.params.PerformWaterBalanceStartInAdvance = 'CALC_SOILWATER_BEFORE_SOWING' in status.allparameters and status.allparameters[
+                                                                                  'CALC_SOILWATER_BEFORE_SOWING'] == 1
         status.evapotranspiration.params.USE_HERMES_FRROOT = False
         if hasattr(status, 'USE_HERMES_FRROOT'):
             status.evapotranspiration.params.USE_HERMES_FRROOT = status.USE_HERMES_FRROOT
@@ -187,9 +197,14 @@ class Evapotranspiration():
         r = status.rates
         s = status.states
 
-        # start calculating the water balance only after emergence
-        if s.DOE is None or (status.day - s.DOE).days < 0:
-            return status
+        if status.evapotranspiration.params.PerformWaterBalanceStartInAdvance == False:
+            # start calculating the water balance only after emergence
+            if s.DOE is None or (status.day - s.DOE).days < 0:
+                return status
+        else:
+            # start calculating the water balance only after POTENTIAL_WATER_STARTDATE
+            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days < 0:
+                return status
 
         DVS = status.states.DVS
         LAI = status.states.LAI
@@ -252,6 +267,8 @@ class Evapotranspiration():
                 DEPTH = 0.0
                 SUMTRA = 0.0
 
+
+
                 TRALY = array.array('d', [0.0] * s.NSL)
                 for il in range(0, s.NSL):
                     SM0 = s.SOIL_LAYERS[il].SM0
@@ -283,7 +300,10 @@ class Evapotranspiration():
                         # davidefuma 28-02-2022 multiply FRROOT per the factor of distribution of roots calculated by hermes root depth
                         FRROOT = status.hermesrootdepth.hermes_roots_layer_data[il].percentageOfRootInLayer / 100
                     else:  # original FRROOT based on ration between layer depth and root depth
-                        FRROOT = max(0.0, (min(s.RD, DEPTH + s.SOIL_LAYERS[il].TSL) - DEPTH)) / s.RD
+                        if s.RD>0:
+                            FRROOT = max(0.0, (min(s.RD, DEPTH + s.SOIL_LAYERS[il].TSL) - DEPTH)) / s.RD
+                        else:
+                            FRROOT = 1
 
                     TRALY[il] = status.rates.RFWS * RFOS * r.TRAMX * FRROOT
                     DEPTH += s.SOIL_LAYERS[il].TSL

@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+# This component is derived from PCSE software/Wofost model
+# (Copyright @ 2004-2014 Alterra, Wageningen-UR; Allard de Wit allard.dewit@wur.nl, April 2014)
+# and modified by EC-JRC for the eCrops framework under the European Union Public License (EUPL), Version 1.2
+# European Commission, Joint Research Centre, March 2023
+
+
 from ecrops.Printable import Printable
 import ecrops.wofost_util.Afgen
 from ecrops.wofost_util.util import limit
@@ -157,7 +164,7 @@ class DVS_Phenology:
                 if s.TSUME >= status.phenology.params.TSUMEM:
                     status = self.next_stage(status)
             elif s.STAGE == 'vegetative':
-                if s.DVS >= 1.0:
+                if s.DVS > 1.0:
                     status = self.next_stage(status)
                     s.DVS = 1.0
             elif s.STAGE == 'reproductive':

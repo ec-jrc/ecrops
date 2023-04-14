@@ -1,4 +1,5 @@
 """ Class ModelEngine and its utility classes """
+import calendar
 import importlib
 import json
 import sys
@@ -10,6 +11,8 @@ import numpy as np
 import pickle
 from ecrops.Printable import Printable
 import time
+import csv
+import numbers
 
 class ModelEngine:
     """
@@ -77,6 +80,19 @@ class ModelEngine:
     """boolean property  used to add the daily details dictionary in the status variable, so that it can be retrieved 
     at the end of the simulation. Set it to true to save the daily value of each of the output columns (defined in 
     the configuration file) in a dictionary: status.dailydetails """
+
+    ReturnDekadalDetails = False
+    """boolean property  used to add the dekadal details dictionary in the status variable, so that it can be retrieved 
+       at the end of the simulation. Set it to true to save the dekadal value of each of the output columns (defined in 
+       the configuration file) in a dictionary: status.dailydetails
+        The dekadal configuration returns only the days that are considered 'dekadal':the 10th , the 20th and the last day of the month
+        """
+
+    PrintDailyDetailsToFile =False
+    """"boolean property used to trigger the print to file of the daily status variables."""
+
+    PrintDailyDetails_OutputFile = "output.csv"
+    """"Name of the output file to print the daily status variables."""
 
     def __init__(self, config_file):
         """Constructor: sets the path of the workflow configuration file, reads the file and populates the properties
@@ -256,8 +272,8 @@ class ModelEngine:
                     if self.debug_timing_mode:
                         self.debug_timing_runstep_time[str(c.__class__.__name__)] += time.time() - starttimerunstep
 
-            # if flags ReturnDailyDetails or PrintDailyDetails are set to true, at the first day initialize the structure to contain the daily values (status.dailydetails)
-            if (self.ReturnDailyDetails or self.PrintDailyDetails) and status.simulation_start_day == status.day:
+            # if flags ReturnDailyDetails or ReturnDekadalDetails or PrintDailyDetails are set to true, at the first day initialize the structure to contain the daily values (status.dailydetails)
+            if (self.ReturnDailyDetails or self.ReturnDekadalDetails or self.PrintDailyDetails or self.PrintDailyDetailsToFile) and status.simulation_start_day == status.day:
 
                 if hasattr(status, 'dailydetails') == False:
                     status.dailydetails = {}
@@ -267,9 +283,10 @@ class ModelEngine:
                     # initialize each column as an empy list. The list will contain a value for each day
                     status.dailydetails[col] = []
 
-            # if flags ReturnDailyDetails or PrintDailyDetails are set to true, at the end of the daily step collect the ouput variables values
+            # if flags ReturnDailyDetails or ReturnDekadalDetails or PrintDailyDetails are set to true, at the end of the daily step collect the ouput variables values
             # into the status.dailydetails dictionary (besides the output variables, add always also columns DAY (=complete date) and DOY (=julian day) )
-            if (self.ReturnDailyDetails or self.PrintDailyDetails) and status.simulation_start_day <= status.day:
+            # in case of ReturnDekadalDetails, this is done only for the days that respect the Dekadal calendar, returned by method id_dekadal_day
+            if (self.ReturnDailyDetails or (self.ReturnDekadalDetails and self.id_dekadal_day(status.day)) or self.PrintDailyDetails or self.PrintDailyDetailsToFile) and status.simulation_start_day <= status.day:
 
                 # in the dailydetails, always add DAY and DOY column
                 status.dailydetails['DAY'].append(status.day)
@@ -320,7 +337,12 @@ class ModelEngine:
 
                     if varConditions:
                         # append the current day value to the daily details array
-                        status.dailydetails[oVar.name].append(finalValue)
+                        if isinstance(finalValue, numbers.Number):
+                            vb = round(finalValue, 5)  # round all numbers to the 5th digit
+                            status.dailydetails[oVar.name].append(vb)
+                        else:
+                            status.dailydetails[oVar.name].append(finalValue)
+
                     else:
                         # if the variable is not valid, append None
                         status.dailydetails[oVar.name].append(None)
@@ -340,9 +362,12 @@ class ModelEngine:
         """
         For the current run mode it generates an array with output variables calculated after the last time interval
         executed and returns it. To do so, it uses the output variables definition read from the workflow file.
-        Arguments: status: the status of the model runMode: the current run mode returns: the array containing the
-        values of the output variables, in the same order they are returned by getOutputVariables and
+        Arguments:
+            status: the status of the model
+            runMode: the current run mode returns: the array containing the values of the output variables, in the same order they are returned by getOutputVariables and
         getOutputVariablesNames methods
+        Returns:
+            Returns a tuple containing two values: the summary output and the daily details array (if ReturnDailyDetails is False, the  daily details array is None)
         """
         try:
             for k in self.debug_timing_initialize_time.keys():
@@ -388,6 +413,18 @@ class ModelEngine:
 
                 i = i + 1
 
+            if self.PrintDailyDetailsToFile:
+                with open(self.PrintDailyDetails_OutputFile, mode='w') as grids_file:
+                    grids_writer = csv.writer(grids_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL,
+                                              lineterminator='\n')
+                    grids_writer.writerow(status.dailydetails.keys())
+                    for row in range(0, len(status.dailydetails['DOY'])):
+                        row_=[]
+                        for col in list(status.dailydetails.keys()):
+                            if row < len(status.dailydetails[col]):
+                                va = status.dailydetails[col][row]
+                                row_.append(str(va))
+                        grids_writer.writerow(row_)
             if self.PrintDailyDetails:
                 print((str(list(status.dailydetails.keys()))))
                 for row in range(0, len(status.dailydetails['DOY'])):
@@ -396,7 +433,10 @@ class ModelEngine:
                         if row < len(status.dailydetails[col]):
                             sys.stdout.write(str(status.dailydetails[col][row]) + ',')
 
-            return to_return
+            if self.ReturnDailyDetails or self.ReturnDekadalDetails:
+                return to_return, status.dailydetails
+            else:
+                return to_return , None
 
         except Exception as exc:
             print(("\nError executing the ModelEngine finalize :" + str(exc)))
@@ -563,6 +603,11 @@ class ModelEngine:
             return -1
         return outputVariables.index(variablename)
 
+    def is_last_day_of_month(self, dt):
+        return dt.day == calendar.monthrange(dt.year, dt.month)[1]
+
+    def id_dekadal_day(self, dt):
+        return dt.day==10 or dt.day==20 or self.is_last_day_of_month(dt)
 
 class ModelEngineWorkflow:
     """

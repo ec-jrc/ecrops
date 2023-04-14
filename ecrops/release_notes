@@ -91,4 +91,14 @@ Description: ECroPS (Engine for Crop Parallelizable Simulations)  is a software 
 + New in version 1.4.3
  - fixed nitrogen qrez calculation parameters - fixed START_MODE initialization of phenology
 + New in version 1.4.4
- - initialization of leaves, roots, stems and storage organs moved from integrate to runstep methods. Avoid calling nitgth temperature (TMINRA) calculation twice the first simulated day
+ - initialization of leaves, roots, stems and storage organs moved from integrate to runstep methods. Avoid calling nigth temperature (TMINRA) calculation twice the first simulated day
++ New in version 1.5.0
+ - added configuration boolean PrintDailyDetailsToFile
+ - added configuration boolean ReturnDekadalDetails
+ - added management of soil water calculation before sowing (changes in ClassicWaterBalance and Evapotranspiration steps)
+ - Added rounding in afgen results (__call__ method in Afgen step)
+ - returns the daily details array if ReturnDailyDetails is True
+ - returns the daily details array if ReturnDailyDetails is True
+ - returns the dekadal details array if ReturnDekadalDetails is True
+ - in Phenology step, condition for moving from vegetative to reproductive stage changed from "s.DVS > 1.0" to "s.DVS >= 1.0"
+ - update in Wofost components copyright info

@@ -41,7 +41,7 @@ class Weather:
             if(status.states.DOE is not None and status.states.DOE <= status.day):
                 status.weather.TMINRA = (self._7day_running_avg(status))
         else:
-            if (status.START_EVENT!=1 and status.simulation_start_day <= status.day) or (status.START_EVENT==1 and status.states.DOE is not None and status.states.DOE <= status.day):
+            if (status.START_EVENT!=1 and status.sowing_emergence_day <= status.day) or (status.START_EVENT==1 and status.states.DOE is not None and status.states.DOE <= status.day):
                 status.weather.TMINRA = (self._7day_running_avg(status))
             else:
                 status.weather.TMINRA = None
