@@ -387,12 +387,12 @@ We recommend to have a look at the script and try to execute it to familiarize w
 Please note that if boolean “PrintDailyDetails” is set to True in the script, the engine will print the daily values of the output variables for every simulated day. Otherwise, it is necessary to print explicitly the final output to see the simulation results. The final output contains the values of the output variables as calculated after the last time iteration.
 
 
-##Description of the EcropsWofostExampleConsole main script
+##Description of the EcropsWofostExampleConsole main.py script
 
 This EcropsWofostExampleConsole console is a sample application to launch an ECroPS simulation.
 Overall, this code demonstrates how the model can be initialized, executed, and finalized for different run modes, and how the output of the simulation can be obtained and displayed.
 
-The EcropsWofostExampleConsole console performs the following steps:
+The EcropsWofostExampleConsole console main.py script performs the following steps:
 
 * Initializes the WOFOST model by reading the workflow file and creating a ModelEngine object.
 
@@ -425,6 +425,15 @@ The code performs the following steps for each run mode:
 * Calls the finalize method of the model, passing in the status object and the current run mode. This method returns the summary output of the simulation for the current run mode.
 
 * Prints the names and values of the output variables for the current run mode.
+
+##Description of the EcropsWofostExampleConsole mainNetcdfWeather.py script
+
+To illustrate how to read the data from a Netcdf file, the EcropsWofostExampleConsole folder contains a script called mainNetcdfWeather.py that is a variation of the main.py script.
+In this script, the weather data is read from a sample Netcdf file. 
+
+In the proposed example, a sample Netcdf file (weatherSample_2003.nc) contains the weather data for one year (365 days) for a grid of dimension 5 x 9.
+The weather is loaded into a structure called weather_matrix, having dimensions 9 x 5 x number_of_days x number_of_weather_variables.
+Then from the matrix the scripts reads the data of a single cell, having dimension number_of_days x number_of_weather_variables, as in the CSV example. From this point onwards, the script is identical to main.py
 
 ##Sample workflow files
 
