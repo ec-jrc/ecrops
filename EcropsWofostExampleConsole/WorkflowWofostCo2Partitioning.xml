@@ -1,0 +1,113 @@
+<Workflows>
+	<DrivingVariables>
+		<DrivingVariable name="YEAR" description="Year" unitofmeasure="" type="numeric" />
+		<DrivingVariable name="DURATION" description="Number of days to run" unitofmeasure="" type="numeric" />
+		<DrivingVariable name="Crop" description="Crop" unitofmeasure="" type="numeric" />
+		<DrivingVariable name="LAT" description="Latitude" unitofmeasure="degrees" type="numeric" />
+		<DrivingVariable name="LON" description="Longitude" unitofmeasure="degrees" type="numeric" />
+		<DrivingVariable name="START_DOY" description="Sowing day" unitofmeasure="day of year" type="numeric" />
+		<DrivingVariable name="ConsiderCo2Effect" description="If true the model considers the CO2 effect" unitofmeasure="" type="boolean" />
+		<DrivingVariable name="Co2FertSlope" description="Slope of the function of CO2 effect" unitofmeasure="" type="numeric" />
+		<DrivingVariable name="Co2FertReference" description="Reference of the function of CO2 effect" unitofmeasure="" type="numeric" />
+		<DrivingVariable name="Co2Concentrations" description="Co2 concentrations per year file" unitofmeasure="" type="file" />
+		<DrivingVariable name="DEPTH" description="max soil depth" unitofmeasure="cm" type="numeric" />
+		<DrivingVariable name="SOIL_MOISTURE_CONTENT_WP" description="Soil wilting point concentration" unitofmeasure="cm^3/cm^3" type="numeric" />
+		<DrivingVariable name="SOIL_MOISTURE_CONTENT_FC" description="Soil field capacity concentration" unitofmeasure="cm^3/cm^3" type="numeric" />
+		<DrivingVariable name="SOIL_MOISTURE_CONTENT_SAT" description="Soil saturation concentration" unitofmeasure="cm^3/cm^3" type="numeric" />
+		<DrivingVariable name="WAV" description="Initial water available in soil (over wilting point)" unitofmeasure="cm^3" type="numeric" />
+	</DrivingVariables>
+	<Init>
+		<Variable name="LAT" env="locals" source="drivingVariables['LAT']" />
+		<Variable name="LON" env="locals" source="drivingVariables['LON']" />
+		<Variable name="sowing_emergence_day" source="status.first_day + datetime.timedelta(days=(int(int(drivingVariables['START_DOY']) - 1)))" />
+		<Variable name="weather" env="locals" source="Printable()" />
+		<Variable name="weather.WeatherDataArray" env="locals" source="timedependantvariables" />
+		<Variable name="weather.WeatherColumnForVariable" env="locals" source="timeDependantVariableColumn" />
+		<Variable name="crop" env="locals" source="drivingVariables['Crop']" />
+		<Variable name="ConsiderCo2Effect" env="locals" source="drivingVariables['ConsiderCo2Effect']" />
+		<Variable name="Co2Concentrations" env="lcoals" source="drivingVariables['Co2Concentrations']" />
+		<Variable name="Co2Concentration" env="locals" source="float(status.Co2Concentrations[str(drivingVariables['YEAR'])])" />
+		<Variable name="Co2FertSlope" env="locals" source="drivingVariables['Co2FertSlope']" />
+		<Variable name="Co2FertReference" env="locals" source="drivingVariables['Co2FertReference']" />
+		<Variable name="allparameters" env="locals" source="allparameters" />
+		<Variable name="soilparameters" env="locals" source="dict()" />
+		<Variable name="soilparameters['RDMSOL']" env="locals" source="0 if drivingVariables['DEPTH'] &lt;= 0 else drivingVariables['DEPTH']" />
+        <Variable name="soilparameters['SMFCF']" env="locals" source="0 if drivingVariables['DEPTH'] &lt;= 0 else drivingVariables['SOIL_MOISTURE_CONTENT_FC']" />
+        <Variable name="soilparameters['SM0']" env="locals" source="0 if drivingVariables['DEPTH'] &lt;= 0 else drivingVariables['SOIL_MOISTURE_CONTENT_SAT']" />
+        <Variable name="soilparameters['SMW']" env="locals" source="0 if drivingVariables['DEPTH'] &lt;= 0 else drivingVariables['SOIL_MOISTURE_CONTENT_WP']" />
+        <Variable name="soilparameters['KSUB']" source="10" />
+        <Variable name="soilparameters['SOPE']" source="10" />
+        <Variable name="soilparameters['K0']" source="10" />
+        <Variable name="soilparameters['CRAIRC']" source="0.060000" />
+        <Variable name="soilparameters['SSMAX']" source="0" />
+        <Variable name="soilparameters['IFUNRN']" source="0" />
+        <Variable name="soilparameters['NOTINF']" source="0" />
+        <Variable name="soilparameters['SSI']" source="0" />
+        <Variable name="soilparameters['WAV']" source="20 if 'WAV' not in drivingVariables else drivingVariables['WAV']"  />
+
+	</Init>
+	<Workflow name="PotentialRun" run="ON">
+		<Step>ecrops.wofost.LinkSoilToWofost|LinkSoilToWofost</Step>
+		<Step>ecrops.weather.Weather|Weather</Step>
+		<Step>ecrops.co2effect.Co2Data|Co2Data</Step>
+		<Step>ecrops.co2effect.LinkCo2DataToAssimilation|LinkCo2DataToAssimilation</Step>
+		<Step>ecrops.co2effect.LinkCo2DataToEvapotranspiration|LinkCo2DataToEvapotranspiration</Step>
+		<Step>ecrops.wofost.LinkWeatherToWofost|LinkWeatherToWofost</Step>
+        <Step>ecrops.wofost.vernalisation|Vernalisation</Step>
+		<Step>ecrops.wofost.Phenology|DVS_Phenology</Step>
+		<Step>ecrops.wofost.Partitioning|DVS_Partitioning</Step>
+
+		<!--run the assimilation and respiration strategies disabling the co2 effect -->
+        <Step>ecrops.co2effect.DisableCo2Effect|DisableCo2Effect</Step>
+		<Step>ecrops.wofost.WOFOST_Assimilation|WOFOST_Assimilation</Step>
+		<Step>ecrops.waterbalance.evapotranspiration|Evapotranspiration</Step>
+		<Step>ecrops.wofost.maintenancerespiration|WOFOST_Maintenance_Respiration</Step>
+		<Step>ecrops.wofost.growthrespiration|WOFOST_GrowthRespiration</Step>
+
+		<!--run the assimilation and respiration strategies enabling the co2 effect -->
+		<Step>ecrops.co2effect.EnableCo2Effect|EnableCo2Effect</Step>
+		<Step>ecrops.wofost.WOFOST_Assimilation|WOFOST_Assimilation</Step>
+		<Step>ecrops.waterbalance.evapotranspiration|Evapotranspiration</Step>
+		<Step>ecrops.wofost.maintenancerespiration|WOFOST_Maintenance_Respiration</Step>
+		<Step>ecrops.wofost.growthrespiration|WOFOST_GrowthRespiration</Step>
+
+		<!--calculate the new partitioning, based on the values calculated in the previous steps -->
+		<Step>ecrops.co2effect.CalculateNewPartitioning|CalculateNewPartitioning</Step>
+		<Step>ecrops.wofost.WOFOST_Assimilation|WOFOST_Assimilation</Step>
+		<Step>ecrops.waterbalance.evapotranspiration|Evapotranspiration</Step>
+		<Step>ecrops.wofost.maintenancerespiration|WOFOST_Maintenance_Respiration</Step>
+		<Step>ecrops.wofost.growthrespiration|WOFOST_GrowthRespiration</Step>
+
+		<!--run the assimilation and respiration strategies for the last time, using the co2 effect and the new partitioning factors-->
+        <Step>ecrops.wofost.stemdynamics|WOFOST_Stem_Dynamics</Step>
+		<Step>ecrops.wofost.rootdynamics|WOFOST_Root_Dynamics</Step>
+		<Step>ecrops.wofost.storageorgandynamics|WOFOST_Storage_Organ_Dynamics</Step>
+		<Step>ecrops.wofost.leafdinamics|WOFOST_Leaf_Dynamics</Step>
+        <Step>ecrops.SeriesAccumulator|SeriesAccumulator</Step>
+
+
+
+
+
+		<Output>
+			<Variable name="POT_DVS" source="status.states.DVS" description="Potential DVS " />
+			<Variable name="POT_JDOM" source="status.states.DOM.timetuple().tm_yday" description="Potential Julian day of Maturity  " />
+			<Variable name="POT_JDOA" source="status.states.DOA.timetuple().tm_yday" description="Potential Julian day of Anthesis" />
+			<Variable name="POT_JDOE" source="status.states.DOE.timetuple().tm_yday" description="Potential Julian day of Emergence" />
+			<Variable name="POT_JDOS" source="status.states.DOS.timetuple().tm_yday" description="Potential Julian day of sowing" />
+			<Variable name="POT_JDOV" source="status.vernalisation.DOV.timetuple().tm_yday" description="Potential Julian day of vernalization end " />
+			<Variable name="POT_TAGP" source="status.states.TAGP" description="Potential Total above-ground Production (kg ha-1)" />
+			<Variable name="POT_LAI" source="status.states.LAI" description="Potential Maximum LAI reached during growth cycle" />
+			<Variable name="POT_LAIMAX" source="status.states.LAIMAX" description="Potential Maximum LAI reached during growth cycle" />
+			<Variable name="POT_TWSO" source="status.states.TWSO" description="Potential Total weight of storage organs(kg ha-1) " />
+			<Variable name="POT_TWLV" source="status.states.TWLV" description="Potential Total weight of leaves(kg ha-1) " />
+			<Variable name="POT_TWST" source="status.states.TWST" description="Potential Total weight of stems(kg ha-1) " />
+			<Variable name="POT_TSUM1" source="status.phenology.params.TSUM1" description="Potential Thermal time to flowering" />
+			<Variable name="POT_TSUM2" source="status.phenology.params.TSUM2" description="Potential Thermal time to maturity" />
+			<Variable name="POT_RD" source="status.states.RD" description="Potential Rooting depth (cm)" />
+			<Variable name="POT_SM" source="status.classicwaterbalance.states.SM" description="Soil porosity" />
+		</Output>
+	</Workflow>
+
+</Workflows>
+

@@ -1,0 +1,41 @@
+<Workflows>
+	<DrivingVariables>
+		<DrivingVariable name="YEAR" description="Year" unitofmeasure="" type="numeric" />
+		<DrivingVariable name="DURATION" description="Number of days to run" unitofmeasure="" type="numeric" />
+		<DrivingVariable name="Crop" description="Crop" unitofmeasure="" type="numeric" />
+		<DrivingVariable name="LAT" description="Latitude" unitofmeasure="degrees" type="numeric" />
+		<DrivingVariable name="LON" description="Longitude" unitofmeasure="degrees" type="numeric" />
+		<DrivingVariable name="START_DOY" description="Sowing day" unitofmeasure="day of year" type="numeric" />
+	</DrivingVariables>
+	<Init>
+		<Variable name="LAT" env="locals" source="drivingVariables['LAT']" />
+		<Variable name="LON" env="locals" source="drivingVariables['LON']" />
+		<Variable name="sowing_emergence_day" source="status.first_day + datetime.timedelta(days=(int(int(drivingVariables['START_DOY']) - 1)))" />
+		<Variable name="weather" env="locals" source="Printable()" />
+		<Variable name="weather.WeatherDataArray" env="locals" source="timedependantvariables" />
+		<Variable name="weather.WeatherColumnForVariable" env="locals" source="timeDependantVariableColumn" />
+		<Variable name="crop" env="locals" source="drivingVariables['Crop']" />
+		<Variable name="allparameters" env="locals" source="allparameters" />
+		<Variable name="soilparameters" env="locals" source="dict()" />
+
+
+	</Init>
+	<Workflow name="PotentialRun" run="ON">
+		<Step>ecrops.wofost.LinkSoilToWofost|LinkSoilToWofost</Step>
+		<Step>ecrops.weather.Weather|Weather</Step>
+		<Step>ecrops.wofost.LinkWeatherToWofost|LinkWeatherToWofost</Step>
+        <Step>ecrops.wofost.vernalisation|Vernalisation</Step>
+		<Step>ecrops.wofost.Phenology|DVS_Phenology</Step>
+        <Step>ecrops.SeriesAccumulator|SeriesAccumulator</Step>
+		<Output>
+			<Variable name="POT_DVS" source="status.states.DVS" description="Potential DVS " />
+			<Variable name="POT_JDOM" source="status.states.DOM.timetuple().tm_yday" description="Potential Julian day of Maturity  " />
+			<Variable name="POT_JDOA" source="status.states.DOA.timetuple().tm_yday" description="Potential Julian day of Anthesis" />
+			<Variable name="POT_JDOE" source="status.states.DOE.timetuple().tm_yday" description="Potential Julian day of Emergence" />
+			<Variable name="POT_JDOS" source="status.states.DOS.timetuple().tm_yday" description="Potential Julian day of sowing" />
+			<Variable name="POT_JDOV" source="status.vernalisation.DOV.timetuple().tm_yday" description="Potential Julian day of vernalization end " />
+		</Output>
+	</Workflow>
+
+</Workflows>
+
