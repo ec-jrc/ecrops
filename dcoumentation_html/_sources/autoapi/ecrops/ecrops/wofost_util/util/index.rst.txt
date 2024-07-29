@@ -1,0 +1,208 @@
+:py:mod:`ecrops.ecrops.wofost_util.util`
+========================================
+
+.. py:module:: ecrops.ecrops.wofost_util.util
+
+.. autoapi-nested-parse::
+
+   Utilities for WOFOST simulation
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost_util.util.isC3crop
+   ecrops.ecrops.wofost_util.util.limit
+   ecrops.ecrops.wofost_util.util.wind10to2
+   ecrops.ecrops.wofost_util.util.reference_ET
+   ecrops.ecrops.wofost_util.util.penman
+   ecrops.ecrops.wofost_util.util.penman_monteith
+   ecrops.ecrops.wofost_util.util.doy
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost_util.util.Celsius2Kelvin
+   ecrops.ecrops.wofost_util.util.hPa2kPa
+   ecrops.ecrops.wofost_util.util.SatVapourPressure
+
+
+.. py:data:: Celsius2Kelvin
+
+   unit of measure conversion: C to Kelvin
+
+
+.. py:data:: hPa2kPa
+
+   unit of measure conversion: hPa to kPa
+
+
+.. py:data:: SatVapourPressure
+
+   Saturated Vapour pressure [kPa] at temperature temp [C] 
+
+
+.. py:function:: isC3crop(crop)
+
+   Returns true if the crop is C3 
+
+
+.. py:function:: limit(min, max, v)
+
+   limits the range of v between min and max 
+
+
+.. py:function:: wind10to2(wind10)
+
+   Converts windspeed at 10m to windspeed at 2m using log. wind profile
+       
+
+
+.. py:function:: reference_ET(DAY, LAT, ELEV, TMIN, TMAX, IRRAD, VAP, WIND, ANGSTA, ANGSTB, ATMTR, ANGOT, ETMODEL='PM', **kwargs)
+
+   Calculates reference evapotranspiration values E0, ES0 and ET0.
+
+       The open water (E0) and bare soil evapotranspiration (ES0) are calculated with
+       the modified Penman approach, while the references canopy evapotranspiration is
+       calculated with the modified Penman or the Penman-Monteith approach, the latter
+       is the default.
+
+       Input variables::
+
+           DAY     -  Python datetime.date object                      -
+           LAT     -  Latitude of the site                          degrees
+           ELEV    -  Elevation above sea level                        m
+           TMIN    -  Minimum temperature                              C
+           TMAX    -  Maximum temperature                              C
+           IRRAD   -  Daily shortwave radiation                     J m-2 d-1
+           VAP     -  24 hour average vapour pressure                 hPa
+           WIND    -  24 hour average windspeed at 2 meter            m/s
+           ANGSTA  -  Empirical constant in Angstrom formula           -
+           ANGSTB  -  Empirical constant in Angstrom formula           -
+           ETMODEL -  Indicates if the canopy reference ET should     PM|P
+                      be calculated with the Penman-Monteith method
+                      (PM) or the modified Penman method (P)
+
+       Output is a tuple (E0, ES0, ET0)::
+
+           E0      -  Penman potential evaporation from a free
+                      water surface [cm/d]
+           ES0     -  Penman potential evaporation from a moist
+                      bare soil surface [cm/d]
+           ET0     -  Penman or Penman-Monteith potential evapotranspiration from a
+                      crop canopy [cm/d]
+
+   .. note:: The Penman-Monteith algorithm is valid only for a reference canopy and
+       therefore it is not used to calculate the reference values for bare soil and
+       open water (ES0, E0).
+
+       The background is that the Penman-Monteith model is basically a surface
+       energy balance where the net solar radiation is partitioned over latent and
+       sensible heat fluxes (ignoring the soil heat flux). To estimate this
+       partitioning, the PM method makes a connection between the surface
+       temperature and the air temperature. However, the assumptions
+       underlying the PM model are valid only when the surface where this
+       partitioning takes place is the same for the latent and sensible heat
+       fluxes.
+
+       For a crop canopy this assumption is valid because the leaves of the
+       canopy form the surface where both latent heat flux (through stomata)
+       and sensible heat flux (through leaf temperature) are partitioned.
+       For a soil, this principle does not work because when the soil is
+       drying the evaporation front will quickly disappear below the surface
+       and therefore the assumption that the partitioning surface is the
+       same does not hold anymore.
+
+       For water surfaces, the assumptions underlying PM do not hold
+       because there is no direct relationship between the temperature
+       of the water surface and the net incoming radiation as radiation is
+       absorbed by the water column and the temperature of the water surface
+       is co-determined by other factors (mixing, etc.). Only for a very
+       shallow layer of water (1 cm) the PM methodology could be applied.
+
+       For bare soil and open water the Penman model is preferred. Although it
+       partially suffers from the same problems, it is calibrated somewhat
+       better for open water and bare soil based on its empirical wind
+       function.
+
+       Finally, in crop simulation models the open water evaporation and
+       bare soil evaporation only play a minor role (pre-sowing conditions
+       and flooded rice at early stages), it is not worth investing much
+       effort in improved estimates of reference value for E0 and ES0.
+       
+
+
+.. py:function:: penman(DAY, LAT, ELEV, TMIN, TMAX, AVRAD, VAP, WIND2, ANGSTA, ANGSTB, ATMTR)
+
+   Calculates E0, ES0, ET0 based on the Penman model.
+
+    This routine calculates the potential evapo(transpi)ration rates from
+    a free water surface (E0), a bare soil surface (ES0), and a crop canopy
+    (ET0) in mm/d. For these calculations the analysis by Penman is followed
+    (Frere and Popov, 1979;Penman, 1948, 1956, and 1963).
+    Subroutines and functions called: ASTRO, LIMIT.
+
+   Input variables::
+
+       DAY     -  Python datetime.date object                                    -
+       LAT     -  Latitude of the site                        degrees
+       ELEV    -  Elevation above sea level                      m
+       TMIN    -  Minimum temperature                            C
+       TMAX    -  Maximum temperature                            C
+       AVRAD   -  Daily shortwave radiation                   J m-2 d-1
+       VAP     -  24 hour average vapour pressure               hPa
+       WIND2   -  24 hour average windspeed at 2 meter          m/s
+       ANGSTA  -  Empirical constant in Angstrom formula         -
+       ANGSTB  -  Empirical constant in Angstrom formula         -
+
+   Output is a tuple (E0,ES0,ET0)::
+
+       E0      -  Penman potential evaporation from a free water surface [mm/d]
+       ES0     -  Penman potential evaporation from a moist bare soil surface [mm/d]
+       ET0     -  Penman potential transpiration from a crop canopy [mm/d]
+
+
+.. py:function:: penman_monteith(DAY, LAT, ELEV, TMIN, TMAX, AVRAD, VAP, WIND2, ANGOT)
+
+   Calculates reference ET0 based on the Penman-Monteith model.
+
+    This routine calculates the potential evapotranspiration rate from
+    a reference crop canopy (ET0) in mm/d. For these calculations the
+    analysis by FAO is followed as laid down in the FAO publication
+    `Guidelines for computing crop water requirements - FAO Irrigation
+    and drainage paper 56 <http://www.fao.org/docrep/X0490E/x0490e00.htm#Contents>`_
+
+   Input variables::
+
+       DAY   -  Python datetime.date object                   -
+       LAT   -  Latitude of the site                        degrees
+       ELEV  - Elevation above sea level                      m
+       TMIN  - Minimum temperature                            C
+       TMAX  - Maximum temperature                            C
+       AVRAD - Daily shortwave radiation                   J m-2 d-1
+       VAP   - 24 hour average vapour pressure               hPa
+       WIND2 - 24 hour average windspeed at 2 meter          m/s
+
+   Output is:
+
+       ET0   - Penman-Monteith potential transpiration
+               rate from a crop canopy                     [mm/d]
+
+
+.. py:function:: doy(day)
+
+   Converts a date or datetime object to day-of-year (Jan 1st = doy 1)
+       
+
+

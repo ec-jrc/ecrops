@@ -1,0 +1,101 @@
+:py:mod:`ecrops.ecrops.otegui_gambin.KernelMaize_Otegui_Gambin`
+===============================================================
+
+.. py:module:: ecrops.ecrops.otegui_gambin.KernelMaize_Otegui_Gambin
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.otegui_gambin.KernelMaize_Otegui_Gambin.KernelMaize_Otegui_Gambin
+
+
+
+
+.. py:class:: KernelMaize_Otegui_Gambin
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Kernel Maize using Otegui & Gambin logics, in this version the period to consider after flowering is based on number of days
+
+   Implementation of Otegui & Gambin logics relative to yield estimation for maize
+
+   Simulation parameters* (provide in cropdata dictionary)
+
+   FORMAL PARAMETERS:  (I=input,O=output,C=control,IN=init,T=time)
+
+   =======         ================================================= ==== ============
+    Name           Description                                       Pbl      Unit
+   =======         ================================================= ==== ============
+   KDIF            Extinction coefficient for diffuse light            N   -
+   TBASEM          temperature base                                    N   -
+   PLD             Plant density                                       N   plant/m-2
+   =======         ================================================= ==== ============
+
+   States variables
+   =======         ================================================= ==== ============
+    Name           Description                                       Pbl      Unit
+   =======         ================================================= ==== ============
+   TAGP            Total        above - ground                        N    kg/ha - 1
+   LAI             Leaf area index                                    N    ha/ha
+   IRRAD           Daily shortwave radiation                          N    J m-2 d-1
+   KDIF            Extinction coefficient for diffuse light           N    -
+   =======         ================================================= ==== ============
+
+   Kernel variables
+   =============   ================================================= ==== ============
+    Name           Description                                       Pbl      Unit
+   =============   ================================================= ==== ============
+   YLDES           Yield estimation                                   N    kg/ha
+   KernelNumber    Kernel number                                      N    -
+   KernelWeight    Kernel weight                                      N    mg
+   =============   ================================================= ==== ============
+
+
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+   .. py:method:: setparameters(status)
+
+      Set the parameters used inside the Wofost process for the Otegui-Gambin algorithm
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the list of days grade and IPAR values
+
+
+   .. py:method:: integrate(status)
+
+      - for all days calculate day grade and IPAR
+
+      - for DOA (flowering day) save the value of day grade
+
+      - for all days great than DOA and if yield estimation was not calculated than try to identify the interval of
+      [-227:100] days grade and [-15:15] of IPAR
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+

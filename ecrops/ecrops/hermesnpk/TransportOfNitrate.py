@@ -9,9 +9,9 @@ import numpy as np
 
 from ..Printable import Printable
 import math
+from ecrops.Step import Step
 
-
-class TransportOfNitrate:
+class TransportOfNitrate(Step):
     """Transport of Nitrate from Hermes. Copied from file nitro.go, rows 554-686
     
     Inputs:
@@ -41,6 +41,17 @@ class TransportOfNitrate:
 
     def setparameters(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
+
 
     def initialize(self, status):
 

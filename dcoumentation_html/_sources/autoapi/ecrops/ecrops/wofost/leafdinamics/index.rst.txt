@@ -1,0 +1,163 @@
+:py:mod:`ecrops.ecrops.wofost.leafdinamics`
+===========================================
+
+.. py:module:: ecrops.ecrops.wofost.leafdinamics
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost.leafdinamics.WOFOST_Leaf_Dynamics
+
+
+
+
+.. py:class:: WOFOST_Leaf_Dynamics
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Leaf dynamics for the WOFOST crop model.
+
+   Implementation of biomass partitioning to leaves, growth and senenscence
+   of leaves. WOFOST keeps track of the biomass that has been partitioned to
+   the leaves for each day (variable `LV`), which is called a leaf class).
+   For each leaf class the leaf age (variable 'LVAGE') and specific leaf area
+   (variable `SLA`) are also registered. Total living leaf biomass is
+   calculated by summing the biomass values for all leaf classes. Similarly,
+   leaf area is calculated by summing leaf biomass times specific leaf area
+   (`LV` * `SLA`).
+
+   Senescense of the leaves can occur as a result of physiological age,
+   drought stress or self-shading.
+
+   *Simulation parameters* (provide in cropdata dictionary)
+
+   =======  ============================================= =======  ============
+    Name     Description                                   Type     Unit
+   =======  ============================================= =======  ============
+   RGRLAI   Maximum relative increase in LAI.              SCr     ha ha-1 d-1
+   SPAN     Life span of leaves growing at 35 Celsius      SCr     d
+   TBASE    Lower threshold temp. for ageing of leaves     SCr     C
+   PERDL    Max. relative death rate of leaves due to      SCr
+            water stress
+   TDWI     Initial total crop dry weight                  SCr     kg ha-1
+   KDIFTB   Extinction coefficient for diffuse visible     TCr
+            light as function of DVS
+   SLATB    Specific leaf area as a function of DVS        TCr     ha kg-1
+   =======  ============================================= =======  ============
+
+   *State variables*
+
+   =======  ================================================= ==== ============
+    Name     Description                                      Pbl      Unit
+   =======  ================================================= ==== ============
+   LV       Leaf biomass per leaf class                        N    kg ha-1
+   SLA      Specific leaf area per leaf class                  N    ha kg-1
+   LVAGE    Leaf age per leaf class                            N    d
+   LVSUM    Sum of LV                                          N    kg ha-1
+   LAIEM    LAI at emergence                                   N    -
+   LASUM    Total leaf area as sum of LV*SLA,                  N    -
+            not including stem and pod area                    N
+   LAIEXP   LAI value under theoretical exponential growth     N    -
+   LAIMAX   Maximum LAI reached during growth cycle            N    -
+   LAI      Leaf area index, including stem and pod area       Y    -
+   WLV      Dry weight of living leaves                        Y    kg ha-1
+   DWLV     Dry weight of dead leaves                          N    kg ha-1
+   TWLV     Dry weight of total leaves (living + dead)         Y    kg ha-1
+   TAGP     Total above - ground biomass                       N    kg ha-1
+   =======  ================================================= ==== ============
+
+
+   *Rate variables*
+
+   =======  ================================================= ==== ============
+    Name     Description                                      Pbl      Unit
+   =======  ================================================= ==== ============
+   GRLV     Growth rate leaves                                 N   kg ha-1 d-1
+   DSLV1    Death rate leaves due to water stress              N   kg ha-1 d-1
+   DSLV2    Death rate leaves due to self-shading              N   kg ha-1 d-1
+   DSLV3    Death rate leaves due to frost kill                N   kg ha-1 d-1
+   DSLV     Maximum of DLSV1, DSLV2, DSLV3                     N   kg ha-1 d-1
+   DALV     Death rate leaves due to aging.                    N   kg ha-1 d-1
+   DRLV     Death rate leaves as a combination of DSLV and     N   kg ha-1 d-1
+            DALV
+   SLAT     Specific leaf area for current time step,          N   ha kg-1
+            adjusted for source/sink limited leaf expansion
+            rate.
+   FYSAGE   Increase in physiological leaf age                 N   -
+   GLAIEX   Sink-limited leaf expansion rate (exponential      N   ha ha-1 d-1
+            curve)
+   GLASOL   Source-limited leaf expansion rate (biomass        N   ha ha-1 d-1
+            increase)
+   =======  ================================================= ==== ============
+
+
+   *External dependencies:*
+
+   ======== ============================== =============================== ===========
+    Name     Description                         Provided by               Unit
+   ======== ============================== =============================== ===========
+   DVS      Crop development stage         DVS_Phenology                    -
+   FL       Fraction biomass to leaves     DVS_Partitioning                 -
+   FR       Fraction biomass to roots      DVS_Partitioning                 -
+   SAI      Stem area index                WOFOST_Stem_Dynamics             -
+   PAI      Pod area index                 WOFOST_Storage_Organ_Dynamics    -
+   TRA      Transpiration rate             Evapotranspiration              cm day-1
+   TRAMX    Maximum transpiration rate     Evapotranspiration              cm day-1
+   ADMI     Above-ground dry matter        CropSimulation                  kg ha-1 d-1
+            increase
+   RF_FROST Reduction factor frost kill    FROSTOL                          -
+   ======== ============================== =============================== ===========
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: _calc_LAI(status)
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: _set_variable_LAI(status, nLAI)
+
+      Updates the value of LAI to to the new value provided as input.
+
+      Related state variables will be updated as well and the increments
+      to all adjusted state variables will be returned as a dict.
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

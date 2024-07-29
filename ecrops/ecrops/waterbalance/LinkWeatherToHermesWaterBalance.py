@@ -1,4 +1,5 @@
-class LinkWeatherToHermesWaterBalance:
+from ecrops.Step import Step
+class LinkWeatherToHermesWaterBalance(Step):
     """This step passes weather data to Hermes water balance"""
 
     def getparameterslist(self):
@@ -20,3 +21,13 @@ class LinkWeatherToHermesWaterBalance:
 
     def integrate(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }

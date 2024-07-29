@@ -1,0 +1,73 @@
+:py:mod:`ecrops.ecrops.FPWarm.PotentialPhenology`
+=================================================
+
+.. py:module:: ecrops.ecrops.FPWarm.PotentialPhenology
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.FPWarm.PotentialPhenology.PotentialPhenology
+
+
+
+
+.. py:class:: PotentialPhenology
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   WARM Phenology.
+   Listed below are decimal codes for the main stages:
+
+   # Sowing: 0.00
+   # Emergence: 1.00
+   # Beginning of tillering: 1.25
+   # Mid tillering: 1.35
+   # Panicle initiation: 1.60
+   # Full Heading: 1.90
+   # Full Flowering: 2.00
+   # Full Grain filling: 2.50
+   # Physiological maturity: 3.00
+   # Harvestable: 4.00
+
+   .. py:method:: setparameters(container)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(container)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: integrate(container)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: runstep(container)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

@@ -1,0 +1,80 @@
+:py:mod:`ecrops.ecrops.hermesnpk.TransportOfNitrate`
+====================================================
+
+.. py:module:: ecrops.ecrops.hermesnpk.TransportOfNitrate
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate
+
+
+
+
+.. py:class:: TransportOfNitrate
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Transport of Nitrate from Hermes. Copied from file nitro.go, rows 554-686
+
+   Inputs:
+   -DV                        = Dispersion length for convection-dispersion equation (cm)
+   -FLUSS                    = Infiltration through soil surface (cm/d)
+   -Q1(Z)                     = Water flux through lower boundary of layer z (cm/d)
+   -QDRAIN                    = Water flux to tile drain (cm/d)
+   -DRAIDEP                   = depth of tile drain (dm)
+   -AD                        = Faktor for diffusivity
+   -DZ                        = Thickness layer (cm)
+   -WG(0,Z)                   = Water content at begin time step in layer Z  (cm^3/cm^3)
+   -WNOR(Z)                   = NORM-field capacity (without water logging) in layer Z (cm^3/cm^3)
+   -WMIN(Z)                   = Water content at wilting point in layer Z (cm^3/cm^3)
+   -PORGES(Z)                 = Total pore space in layer Z  (cm^3/cm^3)
+   -PE(Z)                     = N-uptake of crop in layer Z (kg N/ha)
+   -C1(Z)                     = Soil mineral N content (NO3+NH4) in layer Z (kg N/ha)
+   -DN(Z)                     = Source term from mineralisation routine (kg N/ha) in layer Z
+   -OUTN                      = Depth for seepage and N-leaching (to be defined by user) (dm)
+   -W                            = FIELD CAPACITY (cm^3/cm^3)
+
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+

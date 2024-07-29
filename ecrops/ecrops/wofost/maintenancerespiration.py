@@ -7,9 +7,9 @@
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class WOFOST_Maintenance_Respiration:
+class WOFOST_Maintenance_Respiration(Step):
     """Maintenance respiration in WOFOST
 
     WOFOST calculates the maintenance respiration as proportional to the dry
@@ -30,13 +30,13 @@ class WOFOST_Maintenance_Respiration:
              rate with each 10 degrees increase in
              temperature
     RMR      Relative maintenance respiration rate for
-             roots                                          SCr     |kg CH2O kg-1 d-1|
+             roots                                          SCr     kg CH2O kg-1 d-1
     RMS      Relative maintenance respiration rate for
-             stems                                          SCr     |kg CH2O kg-1 d-1|
+             stems                                          SCr     kg CH2O kg-1 d-1
     RML      Relative maintenance respiration rate for
-             leaves                                         SCr     |kg CH2O kg-1 d-1|
+             leaves                                         SCr     kg CH2O kg-1 d-1
     RMO      Relative maintenance respiration rate for
-             storage organs                                 SCr     |kg CH2O kg-1 d-1|
+             storage organs                                 SCr     kg CH2O kg-1 d-1
     =======  ============================================= =======  ============
 
 
@@ -56,10 +56,10 @@ class WOFOST_Maintenance_Respiration:
      Name     Description                         Provided by                    Unit
     =======  =================================== =============================  ============
     DVS      Crop development stage              DVS_Phenology                  -
-    WRT      Dry weight of living roots          WOFOST_Root_Dynamics           |kg ha-1|
-    WST      Dry weight of living stems          WOFOST_Stem_Dynamics           |kg ha-1|
-    WLV      Dry weight of living leaves         WOFOST_Leaf_Dynamics           |kg ha-1|
-    WSO      Dry weight of living storage organs WOFOST_Storage_Organ_Dynamics  |kg ha-1|
+    WRT      Dry weight of living roots          WOFOST_Root_Dynamics           kg ha-1
+    WST      Dry weight of living stems          WOFOST_Stem_Dynamics           kg ha-1
+    WLV      Dry weight of living leaves         WOFOST_Leaf_Dynamics           kg ha-1
+    WSO      Dry weight of living storage organs WOFOST_Storage_Organ_Dynamics  kg ha-1
     =======  =================================== =============================  ============
 
 
@@ -128,3 +128,48 @@ class WOFOST_Maintenance_Respiration:
 
     def integrate(self, status):
         return status
+
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                   "StatusVariable": "status.day"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+            "WRT": {"Description": "Dry weight of living roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WRT"},
+            "WLV": {"Description": "Dry weight of living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WLV"},
+            "WST": {"Description": "Dry weight of living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WST"},
+            "WSO": {"Description": "Dry weight of storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WSO"},
+            "TRA": {"Description": "Actual transpiration rate from the plant canopy", "Type": "Number", "UnitOfMeasure": "cm/day",
+                    "StatusVariable": "status.rates.TRA"},
+            "TRAMX": {"Description": "Max transpiration rate from the plant canopy", "Type": "Number",
+                    "UnitOfMeasure": "cm/day",
+                    "StatusVariable": "status.rates.TRAMX"},
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "TEMP": {"Description": "Average daily temperature", "Type": "Number", "UnitOfMeasure": "C",
+                    "StatusVariable": "status.states.TEMP"},
+            "PGASS": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                      "StatusVariable": "status.states.PGASS"},
+
+
+        }
+    def getoutputslist(self):
+        return {
+            "GASS": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                     "StatusVariable": "status.rates.GASS"},
+            "PMRES": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                      "StatusVariable": "status.rates.PMRES"},
+            "MRES": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                      "StatusVariable": "status.rates.MRES"},
+            "TEFF": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                     "StatusVariable": "status.rates.TEFF"},
+            "RMRES": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                     "StatusVariable": "status.rates.RMRES"},
+        }

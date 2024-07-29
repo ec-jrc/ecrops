@@ -1,0 +1,613 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.ModelEngine &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.ModelEngine">
+<span id="ecrops-ecrops-modelengine"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.ModelEngine" title="ecrops.ecrops.ModelEngine"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.ModelEngine</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.ModelEngine" title="Permalink to this headline">¶</a></h1>
+<p>Class ModelEngine and its utility classes</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.ModelEngine.ModelEngine" title="ecrops.ecrops.ModelEngine.ModelEngine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelEngine</span></code></a></p></td>
+<td><p>The ModelEngine class is used to run the ecrops model. When an instance of this class is created, it reads the</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ecrops.ecrops.ModelEngine.ModelEngineWorkflow" title="ecrops.ecrops.ModelEngine.ModelEngineWorkflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelEngineWorkflow</span></code></a></p></td>
+<td><p>Represents a model workflow file</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.ModelEngine.OutputVariable" title="ecrops.ecrops.ModelEngine.OutputVariable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OutputVariable</span></code></a></p></td>
+<td><p>Represents a model output variable defined in the workflow file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ecrops.ecrops.ModelEngine.DrivingVariable" title="ecrops.ecrops.ModelEngine.DrivingVariable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DrivingVariable</span></code></a></p></td>
+<td><p>Represents the definition of a driving variable</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.ModelEngine.InitVariable" title="ecrops.ecrops.ModelEngine.InitVariable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InitVariable</span></code></a></p></td>
+<td><p>Represents a model initialization variable defined in the workflow file</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.ModelEngine.</span></span><span class="sig-name descname"><span class="pre">ModelEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ModelEngine class is used to run the ecrops model. When an instance of this class is created, it reads the
+configuration from a provided configuration file. This file defines the structure of the model execution in terms
+of steps to be executed, input data, and output variables. The class has several properties that define the
+driving variables, the instructions to initialize the status variables, the steps to run, and the output variables.</p>
+<p>The simulation cycle is divided into three parts: the initialize method checks that the required driving variables
+are present and initializes the status variables with the provided input data; the executeStep method performs the
+simulation by calling the steps in the correct order for each day in the cycle; and the finalize method returns the
+calculated output variables.</p>
+<p>The status of the model and its variables are stored in a “status” variable, which is modified by each model method.
+This variable is created by the initialize method and returned to the caller. It is the caller’s responsibility to
+manage the status variable and pass it to the executeStep and finalize methods as needed. This approach allows the
+caller to have full control over the status variable and perform custom tasks.</p>
+<p>To use the ModelEngine class, a caller can follow the generic workflow:</p>
+<ul class="simple">
+<li><p>Create a ModelEngine instance with the config file: model = ModelEngine(config_file)</p></li>
+<li><p>Initialize the model with</p></li>
+</ul>
+<p>the required input variables: status = model.initialize(timedependantvariables, drivingVariables, allparameters,
+first_day, simulation_start_day, simulation_end_day)
+- For each simulation cycle, run the executeStep method with
+the current status: status = model.executeStep(status)
+- After the last simulation cycle, run the finalize method
+to get the output: result = model.finalize(status)</p>
+<p>The ModelEngine class can be used in different “run modes” that define which steps to execute. This allows the
+same model to be run in slightly different ways.</p>
+<p>The configuration file contains:
+- the declarations of the driving variables (= all the inputs except the model
+parameters). All the driving variables declared are mandatory to run the model. (property drivingVariables)
+- the instructions to initialize the status variables  (property initVariables)
+- the steps to run (property Workflows)
+- the variables to return as output (property Workflows)</p>
+<p>The reading of the workflow is done in the constructor method of the ModelEngine class. Example: model =
+ModelEngine(“my_workflow_file.xml”) The workflow can be executed on more than one “run mode”. A “run mode”
+defines the steps to execute and can be used when the same model should be executed in slightly different ways,
+as, for example, adding or not adding a specific step.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.Workflows">
+<span class="sig-name descname"><span class="pre">Workflows</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.Workflows" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object, once configured in the class constructor, contains the elements of the simulation: the list of
+active workflows and, for each of them, the list of steps to run and the variables to returns as output</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.XmlWorkflowConfig">
+<span class="sig-name descname"><span class="pre">XmlWorkflowConfig</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.XmlWorkflowConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>XML Configuration file</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.initVariables">
+<span class="sig-name descname"><span class="pre">initVariables</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.initVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variable initialization configuration</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.drivingVariables">
+<span class="sig-name descname"><span class="pre">drivingVariables</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.drivingVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Driving variables declaration configuration</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.PrintDailyDetails">
+<span class="sig-name descname"><span class="pre">PrintDailyDetails</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.PrintDailyDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>boolean property used to trigger the print to console of the daily status variables. Set it to true to print
+the daily values of all the output columns (defined in the configuration file)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.ReturnDailyDetails">
+<span class="sig-name descname"><span class="pre">ReturnDailyDetails</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.ReturnDailyDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>boolean property  used to add the daily details dictionary in the status variable, so that it can be retrieved
+at the end of the simulation. Set it to true to save the daily value of each of the output columns (defined in
+the configuration file) in a dictionary: status.dailydetails</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.ReturnDekadalDetails">
+<span class="sig-name descname"><span class="pre">ReturnDekadalDetails</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.ReturnDekadalDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>boolean property  used to add the dekadal details dictionary in the status variable, so that it can be retrieved
+at the end of the simulation. Set it to true to save the dekadal value of each of the output columns (defined in
+the configuration file) in a dictionary: status.dailydetails</p>
+<blockquote>
+<div><p>The dekadal configuration returns only the days that are considered ‘dekadal’:the 10th , the 20th and the last day of the month</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.PrintDailyDetailsToFile">
+<span class="sig-name descname"><span class="pre">PrintDailyDetailsToFile</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.PrintDailyDetailsToFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>“boolean property used to trigger the print to file of the daily status variables.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.PrintDailyDetails_OutputFile">
+<span class="sig-name descname"><span class="pre">PrintDailyDetails_OutputFile</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'output.csv'</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.PrintDailyDetails_OutputFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>“Name of the output file to print the daily status variables.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.debug_timing_mode">
+<span class="sig-name descname"><span class="pre">debug_timing_mode</span></span><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.debug_timing_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.debug_timing_runstep_time">
+<span class="sig-name descname"><span class="pre">debug_timing_runstep_time</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.debug_timing_runstep_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.debug_timing_initialize_time">
+<span class="sig-name descname"><span class="pre">debug_timing_initialize_time</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.debug_timing_initialize_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.debug_timing_integrate_time">
+<span class="sig-name descname"><span class="pre">debug_timing_integrate_time</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.debug_timing_integrate_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.createModelGraph">
+<span class="sig-name descname"><span class="pre">createModelGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graphbuilders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[TextualGraphBuilder()]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.createModelGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the graphs of the loaded workflow, by using the provided graph builders.
+To do so, it uses a class ModelWorkflowReader.
+Among the run modes defined in the workflow, only the runMode passed as argument will be considered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>runMode</strong> – the run mode to plot a graph. If not present in the loaded workflow, the method will raise an exception</p></li>
+<li><p><strong>graphbuilders</strong> – the list of graph builders. Each one of them should be an instance of a class, subclass of abstract class ecrops.graphbuilders.AbstractGraphBuilder</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getParametersList">
+<span class="sig-name descname"><span class="pre">getParametersList</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getParametersList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the parameters of all the steps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getParametersListAsJson">
+<span class="sig-name descname"><span class="pre">getParametersListAsJson</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getParametersListAsJson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects the parameters of all the steps and return them as a JSON file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timedependantvariables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeDependantVariableColumn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drivingVariables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allparameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_start_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_end_day</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the status variable, by using all the inputs defined in the “Init” section of the workflow file,
+and reading values from the six arguments.</p>
+<p>For example, if in the “Init” section is present this line
+&lt;Variable    name=”LAT” source=”drivingVariables[‘LAT’]” /&gt;
+then the engine executes this line of code
+status.LAT=drivingVariables[‘LAT’]
+so it instantiates a new variable called “LAT” in “status” and sets its
+value to the result of the execution of the instruction “drivingVariables[‘LAT’]” (drivingVariables is one of
+the arguments of the “initialize” method).</p>
+<p>Arguments:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timedependantvariables</strong> – contains all the time dependant variables (e.g. weather data)</p></li>
+<li><p><strong>timeDependantVariableColumn</strong> – contains the position in the array of the timedependantvariables</p></li>
+<li><p><strong>allparameters</strong> – contains the model’s parameters</p></li>
+<li><p><strong>first_day</strong> – first value for status.day variable</p></li>
+<li><p><strong>simulation_start_day</strong> – the simulation of the steps is performed only when simulation_start_day &gt;= status.day</p></li>
+<li><p><strong>simulation_end_day</strong> – the simulation of the steps is performed only when simulation_start_day &lt;= status.day</p></li>
+<li><p><strong>drivingVariables</strong> – the driving variables are all the variables that defines the configuration of the simulation to run, for example the crop to be run, the years to be run, the latitude and logitude of the simulated location, the soil properties of the location,… In practice, the driving variables contains all the input data except the time dependant variables and the model parameters.</p></li>
+</ul>
+</dd>
+</dl>
+<p>If the driving variables where defined in the DrivingVariables section of the workflow configuration file, it checks that all the DrivingVariables defined in the configuration file are set. In case one is missing an
+exception is thrown. If the DrivingVariables section was not defined in the file, the check is not performed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the status variable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.executeStep">
+<span class="sig-name descname"><span class="pre">executeStep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.executeStep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs all steps for specific run mode, in the defined order, for every value of status.day property when
+status.simulation_start_day &lt;= status.day &lt;= status.simulation_end_day.
+status.day is incremented by 1 day at the end of the method.
+For every step, the “status” variable is set as an input of the step, is updated by the step and returned to the engine.</p>
+<p>Arguments:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> – the status of the model</p></li>
+<li><p><strong>runMode</strong> – the current run mode</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the updated status of the model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.finalize">
+<span class="sig-name descname"><span class="pre">finalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.finalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the current run mode it generates an array with output variables calculated after the last time interval
+executed and returns it. To do so, it uses the output variables definition read from the workflow file.</p>
+<p>Arguments:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> – the status of the model</p></li>
+<li><p><strong>runMode</strong> – the current run mode returns: the array containing the values of the output variables, in the same order they are returned by getOutputVariables and</p></li>
+</ul>
+</dd>
+</dl>
+<p>getOutputVariablesNames methods</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a tuple containing two values: the summary output and the daily details array (if ReturnDailyDetails is False, the  daily details array is None)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.SerializeStatus">
+<span class="sig-name descname"><span class="pre">SerializeStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.SerializeStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes the status of the model, passed as argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>status</strong> – the status of the model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the pickled serialized string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.DeserializeStatus">
+<span class="sig-name descname"><span class="pre">DeserializeStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pickled_string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.DeserializeStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deserializes the status of the model. Returns the new status, created  from the pickled serialized string passed as argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pickled_string</strong> – the pickled serialized string</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new status of the model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.readWorkflowConfigurationFromXML">
+<span class="sig-name descname"><span class="pre">readWorkflowConfigurationFromXML</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.readWorkflowConfigurationFromXML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the workflows configuration for which the flag RUN is ON. It reads the XML configuration file with
+which the instance was created. While reading the file, it populates the elements of property Workflows,
+which, at the end of this operation, will contain the configuration to run. It also populates property initVariables,
+which,  at the end of this operation, will contain the instructions to initialize the model status.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getSteps2Run">
+<span class="sig-name descname"><span class="pre">getSteps2Run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getSteps2Run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the steps to run for specific run mode from the configured Workflows property.</p>
+<p>Arguments:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>runMode</strong> – the current run mode</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of steps to run</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getOutputVariables">
+<span class="sig-name descname"><span class="pre">getOutputVariables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getOutputVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the output variables for specific run mode from the configured Workflows property.</p>
+<p>Arguments:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>runMode</strong> – the current run mode</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the list of output variables as ‘Variable’ objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getOutputVariablesNames">
+<span class="sig-name descname"><span class="pre">getOutputVariablesNames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getOutputVariablesNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the output variables names for specific run mode from the configured Workflows property.</p>
+<p>Arguments:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>runMode</strong> – the current run mode</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the list of output variables names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getNumberOfOutputVariables">
+<span class="sig-name descname"><span class="pre">getNumberOfOutputVariables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getNumberOfOutputVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the number of output variables for a specific run mode from the configured Workflows property.
+Arguments:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>runMode</strong> – the current run mode</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the number of output variables names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getRunModeNames">
+<span class="sig-name descname"><span class="pre">getRunModeNames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getRunModeNames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the available run modes defined in the workflow file from the configured Workflows properties</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getTotalNumberOfOutputVariables">
+<span class="sig-name descname"><span class="pre">getTotalNumberOfOutputVariables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getTotalNumberOfOutputVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the number of output variables for all run modes from the configured Workflows properties</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.getOutputVariablePosition">
+<span class="sig-name descname"><span class="pre">getOutputVariablePosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variablename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.getOutputVariablePosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the position of a variable among all the output variables from the configured Workflows properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>runMode</strong> – the current run mode</p></li>
+<li><p><strong>variablename</strong> – the variable name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the position (numeric index) of the specified variable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.is_last_day_of_month">
+<span class="sig-name descname"><span class="pre">is_last_day_of_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.is_last_day_of_month" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngine.id_dekadal_day">
+<span class="sig-name descname"><span class="pre">id_dekadal_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngine.id_dekadal_day" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngineWorkflow">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.ModelEngine.</span></span><span class="sig-name descname"><span class="pre">ModelEngineWorkflow</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngineWorkflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a model workflow file</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngineWorkflow.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngineWorkflow.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the workflow</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngineWorkflow.steps">
+<span class="sig-name descname"><span class="pre">steps</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngineWorkflow.steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of steps of the workflow</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.ModelEngineWorkflow.outputVariables">
+<span class="sig-name descname"><span class="pre">outputVariables</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.ModelEngineWorkflow.outputVariables" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of output variables of the workflow (OutputVariable object)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.OutputVariable">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.ModelEngine.</span></span><span class="sig-name descname"><span class="pre">OutputVariable</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.OutputVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a model output variable defined in the workflow file</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.OutputVariable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.OutputVariable.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the variable</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.OutputVariable.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.OutputVariable.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Definition of the variable as used in the steps. A variable to be extracted as output should belong to property
+‘status’, so the source should start with ‘status’ .E.g. ‘status.weather.RAIN’</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.OutputVariable.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.OutputVariable.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Textual description of the variable</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.DrivingVariable">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.ModelEngine.</span></span><span class="sig-name descname"><span class="pre">DrivingVariable</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.DrivingVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the definition of a driving variable</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.DrivingVariable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.DrivingVariable.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.DrivingVariable.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.DrivingVariable.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.DrivingVariable.unitofmeasure">
+<span class="sig-name descname"><span class="pre">unitofmeasure</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.DrivingVariable.unitofmeasure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.DrivingVariable.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.DrivingVariable.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.InitVariable">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.ModelEngine.</span></span><span class="sig-name descname"><span class="pre">InitVariable</span></span><a class="headerlink" href="#ecrops.ecrops.ModelEngine.InitVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a model initialization variable defined in the workflow file</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.InitVariable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.InitVariable.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the variable. The variable will be created as attribute of the status property using the preovided name.
+For example is name is ‘myvar’, it will be created a variable status.myvar = value provided by source attribute</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelEngine.InitVariable.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#ecrops.ecrops.ModelEngine.InitVariable.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>The source represents the way the Engine can get the variable value from the input data. Input data include:</p>
+<ul class="simple">
+<li><p>drivingVariables</p></li>
+<li><p>timedependantvariables</p></li>
+<li><p>allparameters</p></li>
+<li><p>first_day</p></li>
+<li><p>simulation_start_day</p></li>
+<li><p>simulation_end_day</p></li>
+</ul>
+<p>e.g.
+source = drivingVariables[‘LAT’]
+or
+source = first_day
+or
+source = timedependantvariables</p>
+<p>Alternatively, the value of the variable can be directly written in the workflow file.
+Any valid python expression is valid as a value.
+Examples:  source = “57” ,  source = “[]”, source = “‘a certain string’”,
+source = “0 if drivingVariables[‘DEPTH’] &amp;lt;= 0 else drivingVariables[‘DEPTH’]</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../_sources/autoapi/ecrops/ecrops/ModelEngine/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

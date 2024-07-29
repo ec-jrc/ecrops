@@ -1,9 +1,9 @@
 import math
-
+from ecrops.Step import Step
 from ..Printable import Printable
 
 
-class PlantHeight:
+class PlantHeight(Step):
     """Class for calculating plant height as function of maximum height and DVS (CERES approach).
     """
 
@@ -32,3 +32,24 @@ class PlantHeight:
 
     def integrate(self, status):
         return status
+
+
+    def getinputslist(self):
+        return {
+
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "PlantHeight": {"Description": "Plant height", "Type": "Number",
+                    "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.plantheight.PlantHeight"},
+
+        }
+
+
+    def getoutputslist(self):
+        return {
+            "PlantHeight": {"Description": "Plant Height", "Type": "Number",
+                            "UnitOfMeasure": "cm",
+                            "StatusVariable": "status.plantheight.PlantHeight"},
+
+        }

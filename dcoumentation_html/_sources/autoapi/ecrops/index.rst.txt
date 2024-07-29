@@ -1,0 +1,15 @@
+:py:mod:`ecrops`
+================
+
+.. py:module:: ecrops
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   ecrops/index.rst
+
+

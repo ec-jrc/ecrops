@@ -3,40 +3,43 @@ from datetime import timedelta
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class KernelMaize_Otegui_Gambin:
+class KernelMaize_Otegui_Gambin(Step):
     """Kernel Maize using Otegui & Gambin logics, in this version the period to consider after flowering is based on GDD
 
         Implementation of Otegui & Gambin logics relative to yield estimation for maize
 
-        *Simulation parameters* (provide in cropdata dictionary)
+        Simulation parameters (provide in cropdata dictionary)
 
         FORMAL PARAMETERS:  (I=input,O=output,C=control,IN=init,T=time)
-        =====  ==== =========================================  =====  =====
-        Name   Type Description                                UoM    Class
-        =====  ==== =========================================  =====  =====
-        KDIF    R4  Extinction coefficient for diffuse light              I
-        TBASEM
-        PLD         Plant density                              plant/m-2  I
 
-        *States variables
-        =======         ================================================= ==== ============
-         Name           Description                                      Pbl      Unit
-        =======         ================================================= ==== ============
-        TAGP            Total        above - ground                        N    kg/ha - 1
-        LAI             Leaf area index                                    N    ha/ha
-        IRRAD            Daily shortwave radiation                          N    J m-2 d-1
-        KDIF            Extinction coefficient for diffuse light           N
-        =======         ================================================= ==== ============
+    =======         ================================================= ==== ============
+     Name           Description                                       Pbl      Unit
+    =======         ================================================= ==== ============
+    KDIF            Extinction coefficient for diffuse light            N   -
+    TBASEM          temperature base                                    N   -
+    PLD             Plant density                                       N   plant/m-2
+    =======         ================================================= ==== ============
 
-        * Kernel variables
-        =======         ================================================= ==== ============
-         Name           Description                                       Pbl      Unit
-        =======         ================================================= ==== ============
-        YLDES           Yield estimation                                   N    kg/ha
-        KernelNumber    Kernel number                                      N
-        KernelWeight    Kernel weight                                      N    mg
+    States variables
+    =======         ================================================= ==== ============
+     Name           Description                                       Pbl      Unit
+    =======         ================================================= ==== ============
+    TAGP            Total        above - ground                        N    kg/ha - 1
+    LAI             Leaf area index                                    N    ha/ha
+    IRRAD           Daily shortwave radiation                          N    J m-2 d-1
+    KDIF            Extinction coefficient for diffuse light           N    -
+    =======         ================================================= ==== ============
+
+    Kernel variables
+    =============   ================================================= ==== ============
+     Name           Description                                       Pbl      Unit
+    =============   ================================================= ==== ============
+    YLDES           Yield estimation                                   N    kg/ha
+    KernelNumber    Kernel number                                      N    -
+    KernelWeight    Kernel weight                                      N    mg
+    =============   ================================================= ==== ============
 
         """
 
@@ -51,11 +54,19 @@ class KernelMaize_Otegui_Gambin:
                        "UnitOfMeasure": "unitless"}
         }
 
-    # *********************************************
-    # SETPARAMETERS: Set the parameters used inside the Wofost process
-    # for the Otegui-Gambin algorithm
-    # *********************************************
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            # to be implemented
+        }
     def setparameters(self,status):
+        """
+              Set the parameters used inside the Wofost process for the Otegui-Gambin algorithm
+              """
         status.kernel = Printable()
         status.kernel.PlantDensity = status.allparameters['PlantDensity']     # plant density for m2 (old value hardcoded: 8
         status.kernel.DOAGrade = None       # Day grade for the day of anthesys (flowering day)
@@ -63,10 +74,11 @@ class KernelMaize_Otegui_Gambin:
         status.kernel.TBASE = ecrops.wofost_util.Afgen.Afgen(status.allparameters['DTSMTB']).x_list[1]
         return status
 
-    # *********************************************
-    # INITIALIZE: Initialize the list of days grade and IPAR values
-    # *********************************************
+
     def initialize(self,status):
+        """
+               Initialize the list of days grade and IPAR values
+               """
         status.kernel.DaysGrade = list()    # day grade for all days until the calculation of yield estimation moment
         status.kernel.DaysIPAR = list()     # list to store all IPAR values untill of yield estimation moment
         status.kernel.AllTAGP = list()      # store all TAGP values
@@ -86,10 +98,10 @@ class KernelMaize_Otegui_Gambin:
         status.kernel.days_to_reach_227GGD_before_DOA=1000
         return status
 
-    # *********************************************
-    # INTEGRATE
-    # *********************************************
+
     def integrate(self,status):
+        """
+        """
         # if the estimation was done or there is no crop return
         if (status.kernel.KernelWeight_AfterGrainFilling is not None or status.states.DVS == 0):
             return status
@@ -202,13 +214,7 @@ class KernelMaize_Otegui_Gambin:
 
         return status
 
-    # *********************************************
-    # RUNSTEP:
-    # - for all days calculate day grade and IPAR
-    # - for DOA (flowering day) save the value of day grade
-    # - for all days great than DOA and if yield estimation was not calculated than try to identify
-    #    the interval of [-227:100] days grade and [-15:15] of IPAR
-    # *********************************************
+
     def runstep(self,status):
 
 

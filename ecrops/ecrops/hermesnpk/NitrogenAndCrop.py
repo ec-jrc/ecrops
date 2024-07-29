@@ -9,13 +9,23 @@ import numpy as np
 
 from ..Printable import Printable
 import math
+from ecrops.Step import Step
 
-
-class NitrogenAndCrop:
+class NitrogenAndCrop(Step):
     """ Main nitrogen process and plant assimilation from Hermes, taken from file crop.go"""
 
     def getparameterslist(self):
         return {
+        }
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
         }
 
     def setparameters(self, status):

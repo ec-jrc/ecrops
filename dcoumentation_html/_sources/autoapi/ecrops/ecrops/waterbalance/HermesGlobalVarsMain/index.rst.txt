@@ -1,0 +1,98 @@
+:py:mod:`ecrops.ecrops.waterbalance.HermesGlobalVarsMain`
+=========================================================
+
+.. py:module:: ecrops.ecrops.waterbalance.HermesGlobalVarsMain
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.waterbalance.HermesGlobalVarsMain.HermesGlobalVarsMain
+
+
+
+
+.. py:class:: HermesGlobalVarsMain
+
+   This class hosts the main variables used by HermesWaterBalance step
+
+   .. py:attribute:: N
+      :value: 0
+
+      number of soil layers
+
+
+   .. py:attribute:: DRAIDEP
+      :value: 0
+
+      drainage depth in [dm]. Fill with “20” if no tile drains are present.
+
+
+   .. py:attribute:: DRAIFAK
+      :value: 0
+
+      DrainFactor: defines the percentage of water above field capacity which is lost to the drain. Fill with “00” 
+      if no tile drains are present 
+
+
+   .. py:attribute:: DZ
+
+      thickness of layers (cm)
+
+
+   .. py:attribute:: IZM
+      :value: 0
+
+      soil specific depth for mineralisation (sand > clay)
+
+
+   .. py:attribute:: LBLS
+
+      lower layer depth (cm)
+
+
+   .. py:attribute:: Q1
+
+      water flux through the bottom of layer (cm/d)
+
+
+   .. py:attribute:: TP
+
+      
+
+   .. py:attribute:: TD
+
+      layer temperature (C)
+
+
+   .. py:attribute:: WG
+
+      water content of layer (cm^3/cm^3)
+
+
+   .. py:attribute:: WNOR
+
+      NORM-field capacity (without water logging) in layer Z (cm^3/cm^3)
+
+
+   .. py:attribute:: WMIN
+
+      Wilting point of layers (cm^3/cm^3)
+
+
+   .. py:attribute:: PORGES
+
+      Total pore space in layer (cm^3/cm^3)
+
+
+   .. py:attribute:: W
+
+      Field capacity of layer (cm^3/cm^3)
+
+
+

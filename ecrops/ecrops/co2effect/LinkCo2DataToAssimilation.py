@@ -1,4 +1,6 @@
-class LinkCo2DataToAssimilation:
+from ecrops.Step import Step
+
+class LinkCo2DataToAssimilation(Step):
     """ This step links the output of CO2Data step (Co2EffectOnAMAX,Co2EffectOnEFF) to the Wofost assimilation step"""
 
     def getparameterslist(self):
@@ -17,3 +19,23 @@ class LinkCo2DataToAssimilation:
 
     def integrate(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+
+            "Co2EffectOnAMAX": {"Description": "Co2 Effect On AMAX",
+                     "Type": "Number", "UnitOfMeasure": "unitless",
+                     "StatusVariable": "status.co2data.Co2EffectOnAMAX"},
+            "Co2EffectOnEFF": {"Description": "Co2 Effect On EFF",
+                                "Type": "Number", "UnitOfMeasure": "unitless",
+                                "StatusVariable": "status.co2data.Co2EffectOnEFF"},
+
+        }
+
+
+    def getoutputslist(self):
+        return {
+
+
+
+        }

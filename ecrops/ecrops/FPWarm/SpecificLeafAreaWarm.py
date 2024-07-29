@@ -1,11 +1,14 @@
-
-class SpecificLeafAreaWarm:
+from ecrops.Step import Step
+class SpecificLeafAreaWarm(Step):
     """
     Specific leaf area.
     Reference: Confalonieri, R., Gusberti, D., Acutis, M., 2006. Comparison of WOFOST, CropSyst and WARM for
     simulating rice growth (Japonica type – short cycle varieties). Italian Journal of Agrometeorology, 3, 7-16
     """
     def setparameters(self, container):
+        container.WarmParameters.SpecificLeafAreaAtTillering = container.allparameters['SpecificLeafAreaAtTillering']
+        container.WarmParameters.SpecificLeafAreaAtEmergence = container.allparameters['SpecificLeafAreaAtEmergence']
+
         return container
 
     def initialize(self, container):
@@ -24,23 +27,54 @@ class SpecificLeafAreaWarm:
                                             "Mandatory": "True", "UnitOfMeasure": "m2 kg-1"},
         }
 
+    def getinputslist(self):
+        return {
+
+            "DevelopmentStageCode": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                                     "StatusVariable": "status.states.DevelopmentStageCode"},
+            "LeavesBiomassRate": {"Description": "Leaves biomass rate",
+                                  "Type": "Number",
+                                  "UnitOfMeasure": "kg/ha",
+                                  "StatusVariable": "status.rates.LeavesBiomassRate"},
+            "TotalLeafAreaIndex": {"Description": "Total leaf area index rate",
+                                   "Type": "Number",
+                                   "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.states.TotalLeafAreaIndex"},
+        }
+
+    def getoutputslist(self):
+        return {
+
+            "TotalLeafAreaIndexRate": {"Description": "Total leaf area index rate",
+                                   "Type": "Number",
+                                   "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.rates.TotalLeafAreaIndexRate"},
+            "SpecificLeafArea": {"Description": "Specific leaf area",
+                                  "Type": "Number",
+                                  "UnitOfMeasure": "ha/Kg",
+                                  "StatusVariable": "status.states.SpecificLeafArea"},
+            "TotalLeafAreaIndex": {"Description": "Total leaf area index rate",
+                                   "Type": "Number",
+                                   "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.states.TotalLeafAreaIndex"},
+        }
+
     def runstep(self, container):
 
         try :
-            ex = container.Weather[(container.day - container.first_day).days]  # get the meteo data for current day
-            p = container.Parameters  # parameters
-            s = container.States  # states
-            s1 = container.States1  # ???
-            a = container.Auxiliary  # ???
-            r = container.Rates  # rates
 
+            p = container.WarmParameters  # parameters
+            s = container.states  # states
+            r = container.rates  # rates
             if s.DevelopmentStageCode >= 1 and s.DevelopmentStageCode < 3:
-                s1.SpecificLeafArea = self.SLAfromDVS(s.DevelopmentStageCode, p.SpecificLeafAreaAtTillering,
+                s.SpecificLeafArea = self.SLAfromDVS(s.DevelopmentStageCode, p.SpecificLeafAreaAtTillering,
                                                       p.SpecificLeafAreaAtEmergence) * 1000
 
-                r.TotalLeafAreaIndexRate = r.LeavesBiomassRate / 10 * (s1.SpecificLeafArea / 1000)
+                r.TotalLeafAreaIndexRate = r.LeavesBiomassRate / 10 * (s.SpecificLeafArea / 1000)
 
-                s1.TotalLeafAreaIndex = s.TotalLeafAreaIndex + r.TotalLeafAreaIndexRate
+                if s.TotalLeafAreaIndex == 0.03:
+                    s.TotalLeafAreaIndex = 0
+                s.TotalLeafAreaIndex = s.TotalLeafAreaIndex + r.TotalLeafAreaIndexRate
 
             # move the s1 status to the states variable
             #container.States = copy.deepcopy(s1)

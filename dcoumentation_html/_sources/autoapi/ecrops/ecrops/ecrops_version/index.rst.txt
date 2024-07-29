@@ -1,0 +1,19 @@
+:py:mod:`ecrops.ecrops.ecrops_version`
+======================================
+
+.. py:module:: ecrops.ecrops.ecrops_version
+
+.. autoapi-nested-parse::
+
+   eCrops vesion file
+
+
+
+Module Contents
+---------------
+
+.. py:data:: __version__
+   :value: '1.7.0'
+
+   
+

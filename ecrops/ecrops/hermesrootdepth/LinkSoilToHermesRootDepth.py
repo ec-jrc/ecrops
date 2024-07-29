@@ -1,6 +1,7 @@
 from .SoilLayerHermes import SoilLayerHermes
+from ecrops.Step import Step
 
-class LinkSoilToHermesRootDepth:
+class LinkSoilToHermesRootDepth(Step):
     """This step passes soil data to Hermes root depth step"""
 
     def getparameterslist(self):
@@ -8,6 +9,16 @@ class LinkSoilToHermesRootDepth:
 
     def setparameters(self, status):
         return status
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
+
 
     def initialize(self, status):
         il = 0

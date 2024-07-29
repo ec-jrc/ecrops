@@ -1,0 +1,99 @@
+:py:mod:`ecrops.ecrops.waterbalance.HermesWaterBalance`
+=======================================================
+
+.. py:module:: ecrops.ecrops.waterbalance.HermesWaterBalance
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance
+
+
+
+
+.. py:class:: HermesWaterBalance
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Waterbalance from Hermes model (Keserbaum)
+
+   WATER MODEL acc.to BURNS drainage when field capacity is exceeded upward movement for evaporation acc.to Groot (1987)
+
+   Used VARIABLEs:
+    thickness layer (standard 10cm):           dz
+    FIELD CAPACITY (cm^3/cm^3):                W(z)
+    no. of layers:                             N
+    WATER CONTENT of LAYERS (cm^3/cm^3):       WG(,)
+    Absolute WATER PER LAYER (cm = 10mm/m^2):  WASSER
+    INFILTRATION(+) resp. EVAPORATION(-)(cm):  FLUSS0
+    Depth of TILE DRAIN  (dm)                  DRAIDEP
+    Drainfactor (fraction) if > FC             DRAIFAK
+
+   Q1(I) = water flux through the bottom of layer I (cm/d)
+   FLUSS0 = INFILTRATION(+) resp. EVAPORATION(-)(cm)
+
+   Description from: K.C. Kersebaum / Application of a simple management model to simulate water and nitrogen
+   dynamics  / 1994. To describe water balance in soil a simple plate theory model is used. Therefore the soil
+   profile has been divided into layers of 30 cm thickness. In the present version a profile of 120 cm is simulated.
+   The capacity parameters required by the model as 9, the water content at field capacity and 9, the water content
+   at wilting point are derived automatically within the model from the soil texture class of the layer modified by
+   organic matter content, hydromorphic patterns and bulk density class. The texture classes and values are taken
+   from tables of AG Bodenkunde (1982). Capillary rise from the groundwater table is taken into account by using
+   constant flux rates (mm day- ‘) dependent on texture class and distance between the regarded layer and the
+   groundwater table. These values, also taken from AG Bodenkttnde (19821, are defined for a water conten? of 70% of
+   usable field capacity. The model determines from the bottom to the top the first layer where water content is
+   below 70% usabIe field capacity. Then using the distance of this layer to the groundwater table the flux is
+   calculated as a steady state flux through all the soil layers below. Potential evapotranspiration (PET) is
+   calculated by a simple empirical method developed by Haude (1955) using plant-speciCc coefficients from Heger (
+   1978). This methc!rl requires only daily vapour pressure deficit as input data. The percentage of potential
+   evaporation (E,,) can be calculated from the actual leaf area index (Goudriaan, 1977) using  Epot = PETexp(
+   -0SLAI) (1)  Potential evaporation is reduced to actual  evaporation ,dependent on soil water content in the
+   upper layer which is distributed over depth with an exponential function over depth according to van Keulen (
+   1975). Water uptake by plants is calculated based on potential transpiration and distributed over depth relating
+   uptake to the root length density and a soil water-dependent root efficiency factor (Groot, 1987). Potential
+   transpiration is reduced if water supply is insufficient. Water deficits can partly be compensated in rooted
+   layers below.
+
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+

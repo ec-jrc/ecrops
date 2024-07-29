@@ -1,13 +1,23 @@
 import numpy as np
 
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class LinkSoilToNitrogen:
+class LinkSoilToNitrogen(Step):
     """ This step links soil properties to Nitrogen steps"""
 
     def getparameterslist(self):
         return {}#no parameters in this step
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
 
     def setparameters(self,status):
         #initialize the data structures for nitrogen components

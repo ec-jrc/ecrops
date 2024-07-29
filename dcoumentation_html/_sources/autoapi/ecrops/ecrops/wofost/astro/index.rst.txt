@@ -1,0 +1,56 @@
+:py:mod:`ecrops.ecrops.wofost.astro`
+====================================
+
+.. py:module:: ecrops.ecrops.wofost.astro
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost.astro.Astro
+
+
+
+
+.. py:class:: Astro
+
+   This class contains functions to calculate astronomic variables
+
+   .. py:method:: calc_astro(status)
+
+      python version of ASTRO routine by Daniel van Kraalingen.
+
+      This subroutine calculates astronomic daylength, diurnal radiation
+      characteristics such as the atmospheric transmission, diffuse radiation etc.
+
+      Input data:
+       - day:         date/datetime object
+       - latitude:    latitude of location
+       - radiation:   daily global incoming radiation (J/m2/day)
+
+      output is a `namedtuple` in the following order and tags::
+
+          DAYL      Astronomical daylength (base = 0 degrees)     h
+          DAYLP     Astronomical daylength (base =-4 degrees)     h
+          SINLD     Seasonal offset of sine of solar height       -
+          COSLD     Amplitude of sine of solar height             -
+          DIFPP     Diffuse irradiation perpendicular to
+                    direction of light                         J m-2 s-1
+          ATMTR     Daily atmospheric transmission                -
+          DSINBE    Daily total of effective solar height         s
+          ANGOT     Angot radiation at top of atmosphere       J m-2 d-1
+
+      Authors: Daniel van Kraalingen
+      Date   : April 1991
+
+      Python version
+      Author      : Allard de Wit
+      Date        : January 2011
+
+
+

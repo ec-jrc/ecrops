@@ -1,0 +1,71 @@
+:py:mod:`ecrops.ecrops.hermesnpk.NUptake`
+=========================================
+
+.. py:module:: ecrops.ecrops.hermesnpk.NUptake
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.hermesnpk.NUptake.NUptake
+
+
+
+
+.. py:class:: NUptake
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   N Uptake by plant from Hermes. Copied from file crop.go rows 410- 500
+   N-content functions (critical and optimal N-content)
+   Functions for GEHMAX  and GEHMIN either depending on development (PHYLLO) or above ground biomass (OBMAS)
+
+   Main inputs
+   NGEFKT = crop N-content function no. (critical and max. N-contents).… (number between 1 and 9, it is a sort of paramtrization set)
+   PHYLLO = cumulative development effective temperature sum (°C days)
+
+   Outputs
+   GEHMAX   = maximum N content (drives N uptake) (kg N/kg biomass)
+   GEHMIN   = critical N-content of above ground biomass (below = N-Stress) (kg N/kg biomass)
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+

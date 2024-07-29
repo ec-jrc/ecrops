@@ -1,0 +1,113 @@
+:py:mod:`ecrops.ecrops.wofost.maintenancerespiration`
+=====================================================
+
+.. py:module:: ecrops.ecrops.wofost.maintenancerespiration
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost.maintenancerespiration.WOFOST_Maintenance_Respiration
+
+
+
+
+.. py:class:: WOFOST_Maintenance_Respiration
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Maintenance respiration in WOFOST
+
+   WOFOST calculates the maintenance respiration as proportional to the dry
+   weights of the plant organs to be maintained, where each plant organ can be
+   assigned a different maintenance coefficient. Multiplying organ weight
+   with the maintenance coeffients yields the relative maintenance respiration
+   (`RMRES`) which is than corrected for senescence (parameter `RFSETB`). Finally,
+   the actual maintenance respiration rate is calculated using the daily mean
+   temperature, assuming a relative increase for each 10 degrees increase
+   in temperature as defined by `Q10`.
+
+   **Simulation parameters:** (To be provided in cropdata dictionary):
+
+   =======  ============================================= =======  ============
+    Name     Description                                   Type     Unit
+   =======  ============================================= =======  ============
+   Q10      Relative increase in maintenance repiration    SCr       -
+            rate with each 10 degrees increase in
+            temperature
+   RMR      Relative maintenance respiration rate for
+            roots                                          SCr     kg CH2O kg-1 d-1
+   RMS      Relative maintenance respiration rate for
+            stems                                          SCr     kg CH2O kg-1 d-1
+   RML      Relative maintenance respiration rate for
+            leaves                                         SCr     kg CH2O kg-1 d-1
+   RMO      Relative maintenance respiration rate for
+            storage organs                                 SCr     kg CH2O kg-1 d-1
+   =======  ============================================= =======  ============
+
+
+   **State and rate variables:**
+
+   `WOFOSTMaintenanceRespiration` has no state/rate variables, but calculates
+   the rate of respiration which is returned directly from the `__call__()`
+   method.
+
+   **Signals send or handled**
+
+   None
+
+   **External dependencies:**
+
+   =======  =================================== =============================  ============
+    Name     Description                         Provided by                    Unit
+   =======  =================================== =============================  ============
+   DVS      Crop development stage              DVS_Phenology                  -
+   WRT      Dry weight of living roots          WOFOST_Root_Dynamics           kg ha-1
+   WST      Dry weight of living stems          WOFOST_Stem_Dynamics           kg ha-1
+   WLV      Dry weight of living leaves         WOFOST_Leaf_Dynamics           kg ha-1
+   WSO      Dry weight of living storage organs WOFOST_Storage_Organ_Dynamics  kg ha-1
+   =======  =================================== =============================  ============
+
+
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

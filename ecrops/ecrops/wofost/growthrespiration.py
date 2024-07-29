@@ -7,9 +7,9 @@
 
 
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class WOFOST_GrowthRespiration:
+class WOFOST_GrowthRespiration(Step):
     """This step implements a growth respiration model for the WOFOST crop model."""
 
     def getparameterslist(self):
@@ -67,3 +67,37 @@ class WOFOST_GrowthRespiration:
 
     def integrate(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                   "StatusVariable": "status.day"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+            "FR": {"Description": "Partitioning to roots", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FR"},
+            "FL": {"Description": "Partitioning to leaves", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FL"},
+            "FS": {"Description": "Partitioning to stems", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FS"},
+            "FO": {"Description": "Partitioning to storage organs", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FO"},
+            "GASS": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                   "StatusVariable": "status.rates.GASS"},
+            "PMRES": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                   "StatusVariable": "status.rates.PMRES"},
+
+        }
+    def getoutputslist(self):
+        return {
+            "DMI": {"Description": "Daily increase in root depth", "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.rates.DMI"},
+            "ADMI": {"Description": "Daily increase in above-ground dry matter", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.rates.ADMI"},
+            "ASRC": {"Description": "Available respiration", "Type": "Number", "UnitOfMeasure": " kg CH2O kg-1",
+                     "StatusVariable": "status.rates.ASRC"},
+            "MRES": {"Description": "Relative maintenance respiration", "Type": "Number", "UnitOfMeasure": " kg CH2O kg-1",
+                     "StatusVariable": "status.rates.MRES"},
+        }

@@ -1,0 +1,77 @@
+:py:mod:`ecrops.ecrops.wofost_util.Afgen`
+=========================================
+
+.. py:module:: ecrops.ecrops.wofost_util.Afgen
+
+.. autoapi-nested-parse::
+
+   AFGEN table implementation in ecrops. AFEGN tables are used to store functions as tables of X and Y
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost_util.Afgen.Afgen
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost_util.Afgen._check_x_ascending
+
+
+
+.. py:function:: _check_x_ascending(tbl_xy)
+
+   Checks that the x values are strictly ascending.
+
+   Also truncates any trailing (0.,0.) pairs as a results of data coming
+   from a CGMS database.
+
+
+.. py:class:: Afgen(tbl_xy, unit=None)
+
+   Bases: :py:obj:`object`
+
+   Emulates the AFGEN function in WOFOST.
+
+   :param tbl_xy: List or array of XY value pairs describing the function
+       the X values should be mononically increasing.
+   :param unit: The interpolated values is returned with given
+       `unit <http://pypi.python.org/pypi/Unum/4.1.0>`_ assigned,
+       defaults to None if Unum is not used.
+
+   Returns the interpolated value provided with the
+   absicca value at which the interpolation should take place.
+
+   example::
+
+       >>> tbl_xy = [0,0,1,1,5,10]
+       >>> f =  Afgen(tbl_xy)
+       >>> f(0.5)
+       0.5
+       >>> f(1.5)
+       2.125
+       >>> f(5)
+       10.0
+       >>> f(6)
+       10.0
+       >>> f(-1)
+       0.0
+
+   .. py:method:: __call__(x)
+
+
+   .. py:method:: toString()
+
+
+

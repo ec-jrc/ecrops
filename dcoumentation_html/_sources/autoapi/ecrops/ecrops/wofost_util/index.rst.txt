@@ -1,0 +1,21 @@
+:py:mod:`ecrops.ecrops.wofost_util`
+===================================
+
+.. py:module:: ecrops.ecrops.wofost_util
+
+.. autoapi-nested-parse::
+
+   This sub package contain some WOFOST model utility classes
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   Afgen/index.rst
+   util/index.rst
+
+

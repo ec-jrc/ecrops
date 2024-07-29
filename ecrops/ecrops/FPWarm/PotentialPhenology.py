@@ -1,4 +1,4 @@
-import copy
+from ecrops.Step import Step
 
 
 # -----------------------------------------------
@@ -16,7 +16,7 @@ import copy
 # Physiological maturity: 3.00
 # Harvestable: 4.00
 # -----------------------------------------------
-class PotentialPhenology():
+class PotentialPhenology(Step):
     """
     WARM Phenology.
     Listed below are decimal codes for the main stages:
@@ -34,12 +34,54 @@ class PotentialPhenology():
     """
 
     def setparameters(self, container):
+        container.WarmParameters.GrowingDegreeDaysToReachEmergence = container.allparameters['GrowingDegreeDaysToReachEmergence']
+        container.WarmParameters.GrowingDegreeDaysToReachFlowering = container.allparameters['GrowingDegreeDaysToReachFlowering']
+        container.WarmParameters.GrowingDegreeDaysToReachMaturity = container.allparameters['GrowingDegreeDaysToReachMaturity']
+        container.WarmParameters.GrowingDegreeDaysToReachHarvest = container.allparameters['GrowingDegreeDaysToReachHarvest']
         return container
 
     def initialize(self, container):
+        container.states.DevelopmentStageCode=0
+        container.states.GrowingDegreeDays = 0
+        container.states.DOS = None
+        container.rates.GrowingDegreeDaysRate=0
         return container
 
     def integrate(self, container):
+        s = container.states  # states
+        p = container.WarmParameters  # parameters
+        a = container.auxiliary
+        r = container.rates  # rates
+
+        s.DevelopmentStageCode = 0
+        # sowing - emergence
+        if s.GrowingDegreeDays < p.GrowingDegreeDaysToReachEmergence:
+            s.DevelopmentStageCode = s.GrowingDegreeDays / p.GrowingDegreeDaysToReachEmergence
+
+        # emergence - flowering
+        else:
+            if s.GrowingDegreeDays >= p.GrowingDegreeDaysToReachEmergence and s.GrowingDegreeDays < \
+                    (p.GrowingDegreeDaysToReachFlowering + p.GrowingDegreeDaysToReachEmergence):
+                s.DevelopmentStageCode = 1 + ((s.GrowingDegreeDays - p.GrowingDegreeDaysToReachEmergence) /
+                                              (p.GrowingDegreeDaysToReachFlowering))
+
+            # flowering - maturity
+            else:
+                if s.GrowingDegreeDays >= (p.GrowingDegreeDaysToReachEmergence +
+                                               p.GrowingDegreeDaysToReachFlowering) and \
+                                s.GrowingDegreeDays < (p.GrowingDegreeDaysToReachEmergence +
+                                                           p.GrowingDegreeDaysToReachFlowering +
+                                                           p.GrowingDegreeDaysToReachMaturity):
+                    s.DevelopmentStageCode = 2 + ((
+                                                      s.GrowingDegreeDays - p.GrowingDegreeDaysToReachEmergence - p.GrowingDegreeDaysToReachFlowering) / p.GrowingDegreeDaysToReachMaturity)
+
+                # maturity - harvest
+                else:
+                    if s.GrowingDegreeDays >= (
+                                    p.GrowingDegreeDaysToReachEmergence + p.GrowingDegreeDaysToReachFlowering + p.GrowingDegreeDaysToReachMaturity):
+                        s.DevelopmentStageCode = 3 + ((
+                                                          s.GrowingDegreeDays - p.GrowingDegreeDaysToReachEmergence - p.GrowingDegreeDaysToReachFlowering - p.GrowingDegreeDaysToReachMaturity) / p.GrowingDegreeDaysToReachHarvest);
+
         return container
 
     def getparameterslist(self):
@@ -53,17 +95,28 @@ class PotentialPhenology():
             "GrowingDegreeDaysToReachMaturity": {"Description": "Growing degree days to reach maturity",
                                                  "Type": "Number",
                                                  "Mandatory": "True", "UnitOfMeasure": "C"},
+            "GrowingDegreeDaysToReachHarvest": {"Description": "Growing degree days to reach harvest",
+                                                 "Type": "Number",
+                                                 "Mandatory": "True", "UnitOfMeasure": "C"},
+
         }
 
     def runstep(self, container):
 
         try:
-            ex = container.Weather[(container.day - container.first_day).days]  # get the meteo data for current day
-            p = container.Parameters  # parameters
-            s = container.States  # states
-            s1 = container.States1  # ???
-            a = container.Auxiliary  # ???
-            r = container.Rates  # rates
+
+            p = container.WarmParameters  # parameters
+            s = container.states  # states
+
+            a = container.auxiliary
+            r = container.rates  # rates
+
+            #at sowing
+            if container.day == container.sowing_emergence_day:
+                s.DOS = container.day
+            # before sowing and emergence
+            if container.states.DOS is None:
+                return container
 
             if s.DevelopmentStageCode >= 0 and s.DevelopmentStageCode < 1:  # sowing - emergence
                 r.GrowingDegreeDaysRate = r.GrowingDegreeDaysTemperatureRate
@@ -92,40 +145,59 @@ class PotentialPhenology():
             if s.DevelopmentStageCode >= 4:
                 r.GrowingDegreeDaysRate = 0
 
-            s1.GrowingDegreeDays = s.GrowingDegreeDays + r.GrowingDegreeDaysRate
+            s.GrowingDegreeDays = s.GrowingDegreeDays + r.GrowingDegreeDaysRate
 
-            DevelopmentStageDecimalCode = 0
-            # sowing - emergence
-            if s1.GrowingDegreeDays < p.GrowingDegreeDaysToReachEmergence:
-                DevelopmentStageDecimalCode = s1.GrowingDegreeDays / p.GrowingDegreeDaysToReachEmergence
 
-            # emergence - flowering
-            else:
-                if s1.GrowingDegreeDays >= p.GrowingDegreeDaysToReachEmergence and s1.GrowingDegreeDays < \
-                        (p.GrowingDegreeDaysToReachFlowering + p.GrowingDegreeDaysToReachEmergence):
-                    DevelopmentStageDecimalCode = 1 + ((s1.GrowingDegreeDays - p.GrowingDegreeDaysToReachEmergence) /
-                                                       (p.GrowingDegreeDaysToReachFlowering))
-
-                # flowering - maturity
-                else:
-                    if s1.GrowingDegreeDays >= (p.GrowingDegreeDaysToReachEmergence +
-                                                p.GrowingDegreeDaysToReachFlowering) and \
-                            s1.GrowingDegreeDays < (p.GrowingDegreeDaysToReachEmergence +
-                                                    p.GrowingDegreeDaysToReachFlowering +
-                                                    p.GrowingDegreeDaysToReachMaturity):
-                        DevelopmentStageDecimalCode = 2 + ((
-                                                                       s1.GrowingDegreeDays - p.GrowingDegreeDaysToReachEmergence - p.GrowingDegreeDaysToReachFlowering) / p.GrowingDegreeDaysToReachMaturity)
-
-                    # maturity - harvest
-                    else:
-                        if s1.GrowingDegreeDays >= (
-                                p.GrowingDegreeDaysToReachEmergence + p.GrowingDegreeDaysToReachFlowering + p.GrowingDegreeDaysToReachMaturity):
-                            DevelopmentStageDecimalCode = 3 + ((
-                                                                           s1.GrowingDegreeDays - p.GrowingDegreeDaysToReachEmergence - p.GrowingDegreeDaysToReachFlowering - p.GrowingDegreeDaysToReachMaturity) / p.GrowingDegreeDaysToReachHarvest);
-
-            s1.DevelopmentStageCode = DevelopmentStageDecimalCode
 
         except  Exception as e:
             print('Error in method runstep of class PotentialPhenology:' + str(e))
 
         return container
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
+            "sowing_emergence_day": {"Description": "Doy of sowing or emergence", "Type": "Number",
+                                     "UnitOfMeasure": "doy",
+                                     "StatusVariable": "status.sowing_emergence_day"},
+            "DevelopmentStageCode": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                                     "StatusVariable": "status.states.DevelopmentStageCode"},
+            "GrowingDegreeDays": {"Description": "Growing degree days",
+                                  "Type": "Number",
+                                  "UnitOfMeasure": "C",
+                                  "StatusVariable": "status.states.GrowingDegreeDays"},
+            "GrowingDegreeDaysTemperatureRate": {"Description": "Growing degree days by temperature rate",
+                                                 "Type": "Number",
+                                                 "UnitOfMeasure": "C",
+                                                 "StatusVariable": "status.rates.GrowingDegreeDaysTemperatureRate"},
+
+            "UsePhotoPeriod": {"Description": "Booelan to use the photo period effect on phenology", "Type": "Boolean",
+                              "UnitOfMeasure": "unitless",
+                              "StatusVariable": "status.UsePhotoPeriod"},
+            "UseVernalization": {"Description": "Booelan to use the vernalization", "Type": "Boolean",
+                              "UnitOfMeasure": "unitless",
+                              "StatusVariable": "status.UseVernalization"},
+            "VernalizationFactor": {"Description": "Vernalization factor on phenology", "Type": "Number",
+                                 "UnitOfMeasure": "unitless",
+                                 "StatusVariable": "status.auxiliary.VernalizationFactor"},
+            "PhotoPeriodFactor": {"Description": "Photo period factor on phenology", "Type": "Number",
+                                    "UnitOfMeasure": "unitless",
+                                    "StatusVariable": "status.auxiliary.PhotoPeriodFactor"},
+
+        }
+
+    def getoutputslist(self):
+        return {
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
+
+            "GrowingDegreeDaysRate": {"Description": "Growing degree days rate",
+                                  "Type": "Number",
+                                  "UnitOfMeasure": "C",
+                                  "StatusVariable": "status.rates.GrowingDegreeDaysRate"},
+            "GrowingDegreeDays": {"Description": "Growing degree days",
+                                                 "Type": "Number",
+                                                 "UnitOfMeasure": "C",
+                                                 "StatusVariable": "status.states.GrowingDegreeDays"},
+        }

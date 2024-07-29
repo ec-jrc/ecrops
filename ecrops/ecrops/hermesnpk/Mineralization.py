@@ -5,12 +5,12 @@
 
 
 import numpy as np
-
+from ecrops.Step import Step
 from ..Printable import Printable
 import math
 
 
-class Mineralization:
+class Mineralization(Step):
     """Mineralisation from Hermes. Copied from file nitro.go, rows 449-550"""
 
     # Mineralisation depending on temperature and water content ------------
@@ -31,6 +31,16 @@ class Mineralization:
 
     def getparameterslist(self):
         return {
+        }
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
         }
 
     def setparameters(self, status):

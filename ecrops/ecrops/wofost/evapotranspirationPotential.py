@@ -10,9 +10,9 @@ from math import exp
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class EvapotranspirationPotential():
+class EvapotranspirationPotential(Step):
     """Calculation of evaporation (water and soil) and transpiration rates.
 
     Simulation parameters:
@@ -35,11 +35,11 @@ class EvapotranspirationPotential():
     =======  ================================================= ==== ============
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
-    EVWMX    Maximum evaporation rate from an open water        Y    |cm day-1|
+    EVWMX    Maximum evaporation rate from an open water        Y    cm day-1
              surface.
-    EVSMX    Maximum evaporation rate from a wet soil surface.  Y    |cm day-1|
-    TRAMX    Maximum transpiration rate from the plant canopy   Y    |cm day-1|
-    TRA      Actual transpiration rate from the plant canopy    Y    |cm day-1|
+    EVSMX    Maximum evaporation rate from a wet soil surface.  Y    cm day-1
+    TRAMX    Maximum transpiration rate from the plant canopy   Y    cm day-1
+    TRA      Actual transpiration rate from the plant canopy    Y    cm day-1
 
     =======  ================================================= ==== ============
 
@@ -129,3 +129,42 @@ class EvapotranspirationPotential():
         return status
 
 
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "LAI": {"Description": "Leaf area index",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.LAI"},
+            "ET0": {"Description": "Canopy evapotranspiration",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.weather.ET0"},
+            "E0": {"Description": "Open water evapotranspiration",
+                   "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.weather.E0"},
+            "ES0": {"Description": "Bare soil evapotranspiration",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.weather.ES0"},
+
+        }
+
+
+    def getoutputslist(self):
+        return {
+            "TRA": {"Description": "Actual transpiration rate from the plant canopy", "Type": "Number",
+                    "UnitOfMeasure": "cm/day",
+                    "StatusVariable": "status.rates.TRA"},
+            "TRAMX": {"Description": "Max transpiration rate from the plant canopy", "Type": "Number",
+                      "UnitOfMeasure": "cm/day",
+                      "StatusVariable": "status.rates.TRAMX"},
+            "EVWMX": {"Description": "Maximum evaporation rate from an open water surface", "Type": "Number",
+                    "UnitOfMeasure": "cm/day",
+                    "StatusVariable": "status.rates.EVWMX"},
+            "EVSMX": {"Description": "Maximum evaporation rate from a wet soil surface", "Type": "Number",
+                      "UnitOfMeasure": "cm/day",
+                      "StatusVariable": "status.rates.EVSMX"},
+        }

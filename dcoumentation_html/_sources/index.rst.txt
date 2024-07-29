@@ -1,0 +1,57 @@
+.. ECroPS documentation master file, created by
+   sphinx-quickstart on Wed Jul  5 14:22:21 2023.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to ECroPS's documentation!
+==================================
+
+
+
+
+
+Indices and tables
+==================
+
+
+* :ref:`ECroPS manual <ecrops-manual1>`
+* :ref:`ECroPS release notes <ecrops-release-notes1>`
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Packages code documentation:
+
+
+.. _ecrops-manual1:
+
+ECroPS Manual
+=============
+.. mdinclude:: ./../../ecrops/Manual.md
+
+
+
+Workflow graphs
+====================
+In this section, we show the workflow graph of some of the model configurations.
+
+.. raw:: html
+   :file: ./../build/html/wofost_potential.html
+.. raw:: html
+   :file: ./../build/html/wofost_waterlimited.html
+.. raw:: html
+   :file: ./../build/html/warm_potential.html
+.. raw:: html
+   :file: ./../build/html/warm_limited.html
+
+
+.. _ecrops-release-notes1:
+
+ECroPS release notes
+====================
+.. mdinclude:: ./../../ecrops/release_notes
+

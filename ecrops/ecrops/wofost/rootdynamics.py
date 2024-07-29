@@ -7,9 +7,9 @@
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class WOFOST_Root_Dynamics:
+class WOFOST_Root_Dynamics(Step):
     """Root biomass dynamics and rooting depth.
 
     Root growth and root biomass dynamics in WOFOST are separate processes,
@@ -30,10 +30,10 @@ class WOFOST_Root_Dynamics:
      Name     Description                                   Type     Unit
     =======  ============================================= =======  ============
     RDI      Initial rooting depth                          SCr      cm
-    RRI      Daily increase in rooting depth                SCr      |cm day-1|
+    RRI      Daily increase in rooting depth                SCr      cm day-1
     RDMCR    Maximum rooting depth of the crop              SCR      cm
     RDMSOL   Maximum rooting depth of the soil              SSo      cm
-    TDWI     Initial total crop dry weight                  SCr      |kg ha-1|
+    TDWI     Initial total crop dry weight                  SCr      kg ha-1
     IAIRDU   Presence of air ducts in the root (1) or       SCr      -
              not (0)
     RDRRTB   Relative death rate of roots as a function     TCr      -
@@ -49,9 +49,9 @@ class WOFOST_Root_Dynamics:
     RD       Current rooting depth                              Y     cm
     RDM      Maximum attainable rooting depth at the minimum    N     cm
              of the soil and crop maximum rooting depth
-    WRT      Weight of living roots                             Y     |kg ha-1|
-    DWRT     Weight of dead roots                               N     |kg ha-1|
-    TWRT     Total weight of roots                              Y     |kg ha-1|
+    WRT      Weight of living roots                             Y     kg ha-1
+    DWRT     Weight of dead roots                               N     kg ha-1
+    TWRT     Total weight of roots                              Y     kg ha-1
     =======  ================================================= ==== ============
 
     **Rate variables**
@@ -60,9 +60,9 @@ class WOFOST_Root_Dynamics:
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
     RR       Growth rate root depth                             N    cm
-    GRRT     Growth rate root biomass                           N   |kg ha-1 d-1|
-    DRRT     Death rate root biomass                            N   |kg ha-1 d-1|
-    GWRT     Net change in root biomass                         N   |kg ha-1 d-1|
+    GRRT     Growth rate root biomass                           N   kg ha-1 d-1
+    DRRT     Death rate root biomass                            N   kg ha-1 d-1
+    GWRT     Net change in root biomass                         N   kg ha-1 d-1
     =======  ================================================= ==== ============
 
     **Signals send or handled**
@@ -75,7 +75,7 @@ class WOFOST_Root_Dynamics:
      Name     Description                         Provided by         Unit
     =======  =================================== =================  ============
     DVS      Crop development stage              DVS_Phenology       -
-    DMI      Total dry matter                    CropSimulation     |kg ha-1 d-1|
+    DMI      Total dry matter                    CropSimulation     kg ha-1 d-1
              increase
     FR       Fraction biomass to roots           DVS_Partitioning    -
     =======  =================================== =================  ============
@@ -176,8 +176,6 @@ class WOFOST_Root_Dynamics:
     def integrate(self, status):
         rates = status.rates
         states = status.states
-        params = status.rootdinamics.params
-
         states.WRT_previousDay = states.WRT
 
         # Dry weight of living roots
@@ -190,3 +188,58 @@ class WOFOST_Root_Dynamics:
         # New root depth
         states.RD += rates.RR
         return status
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                   "StatusVariable": "status.day"},
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+            "FR": {"Description": "Partitioning to roots", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FR"},
+            "DMI": {"Description": "Daily increase of total dry matter", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.rates.DMI"},
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.DVS"},
+            "RD": {"Description": "Root depth", "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.states.RD"},
+            "WRT": {"Description": " Dry weight of living roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WRT"},
+            "DWRT": {"Description": "Dry weight of dead roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DWRT"},
+            "WRT": {"Description": " Dry weight of living roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WRT"},
+
+        }
+    def getoutputslist(self):
+        return {
+            "RR": {"Description": "Daily increase in root depth", "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.rates.RR"},
+            "RD": {"Description": "Root depth", "Type": "Number", "UnitOfMeasure": "cm","StatusVariable": "status.states.RD"},
+
+
+            "DRRT": {"Description": "Daily increase of dry weight of dead roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.DRRT"},
+            "GRRT": {"Description": "Daily increase of dry weight of living roots", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.GRRT"},
+            "GWRT": {"Description": "Daily increase of total weight dry + living roots", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.GWRT"},
+
+
+            "DWRT": {"Description": "Dry weight of dead roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DWRT"},
+            "WRT": {"Description": " Dry weight of living roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WRT"},
+            "WRT_previousDay": {"Description": " Dry weight of living roots of previous day", "Type": "Number",
+                                "UnitOfMeasure": "Kg/ha",
+                                "StatusVariable": "status.states.WRT_previousDay"},
+            "TWRT": {"Description": "Total weight dry + living roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                   "StatusVariable": "status.states.TWRT"},
+
+        }

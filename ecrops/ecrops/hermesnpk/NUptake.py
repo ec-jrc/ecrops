@@ -6,9 +6,9 @@
 
 
 import math
+from ecrops.Step import Step
 
-
-class NUptake:
+class NUptake(Step):
     """N Uptake by plant from Hermes. Copied from file crop.go rows 410- 500
     N-content functions (critical and optimal N-content)
     Functions for GEHMAX  and GEHMIN either depending on development (PHYLLO) or above ground biomass (OBMAS)
@@ -21,6 +21,15 @@ class NUptake:
     GEHMAX   = maximum N content (drives N uptake) (kg N/kg biomass)
     GEHMIN   = critical N-content of above ground biomass (below = N-Stress) (kg N/kg biomass)
     """
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
 
 
     def getparameterslist(self):

@@ -1,5 +1,5 @@
-
-class DisableCo2Effect:
+from ecrops.Step import Step
+class DisableCo2Effect(Step):
     """When this step is inserted in a workflow, it disables the CO2 effect on plant, by setting all the effects coefficients to 1.
     All the calculated effect are saved in temporary variables and can be reactivated by putting in the workflow the 'EnableCO2Effect' step
      """
@@ -29,3 +29,36 @@ class DisableCo2Effect:
 
     def integrate(self,status):
         return status
+
+
+    def getinputslist(self):
+        return {
+
+            "Co2EffectOnAMAX": {"Description": "Co2 Effect On AMAX",
+                                "Type": "Number", "UnitOfMeasure": "unitless",
+                                "StatusVariable": "status.co2data.Co2EffectOnAMAX"},
+            "Co2EffectOnEFF": {"Description": "Co2 Effect On EFF",
+                               "Type": "Number", "UnitOfMeasure": "unitless",
+                               "StatusVariable": "status.co2data.Co2EffectOnEFF"},
+            "Co2EffectOnPotentialTraspiration": {"Description": "Co2 Effect On potential transpiration",
+                                                 "Type": "Number", "UnitOfMeasure": "unitless",
+                                                 "StatusVariable": "status.co2data.Co2EffectOnPotentialTraspiration"},
+        }
+
+
+    def getoutputslist(self):
+        return {
+
+            "Co2EffectOnAMAX": {"Description": "Co2 Effect On AMAX",
+                                    "Type": "Number", "UnitOfMeasure": "unitless",
+                                    "StatusVariable": "status.co2data.Co2EffectOnAMAX"},
+            "Co2EffectOnEFF": {"Description": "Co2 Effect On EFF",
+                                   "Type": "Number", "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.co2data.Co2EffectOnEFF"},
+            "Co2EffectOnPotentialTraspiration": {"Description": "Co2 Effect On potential transpiration",
+                                                     "Type": "Number", "UnitOfMeasure": "unitless",
+                                                     "StatusVariable": "status.co2data.Co2EffectOnPotentialTraspiration"},
+            "DMI_NoCo2": {"Description": "Daily increase of total dry matter", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.co2data.DMI_NoCo2"},
+
+        }

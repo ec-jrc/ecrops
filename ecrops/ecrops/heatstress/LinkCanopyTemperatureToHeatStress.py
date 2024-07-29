@@ -1,4 +1,5 @@
-class LinkCanopyTemperatureToHeatStress():
+from ecrops.Step import Step
+class LinkCanopyTemperatureToHeatStress(Step):
     """Link class to move canopy temperature outputs to heat stress"""
 
     def getparameterslist(self):
@@ -16,3 +17,21 @@ class LinkCanopyTemperatureToHeatStress():
 
     def integrate(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+
+            "canopytemperature": {"Description": "Canopy temperature",
+                                  "Type": "Number", "UnitOfMeasure": "C",
+                                  "StatusVariable": "status.canopytemperature.canopytemperature"},
+        }
+
+    def getoutputslist(self):
+        return {
+
+            "canopytemperature": {"Description": "Canopy temperature",
+                                  "Type": "Number", "UnitOfMeasure": "C",
+                                  "StatusVariable": "status.heatstress.canopytemperature"},
+
+        }
+

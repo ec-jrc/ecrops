@@ -1,4 +1,5 @@
-class LinkWofostToHermesWaterBalance():
+from ecrops.Step import Step
+class LinkWofostToHermesWaterBalance(Step):
     """This step passes Wofost data (root depth, potential transpiration) to Hermes water balance"""
 
     def getparameterslist(self):
@@ -26,3 +27,13 @@ class LinkWofostToHermesWaterBalance():
     def integrate(self, status):
         status.hermeswaterbalance.states.RD = status.states.RD
         return status
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }

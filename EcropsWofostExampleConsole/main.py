@@ -1,6 +1,8 @@
+#import the ecrops package
+import ecrops
 import numpy as np
 import datetime
-#import the ecrops package
+
 from ecrops.ModelEngine import ModelEngine
 from ecrops.Printable import Printable
 from ecrops.wofost_util.util import wind10to2
@@ -34,14 +36,13 @@ print('read workflow file')
 #w = ModelEngine("WorkflowWofostPhenology.xml")
 
 #potential and water limited basic simulation
-#w = ModelEngine("WorkflowWofostSimple.xml")
+#w = ModelEngine("WorkflowWofostSimpleWithCo2.xml")
 
-#potential and water limited basic simulation
-w = ModelEngine("WorkflowWofostSimpleWithCo2.xml")
+#potential basic simulation
+w = ModelEngine("WorkflowWofostSimple.xml")
 
 #simulation run by using the partitioning factors based on the co2 effect
 #w = ModelEngine("WorkflowWofostCo2Partitioning.xml")
-
 
 # get all available run modes, as defined in the workflow file
 runModes = w.getRunModeNames();
@@ -84,13 +85,12 @@ timeDependantVariables[:, 0] = timeDependantVariables[:, 0]  # tmax (C)
 timeDependantVariables[:, 1] = timeDependantVariables[:, 1]  # tmin (C)
 timeDependantVariables[:, 2] = timeDependantVariables[:, 2] * 1000  # rad (KJ => J)
 timeDependantVariables[:, 3] = timeDependantVariables[:, 3] / 10.  # rain (mm  =>  cm)
-timeDependantVariables[:, 4] = wind10to2(timeDependantVariables[:, 4])  # wind  (m/s)
 timeDependantVariables[:, 5] = timeDependantVariables[:, 5]  # hum  (%)
 timeDependantVariables[:, 6] = timeDependantVariables[:, 6] / 10.  # E0 #cm (mm  =>  cm)
 timeDependantVariables[:, 7] = timeDependantVariables[:, 7] / 10.  # ES0 #cm (mm  =>  cm)
 timeDependantVariables[:, 8] = timeDependantVariables[:, 8] / 10.  # ET0 #cm (mm  =>  cm)
 
-timeDependantVariableColumn = {'TEMP_MAX': 0, 'TEMP_MIN': 1, 'IRRAD': 2, 'RAIN': 3, 'WIND': 4, 'RH': 5, 'E0': 6, 'ES0': 7, 'ET0': 8}
+timeDependantVariableColumn = {'TEMP_MAX': 0, 'TEMP_MIN': 1, 'IRRAD': 2, 'RAIN': 3,  'RH': 5, 'E0': 6, 'ES0': 7, 'ET0': 8}
 
 # extract current year weather from weather array, from 1 Jan to 31 Dec of year
 firstYearInWeatherData = 1959 #first year in weather data file

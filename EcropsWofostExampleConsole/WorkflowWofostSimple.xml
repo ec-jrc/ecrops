@@ -42,10 +42,6 @@
 	<Workflow name="PotentialRun" run="ON">
 		<Step>ecrops.wofost.LinkSoilToWofost|LinkSoilToWofost</Step>
 		<Step>ecrops.weather.Weather|Weather</Step>
-		<Step>ecrops.co2effect.Co2Data|Co2Data</Step>
-		<Step>ecrops.co2effect.LinkCo2DataToAssimilation|LinkCo2DataToAssimilation</Step>
-		<Step>ecrops.co2effect.LinkCo2DataToEvapotranspiration|LinkCo2DataToEvapotranspiration</Step>
-		<Step>ecrops.co2effect.DisableCo2Effect|DisableCo2Effect</Step>
 		<Step>ecrops.wofost.LinkWeatherToWofost|LinkWeatherToWofost</Step>
         <Step>ecrops.wofost.vernalisation|Vernalisation</Step>
 		<Step>ecrops.wofost.Phenology|DVS_Phenology</Step>
@@ -58,7 +54,7 @@
 		<Step>ecrops.wofost.rootdynamics|WOFOST_Root_Dynamics</Step>
 		<Step>ecrops.wofost.storageorgandynamics|WOFOST_Storage_Organ_Dynamics</Step>
 		<Step>ecrops.wofost.leafdinamics|WOFOST_Leaf_Dynamics</Step>
-        <Step>ecrops.SeriesAccumulator|SeriesAccumulator</Step>
+
 		<Output>
 			<Variable name="POT_DVS" source="status.states.DVS" description="Potential DVS " />
 			<Variable name="POT_JDOM" source="status.states.DOM.timetuple().tm_yday" description="Potential Julian day of Maturity  " />

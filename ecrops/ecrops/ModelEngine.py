@@ -9,10 +9,16 @@ import datetime  # do not remove!
 from xml.dom import minidom
 import numpy as np
 import pickle
+
+from ecrops import Step
+from ecrops.ModelWorkflowReader import ModelWorkflowReader
 from ecrops.Printable import Printable
 import time
 import csv
 import numbers
+
+from ecrops.graphbuilders.TextualGraphBuilder import TextualGraphBuilder
+
 
 class ModelEngine:
     """
@@ -33,14 +39,15 @@ class ModelEngine:
 
     To use the ModelEngine class, a caller can follow the generic workflow:
 
-    -Create a ModelEngine instance with the config file: model = ModelEngine(config_file)
-    -Initialize the model with
+    - Create a ModelEngine instance with the config file: model = ModelEngine(config_file)
+    - Initialize the model with
     the required input variables: status = model.initialize(timedependantvariables, drivingVariables, allparameters,
     first_day, simulation_start_day, simulation_end_day)
-    -For each simulation cycle, run the executeStep method with
+    - For each simulation cycle, run the executeStep method with
     the current status: status = model.executeStep(status)
-    -After the last simulation cycle, run the finalize method
+    - After the last simulation cycle, run the finalize method
     to get the output: result = model.finalize(status)
+
 
     The ModelEngine class can be used in different "run modes" that define which steps to execute. This allows the
     same model to be run in slightly different ways.
@@ -51,7 +58,6 @@ class ModelEngine:
     - the instructions to initialize the status variables  (property initVariables)
     - the steps to run (property Workflows)
     - the variables to return as output (property Workflows)
-
 
     The reading of the workflow is done in the constructor method of the ModelEngine class. Example: model =
     ModelEngine(“my_workflow_file.xml”) The workflow can be executed on more than one “run mode”. A “run mode”
@@ -88,7 +94,7 @@ class ModelEngine:
         The dekadal configuration returns only the days that are considered 'dekadal':the 10th , the 20th and the last day of the month
         """
 
-    PrintDailyDetailsToFile =False
+    PrintDailyDetailsToFile = False
     """"boolean property used to trigger the print to file of the daily status variables."""
 
     PrintDailyDetails_OutputFile = "output.csv"
@@ -100,12 +106,52 @@ class ModelEngine:
         """
         self.XmlWorkflowConfig = config_file
         self.readWorkflowConfigurationFromXML()
-        d = datetime.datetime(1999,1,1)# do not remove!
+        d = datetime.datetime(1999, 1, 1)  # do not remove!
 
     debug_timing_mode = False  # set to true to enable component time tracing
     debug_timing_runstep_time = {}
     debug_timing_initialize_time = {}
     debug_timing_integrate_time = {}
+
+    def createModelGraph(self, runMode, graphbuilders=[TextualGraphBuilder()]):
+        """
+        Create the graphs of the loaded workflow, by using the provided graph builders.
+        To do so, it uses a class ModelWorkflowReader.
+        Among the run modes defined in the workflow, only the runMode passed as argument will be considered.
+
+        :param runMode: the run mode to plot a graph. If not present in the loaded workflow, the method will raise an exception
+
+        :param graphbuilders: the list of graph builders. Each one of them should be an instance of a class, subclass of abstract class ecrops.graphbuilders.AbstractGraphBuilder
+
+        """
+        if self.Workflows is None:
+            raise Exception("No workflow loaded")
+        if runMode not in [w.name for w in self.Workflows]:
+            raise Exception("Run mode "+runMode+ "not found in the loaded workflow")
+        modelWorkflowReader = ModelWorkflowReader(graphbuilders)
+        steps = self.getSteps2Run(runMode)
+
+        #create an INIT fake step to mimyc the input data from the configuration file
+        class INIT():
+            def __init__(self,v):
+                self.vars=v
+            def getinputslist(self):
+                return {
+                }
+            def getoutputslist(self):
+                return self.vars
+
+        initvariables={}
+        for iVar in self.initVariables:
+            initvariables[iVar.name]={"Description": "",
+                                 "Type": "", "UnitOfMeasure": "",
+                                 "StatusVariable": "status."+ iVar.name}
+        modelWorkflowReader.add_class(INIT(initvariables))
+
+        for step in steps:
+            modelWorkflowReader.add_class(step)
+        modelWorkflowReader.add_all_connections()
+        modelWorkflowReader.display_graph(self.XmlWorkflowConfig,runMode)
 
     def getParametersList(self):
         """
@@ -131,7 +177,8 @@ class ModelEngine:
         allTheParameters = self.getParametersList()
         return json.dumps(allTheParameters)
 
-    def initialize(self, timedependantvariables, timeDependantVariableColumn, drivingVariables, allparameters, first_day, simulation_start_day,
+    def initialize(self, timedependantvariables, timeDependantVariableColumn, drivingVariables, allparameters,
+                   first_day, simulation_start_day,
                    simulation_end_day):
         """
 
@@ -145,34 +192,42 @@ class ModelEngine:
         so it instantiates a new variable called "LAT" in “status” and sets its
         value to the result of the execution of the instruction “drivingVariables['LAT']” (drivingVariables is one of
         the arguments of the “initialize” method).
+
         Arguments:
-        timedependantvariables: contains all the time dependant variables (e.g. weather data)
-        timeDependantVariableColumn: contains the position in the array of the timedependantvariables
-        drivingVariables: contains all the driving variables (e.g. the year and the crop to simulate, the soil data,...)
-        allparameters: contains the model's parameters
-        first_day: first value for status.day variable
-        simulation_start_day: the simulation of the steps is performed only when simulation_start_day >= status.day
-        simulation_end_day: the simulation of the steps is performed only when simulation_start_day <= status.day
-        drivingVariables:The driving variables are all the variables that defines the configuration of the simulation to run, for example the crop to be run, the years to be run, the latitude and logitude of the simulated location, the soil properties of the location,…
-        In practice, the driving variables contains all the input data except the time dependant variables and the model parameters.
+
+        :param timedependantvariables: contains all the time dependant variables (e.g. weather data)
+
+        :param timeDependantVariableColumn: contains the position in the array of the timedependantvariables
+
+        :param allparameters: contains the model's parameters
+
+        :param first_day: first value for status.day variable
+
+        :param simulation_start_day: the simulation of the steps is performed only when simulation_start_day >= status.day
+
+        :param simulation_end_day: the simulation of the steps is performed only when simulation_start_day <= status.day
+
+        :param drivingVariables: the driving variables are all the variables that defines the configuration of the simulation to run, for example the crop to be run, the years to be run, the latitude and logitude of the simulated location, the soil properties of the location,… In practice, the driving variables contains all the input data except the time dependant variables and the model parameters.
         If the driving variables where defined in the DrivingVariables section of the workflow configuration file, it checks that all the DrivingVariables defined in the configuration file are set. In case one is missing an
         exception is thrown. If the DrivingVariables section was not defined in the file, the check is not performed.
 
-        Returns the status variable.
+        :returns: the status variable.
         """
 
         status = Printable()
+        status.rates = Printable()
+        status.states = Printable()
         status.model_initialized = False
         status.day = first_day
         status.first_day = first_day
         status.simulation_start_day = simulation_start_day
         status.simulation_end_day = simulation_end_day
 
-        #verify all the driving variables are present
+        # verify all the driving variables are present
         if self.drivingVariables is not None:
             for dVar in self.drivingVariables:
                 if dVar.name not in drivingVariables:
-                    msg="Error during ModelEngine initialization. Driving variable '" + dVar.name + "' not found!. "
+                    msg = "Error during ModelEngine initialization. Driving variable '" + dVar.name + "' not found!. "
                     print(msg)
                     traceback.print_exc(limit=20, file=sys.stdout)
                     raise Exception(msg)
@@ -218,8 +273,6 @@ class ModelEngine:
 
         return status
 
-
-
     def executeStep(self, status, runMode):
         """
         Runs all steps for specific run mode, in the defined order, for every value of status.day property when
@@ -228,9 +281,12 @@ class ModelEngine:
         For every step, the “status” variable is set as an input of the step, is updated by the step and returned to the engine.
 
         Arguments:
-        status: the status of the model
-        runMode: the current run mode
-        returns: the updated status of the model
+
+        :param status: the status of the model
+
+        :param runMode: the current run mode
+
+        :returns: the updated status of the model
 
         """
         try:
@@ -240,18 +296,18 @@ class ModelEngine:
             if status.simulation_start_day == status.day:
                 for c in components:
                     c.setparameters(status)
-                    status.model_initialized=True
+                    status.model_initialized = True
                     if self.debug_timing_mode:
                         self.debug_timing_initialize_time[str(c.__class__.__name__)] = 0
                         self.debug_timing_integrate_time[str(c.__class__.__name__)] = 0
                         self.debug_timing_runstep_time[str(c.__class__.__name__)] = 0
                 for c in components:
                     if self.debug_timing_mode:
-                        starttimeinitialize=time.time()
+                        starttimeinitialize = time.time()
                     status = c.initialize(status)
                     if self.debug_timing_mode:
-                        self.debug_timing_initialize_time[str(c.__class__.__name__)]+=time.time()-starttimeinitialize
-
+                        self.debug_timing_initialize_time[
+                            str(c.__class__.__name__)] += time.time() - starttimeinitialize
 
             # run steps from start to end day
             if status.simulation_start_day <= status.day <= status.simulation_end_day:
@@ -259,11 +315,12 @@ class ModelEngine:
                     if status.simulation_start_day != status.day:  # at start day execute only the run step, without integration
                         if self.debug_timing_mode:
                             starttimeintegratte = time.time()
-                        if status.model_initialized==False:
+                        if status.model_initialized == False:
                             raise Exception('model was not initialized. Please check the model start conditions')
                         status = c.integrate(status)
                         if self.debug_timing_mode:
-                            self.debug_timing_integrate_time[str(c.__class__.__name__)] += time.time() - starttimeintegratte
+                            self.debug_timing_integrate_time[
+                                str(c.__class__.__name__)] += time.time() - starttimeintegratte
 
                 for c in components:
                     if self.debug_timing_mode:
@@ -273,7 +330,8 @@ class ModelEngine:
                         self.debug_timing_runstep_time[str(c.__class__.__name__)] += time.time() - starttimerunstep
 
             # if flags ReturnDailyDetails or ReturnDekadalDetails or PrintDailyDetails are set to true, at the first day initialize the structure to contain the daily values (status.dailydetails)
-            if (self.ReturnDailyDetails or self.ReturnDekadalDetails or self.PrintDailyDetails or self.PrintDailyDetailsToFile) and status.simulation_start_day == status.day:
+            if (
+                    self.ReturnDailyDetails or self.ReturnDekadalDetails or self.PrintDailyDetails or self.PrintDailyDetailsToFile) and status.first_day == status.day:
 
                 if hasattr(status, 'dailydetails') == False:
                     status.dailydetails = {}
@@ -286,7 +344,8 @@ class ModelEngine:
             # if flags ReturnDailyDetails or ReturnDekadalDetails or PrintDailyDetails are set to true, at the end of the daily step collect the ouput variables values
             # into the status.dailydetails dictionary (besides the output variables, add always also columns DAY (=complete date) and DOY (=julian day) )
             # in case of ReturnDekadalDetails, this is done only for the days that respect the Dekadal calendar, returned by method id_dekadal_day
-            if (self.ReturnDailyDetails or (self.ReturnDekadalDetails and self.id_dekadal_day(status.day)) or self.PrintDailyDetails or self.PrintDailyDetailsToFile) and status.simulation_start_day <= status.day:
+            if (self.ReturnDailyDetails or (self.ReturnDekadalDetails and self.id_dekadal_day(
+                    status.day)) or self.PrintDailyDetails or self.PrintDailyDetailsToFile) and status.first_day <= status.day and status.day <= status.simulation_end_day:
 
                 # in the dailydetails, always add DAY and DOY column
                 status.dailydetails['DAY'].append(status.day)
@@ -344,8 +403,8 @@ class ModelEngine:
                             status.dailydetails[oVar.name].append(finalValue)
 
                     else:
-                        # if the variable is not valid, append None
-                        status.dailydetails[oVar.name].append(None)
+                        # if the variable is not valid, append 0
+                        status.dailydetails[oVar.name].append(0)
 
                     i = i + 1
 
@@ -362,20 +421,23 @@ class ModelEngine:
         """
         For the current run mode it generates an array with output variables calculated after the last time interval
         executed and returns it. To do so, it uses the output variables definition read from the workflow file.
+
         Arguments:
-            status: the status of the model
-            runMode: the current run mode returns: the array containing the values of the output variables, in the same order they are returned by getOutputVariables and
+
+        :param status: the status of the model
+
+        :param runMode: the current run mode returns: the array containing the values of the output variables, in the same order they are returned by getOutputVariables and
         getOutputVariablesNames methods
-        Returns:
-            Returns a tuple containing two values: the summary output and the daily details array (if ReturnDailyDetails is False, the  daily details array is None)
+
+        :returns: a tuple containing two values: the summary output and the daily details array (if ReturnDailyDetails is False, the  daily details array is None)
         """
         try:
             for k in self.debug_timing_initialize_time.keys():
-                print( 'initialize time' + k + ' : ' + str(self.debug_timing_initialize_time[k]) + ' seconds')
+                print('initialize time' + k + ' : ' + str(self.debug_timing_initialize_time[k]) + ' seconds')
             for k in self.debug_timing_integrate_time.keys():
-                print( 'integrate time' + k + ' : ' + str(self.debug_timing_integrate_time[k]) + ' seconds')
+                print('integrate time' + k + ' : ' + str(self.debug_timing_integrate_time[k]) + ' seconds')
             for k in self.debug_timing_runstep_time.keys():
-                print( 'runstep time' + k + ' : ' + str(self.debug_timing_runstep_time[k]) + ' seconds')
+                print('runstep time' + k + ' : ' + str(self.debug_timing_runstep_time[k]) + ' seconds')
             # retrieve the output variables for the specific runMode
             outVariables = self.getOutputVariables(runMode)
             if outVariables is None:
@@ -419,7 +481,7 @@ class ModelEngine:
                                               lineterminator='\n')
                     grids_writer.writerow(status.dailydetails.keys())
                     for row in range(0, len(status.dailydetails['DOY'])):
-                        row_=[]
+                        row_ = []
                         for col in list(status.dailydetails.keys()):
                             if row < len(status.dailydetails[col]):
                                 va = status.dailydetails[col][row]
@@ -436,7 +498,7 @@ class ModelEngine:
             if self.ReturnDailyDetails or self.ReturnDekadalDetails:
                 return to_return, status.dailydetails
             else:
-                return to_return , None
+                return to_return, None
 
         except Exception as exc:
             print(("\nError executing the ModelEngine finalize :" + str(exc)))
@@ -445,7 +507,11 @@ class ModelEngine:
 
     def SerializeStatus(self, status):
         """
-        Serializes the status of the model, passed as argument. Returns the pickled serialized string
+        Serializes the status of the model, passed as argument.
+
+        :param status: the status of the model
+
+        :returns: the pickled serialized string
         """
 
         pickled_string = pickle.dumps(status)
@@ -453,7 +519,12 @@ class ModelEngine:
 
     def DeserializeStatus(self, pickled_string):
         """
-        Deserializes the status of the model. Returns the new status, created  from the pickled serialized string passed as argument
+        Deserializes the status of the model. Returns the new status, created  from the pickled serialized string passed as argument.
+
+        :param pickled_string: the pickled serialized string
+
+        :returns: the new status of the model
+
         """
         status = pickle.loads(pickled_string)
         return status
@@ -489,7 +560,11 @@ class ModelEngine:
                         moduleLoaded = importlib.import_module(moduleName)
 
                     # load the class
-                    m = getattr(moduleLoaded, stepParts[1])
+                    m = getattr(moduleLoaded, stepParts[1]) #m is the loaded type
+                    #check the loaded type is implementation of abstract class step. Otherwise throw an error
+                    if not (issubclass(m,Step.Step)):
+                        raise Exception("Class "+xStep.firstChild.nodeValue+" is not a valid implementation of Step")
+                    # add the step's INSTANCE to the steps ( m() retuns the instance of type m)
                     wk.steps.append(m())
                     # wk.steps.append( eval(str(xStep.firstChild.nodeValue)) () )
 
@@ -535,10 +610,12 @@ class ModelEngine:
 
     def getSteps2Run(self, runMode):
         """
-        Retrieve the steps to run for specific run mode from the configured Workflows property
+        Retrieves the steps to run for specific run mode from the configured Workflows property.
+
         Arguments:
-            runMode: the current run mode
-        Returns: The list of steps to run
+
+        :param runMode: the current run mode
+        :returns: The list of steps to run
         """
         for x in self.Workflows:
             if x.name == runMode:
@@ -547,10 +624,12 @@ class ModelEngine:
 
     def getOutputVariables(self, runMode):
         """
-        Retrieves the output variables for specific run mode from the configured Workflows property
+        Retrieves the output variables for specific run mode from the configured Workflows property.
+
         Arguments:
-            runMode: the current run mode
-        Returns: The list of output variables as 'Variable' objects
+
+        :param runMode: the current run mode
+        :returns: the list of output variables as 'Variable' objects
         """
         for x in self.Workflows:
             if x.name == runMode:
@@ -559,10 +638,13 @@ class ModelEngine:
 
     def getOutputVariablesNames(self, runMode):
         """
-        Retrieves the output variables names for specific run mode from the configured Workflows property
+        Retrieves the output variables names for specific run mode from the configured Workflows property.
+
         Arguments:
-            runMode: the current run mode
-        Returns: The list of output variables names
+
+        :param runMode: the current run mode
+
+        :returns: the list of output variables names
         """
         outputVariables = self.getOutputVariables(runMode)
         if outputVariables is None:
@@ -571,8 +653,12 @@ class ModelEngine:
 
     def getNumberOfOutputVariables(self, runMode):
         """
-        Retrieves the number of output variables for a specific run mode from the configured Workflows property
-        Returns: The number of output variables names
+        Retrieves the number of output variables for a specific run mode from the configured Workflows property.
+        Arguments:
+
+        :param runMode: the current run mode
+
+        :returns: the number of output variables names
         """
         outputVariables = self.getOutputVariables(runMode)
         return 0 if outputVariables is None else len(outputVariables)
@@ -596,7 +682,14 @@ class ModelEngine:
 
     def getOutputVariablePosition(self, runMode, variablename):
         """
-        Retrieve the position of a variable among all the output variables from the configured Workflows properties
+        Retrieves the position of a variable among all the output variables from the configured Workflows properties.
+
+        :param runMode: the current run mode
+
+        :param variablename: the variable name
+
+        :returns: the position (numeric index) of the specified variable
+
         """
         outputVariables = self.getOutputVariablesNames(runMode)
         if outputVariables is None:
@@ -607,7 +700,8 @@ class ModelEngine:
         return dt.day == calendar.monthrange(dt.year, dt.month)[1]
 
     def id_dekadal_day(self, dt):
-        return dt.day==10 or dt.day==20 or self.is_last_day_of_month(dt)
+        return dt.day == 10 or dt.day == 20 or self.is_last_day_of_month(dt)
+
 
 class ModelEngineWorkflow:
     """
@@ -640,12 +734,13 @@ class OutputVariable:
 
 class DrivingVariable:
     """
-    Reapresents the definition of a driving variable
+    Represents the definition of a driving variable
     """
     name = ''
     description = ''
     unitofmeasure = ''
     type = ''
+
 
 class InitVariable:
     """
@@ -659,20 +754,26 @@ class InitVariable:
 
     source = ''
     """The source represents the way the Engine can get the variable value from the input data. Input data include:
-     -drivingVariables
-     -timedependantvariables
-     -allparameters
-     -first_day
-     -simulation_start_day
-     -simulation_end_day
-     
+
+     - drivingVariables
+
+     - timedependantvariables
+
+     - allparameters
+
+     - first_day
+
+     - simulation_start_day
+
+     - simulation_end_day
+
      e.g.
      source = drivingVariables['LAT']
      or
      source = first_day
      or 
      source = timedependantvariables
-     
+
      Alternatively, the value of the variable can be directly written in the workflow file.
      Any valid python expression is valid as a value. 
      Examples:  source = "57" ,  source = "[]", source = "'a certain string'", 

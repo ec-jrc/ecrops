@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.wofost_util.util &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.wofost_util.util">
+<span id="ecrops-ecrops-wofost-util-util"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.wofost_util.util" title="ecrops.ecrops.wofost_util.util"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.wofost_util.util</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.wofost_util.util" title="Permalink to this headline">¶</a></h1>
+<p>Utilities for WOFOST simulation</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.isC3crop" title="ecrops.ecrops.wofost_util.util.isC3crop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isC3crop</span></code></a>(crop)</p></td>
+<td><p>Returns true if the crop is C3</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.limit" title="ecrops.ecrops.wofost_util.util.limit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">limit</span></code></a>(min, max, v)</p></td>
+<td><p>limits the range of v between min and max</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.wind10to2" title="ecrops.ecrops.wofost_util.util.wind10to2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wind10to2</span></code></a>(wind10)</p></td>
+<td><p>Converts windspeed at 10m to windspeed at 2m using log. wind profile</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.reference_ET" title="ecrops.ecrops.wofost_util.util.reference_ET"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_ET</span></code></a>(DAY, LAT, ELEV, TMIN, TMAX, IRRAD, VAP, …)</p></td>
+<td><p>Calculates reference evapotranspiration values E0, ES0 and ET0.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.penman" title="ecrops.ecrops.wofost_util.util.penman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">penman</span></code></a>(DAY, LAT, ELEV, TMIN, TMAX, AVRAD, VAP, WIND2, …)</p></td>
+<td><p>Calculates E0, ES0, ET0 based on the Penman model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.penman_monteith" title="ecrops.ecrops.wofost_util.util.penman_monteith"><code class="xref py py-obj docutils literal notranslate"><span class="pre">penman_monteith</span></code></a>(DAY, LAT, ELEV, TMIN, TMAX, AVRAD, …)</p></td>
+<td><p>Calculates reference ET0 based on the Penman-Monteith model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.doy" title="ecrops.ecrops.wofost_util.util.doy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">doy</span></code></a>(day)</p></td>
+<td><p>Converts a date or datetime object to day-of-year (Jan 1st = doy 1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.Celsius2Kelvin" title="ecrops.ecrops.wofost_util.util.Celsius2Kelvin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Celsius2Kelvin</span></code></a></p></td>
+<td><p>unit of measure conversion: C to Kelvin</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.hPa2kPa" title="ecrops.ecrops.wofost_util.util.hPa2kPa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hPa2kPa</span></code></a></p></td>
+<td><p>unit of measure conversion: hPa to kPa</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost_util.util.SatVapourPressure" title="ecrops.ecrops.wofost_util.util.SatVapourPressure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SatVapourPressure</span></code></a></p></td>
+<td><p>Saturated Vapour pressure [kPa] at temperature temp [C]</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.Celsius2Kelvin">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">Celsius2Kelvin</span></span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.Celsius2Kelvin" title="Permalink to this definition">¶</a></dt>
+<dd><p>unit of measure conversion: C to Kelvin</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.hPa2kPa">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">hPa2kPa</span></span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.hPa2kPa" title="Permalink to this definition">¶</a></dt>
+<dd><p>unit of measure conversion: hPa to kPa</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.SatVapourPressure">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">SatVapourPressure</span></span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.SatVapourPressure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saturated Vapour pressure [kPa] at temperature temp [C]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.isC3crop">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">isC3crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.isC3crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if the crop is C3</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.limit">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">limit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>limits the range of v between min and max</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.wind10to2">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">wind10to2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.wind10to2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts windspeed at 10m to windspeed at 2m using log. wind profile</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.reference_ET">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">reference_ET</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DAY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LAT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ELEV</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TMIN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TMAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">IRRAD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VAP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">WIND</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ANGSTA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ANGSTB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ATMTR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ANGOT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ETMODEL</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PM'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.reference_ET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates reference evapotranspiration values E0, ES0 and ET0.</p>
+<blockquote>
+<div><p>The open water (E0) and bare soil evapotranspiration (ES0) are calculated with
+the modified Penman approach, while the references canopy evapotranspiration is
+calculated with the modified Penman or the Penman-Monteith approach, the latter
+is the default.</p>
+<p>Input variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DAY</span>     <span class="o">-</span>  <span class="n">Python</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span> <span class="nb">object</span>                      <span class="o">-</span>
+<span class="n">LAT</span>     <span class="o">-</span>  <span class="n">Latitude</span> <span class="n">of</span> <span class="n">the</span> <span class="n">site</span>                          <span class="n">degrees</span>
+<span class="n">ELEV</span>    <span class="o">-</span>  <span class="n">Elevation</span> <span class="n">above</span> <span class="n">sea</span> <span class="n">level</span>                        <span class="n">m</span>
+<span class="n">TMIN</span>    <span class="o">-</span>  <span class="n">Minimum</span> <span class="n">temperature</span>                              <span class="n">C</span>
+<span class="n">TMAX</span>    <span class="o">-</span>  <span class="n">Maximum</span> <span class="n">temperature</span>                              <span class="n">C</span>
+<span class="n">IRRAD</span>   <span class="o">-</span>  <span class="n">Daily</span> <span class="n">shortwave</span> <span class="n">radiation</span>                     <span class="n">J</span> <span class="n">m</span><span class="o">-</span><span class="mi">2</span> <span class="n">d</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">VAP</span>     <span class="o">-</span>  <span class="mi">24</span> <span class="n">hour</span> <span class="n">average</span> <span class="n">vapour</span> <span class="n">pressure</span>                 <span class="n">hPa</span>
+<span class="n">WIND</span>    <span class="o">-</span>  <span class="mi">24</span> <span class="n">hour</span> <span class="n">average</span> <span class="n">windspeed</span> <span class="n">at</span> <span class="mi">2</span> <span class="n">meter</span>            <span class="n">m</span><span class="o">/</span><span class="n">s</span>
+<span class="n">ANGSTA</span>  <span class="o">-</span>  <span class="n">Empirical</span> <span class="n">constant</span> <span class="ow">in</span> <span class="n">Angstrom</span> <span class="n">formula</span>           <span class="o">-</span>
+<span class="n">ANGSTB</span>  <span class="o">-</span>  <span class="n">Empirical</span> <span class="n">constant</span> <span class="ow">in</span> <span class="n">Angstrom</span> <span class="n">formula</span>           <span class="o">-</span>
+<span class="n">ETMODEL</span> <span class="o">-</span>  <span class="n">Indicates</span> <span class="k">if</span> <span class="n">the</span> <span class="n">canopy</span> <span class="n">reference</span> <span class="n">ET</span> <span class="n">should</span>     <span class="n">PM</span><span class="o">|</span><span class="n">P</span>
+           <span class="n">be</span> <span class="n">calculated</span> <span class="k">with</span> <span class="n">the</span> <span class="n">Penman</span><span class="o">-</span><span class="n">Monteith</span> <span class="n">method</span>
+           <span class="p">(</span><span class="n">PM</span><span class="p">)</span> <span class="ow">or</span> <span class="n">the</span> <span class="n">modified</span> <span class="n">Penman</span> <span class="n">method</span> <span class="p">(</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output is a tuple (E0, ES0, ET0):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E0</span>      <span class="o">-</span>  <span class="n">Penman</span> <span class="n">potential</span> <span class="n">evaporation</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">free</span>
+           <span class="n">water</span> <span class="n">surface</span> <span class="p">[</span><span class="n">cm</span><span class="o">/</span><span class="n">d</span><span class="p">]</span>
+<span class="n">ES0</span>     <span class="o">-</span>  <span class="n">Penman</span> <span class="n">potential</span> <span class="n">evaporation</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">moist</span>
+           <span class="n">bare</span> <span class="n">soil</span> <span class="n">surface</span> <span class="p">[</span><span class="n">cm</span><span class="o">/</span><span class="n">d</span><span class="p">]</span>
+<span class="n">ET0</span>     <span class="o">-</span>  <span class="n">Penman</span> <span class="ow">or</span> <span class="n">Penman</span><span class="o">-</span><span class="n">Monteith</span> <span class="n">potential</span> <span class="n">evapotranspiration</span> <span class="kn">from</span> <span class="nn">a</span>
+           <span class="n">crop</span> <span class="n">canopy</span> <span class="p">[</span><span class="n">cm</span><span class="o">/</span><span class="n">d</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Penman-Monteith algorithm is valid only for a reference canopy and
+therefore it is not used to calculate the reference values for bare soil and
+open water (ES0, E0).</p>
+<p>The background is that the Penman-Monteith model is basically a surface
+energy balance where the net solar radiation is partitioned over latent and
+sensible heat fluxes (ignoring the soil heat flux). To estimate this
+partitioning, the PM method makes a connection between the surface
+temperature and the air temperature. However, the assumptions
+underlying the PM model are valid only when the surface where this
+partitioning takes place is the same for the latent and sensible heat
+fluxes.</p>
+<p>For a crop canopy this assumption is valid because the leaves of the
+canopy form the surface where both latent heat flux (through stomata)
+and sensible heat flux (through leaf temperature) are partitioned.
+For a soil, this principle does not work because when the soil is
+drying the evaporation front will quickly disappear below the surface
+and therefore the assumption that the partitioning surface is the
+same does not hold anymore.</p>
+<p>For water surfaces, the assumptions underlying PM do not hold
+because there is no direct relationship between the temperature
+of the water surface and the net incoming radiation as radiation is
+absorbed by the water column and the temperature of the water surface
+is co-determined by other factors (mixing, etc.). Only for a very
+shallow layer of water (1 cm) the PM methodology could be applied.</p>
+<p>For bare soil and open water the Penman model is preferred. Although it
+partially suffers from the same problems, it is calibrated somewhat
+better for open water and bare soil based on its empirical wind
+function.</p>
+<p>Finally, in crop simulation models the open water evaporation and
+bare soil evaporation only play a minor role (pre-sowing conditions
+and flooded rice at early stages), it is not worth investing much
+effort in improved estimates of reference value for E0 and ES0.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.penman">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">penman</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DAY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LAT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ELEV</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TMIN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TMAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AVRAD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VAP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">WIND2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ANGSTA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ANGSTB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ATMTR</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.penman" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates E0, ES0, ET0 based on the Penman model.</p>
+<blockquote>
+<div><p>This routine calculates the potential evapo(transpi)ration rates from
+a free water surface (E0), a bare soil surface (ES0), and a crop canopy
+(ET0) in mm/d. For these calculations the analysis by Penman is followed
+(Frere and Popov, 1979;Penman, 1948, 1956, and 1963).
+Subroutines and functions called: ASTRO, LIMIT.</p>
+</div></blockquote>
+<p>Input variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DAY</span>     <span class="o">-</span>  <span class="n">Python</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span> <span class="nb">object</span>                                    <span class="o">-</span>
+<span class="n">LAT</span>     <span class="o">-</span>  <span class="n">Latitude</span> <span class="n">of</span> <span class="n">the</span> <span class="n">site</span>                        <span class="n">degrees</span>
+<span class="n">ELEV</span>    <span class="o">-</span>  <span class="n">Elevation</span> <span class="n">above</span> <span class="n">sea</span> <span class="n">level</span>                      <span class="n">m</span>
+<span class="n">TMIN</span>    <span class="o">-</span>  <span class="n">Minimum</span> <span class="n">temperature</span>                            <span class="n">C</span>
+<span class="n">TMAX</span>    <span class="o">-</span>  <span class="n">Maximum</span> <span class="n">temperature</span>                            <span class="n">C</span>
+<span class="n">AVRAD</span>   <span class="o">-</span>  <span class="n">Daily</span> <span class="n">shortwave</span> <span class="n">radiation</span>                   <span class="n">J</span> <span class="n">m</span><span class="o">-</span><span class="mi">2</span> <span class="n">d</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">VAP</span>     <span class="o">-</span>  <span class="mi">24</span> <span class="n">hour</span> <span class="n">average</span> <span class="n">vapour</span> <span class="n">pressure</span>               <span class="n">hPa</span>
+<span class="n">WIND2</span>   <span class="o">-</span>  <span class="mi">24</span> <span class="n">hour</span> <span class="n">average</span> <span class="n">windspeed</span> <span class="n">at</span> <span class="mi">2</span> <span class="n">meter</span>          <span class="n">m</span><span class="o">/</span><span class="n">s</span>
+<span class="n">ANGSTA</span>  <span class="o">-</span>  <span class="n">Empirical</span> <span class="n">constant</span> <span class="ow">in</span> <span class="n">Angstrom</span> <span class="n">formula</span>         <span class="o">-</span>
+<span class="n">ANGSTB</span>  <span class="o">-</span>  <span class="n">Empirical</span> <span class="n">constant</span> <span class="ow">in</span> <span class="n">Angstrom</span> <span class="n">formula</span>         <span class="o">-</span>
+</pre></div>
+</div>
+<p>Output is a tuple (E0,ES0,ET0):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E0</span>      <span class="o">-</span>  <span class="n">Penman</span> <span class="n">potential</span> <span class="n">evaporation</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">free</span> <span class="n">water</span> <span class="n">surface</span> <span class="p">[</span><span class="n">mm</span><span class="o">/</span><span class="n">d</span><span class="p">]</span>
+<span class="n">ES0</span>     <span class="o">-</span>  <span class="n">Penman</span> <span class="n">potential</span> <span class="n">evaporation</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">moist</span> <span class="n">bare</span> <span class="n">soil</span> <span class="n">surface</span> <span class="p">[</span><span class="n">mm</span><span class="o">/</span><span class="n">d</span><span class="p">]</span>
+<span class="n">ET0</span>     <span class="o">-</span>  <span class="n">Penman</span> <span class="n">potential</span> <span class="n">transpiration</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">crop</span> <span class="n">canopy</span> <span class="p">[</span><span class="n">mm</span><span class="o">/</span><span class="n">d</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.penman_monteith">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">penman_monteith</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DAY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LAT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ELEV</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TMIN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TMAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AVRAD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VAP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">WIND2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ANGOT</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.penman_monteith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates reference ET0 based on the Penman-Monteith model.</p>
+<blockquote>
+<div><p>This routine calculates the potential evapotranspiration rate from
+a reference crop canopy (ET0) in mm/d. For these calculations the
+analysis by FAO is followed as laid down in the FAO publication
+<a class="reference external" href="http://www.fao.org/docrep/X0490E/x0490e00.htm#Contents">Guidelines for computing crop water requirements - FAO Irrigation
+and drainage paper 56</a></p>
+</div></blockquote>
+<p>Input variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DAY</span>   <span class="o">-</span>  <span class="n">Python</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span> <span class="nb">object</span>                   <span class="o">-</span>
+<span class="n">LAT</span>   <span class="o">-</span>  <span class="n">Latitude</span> <span class="n">of</span> <span class="n">the</span> <span class="n">site</span>                        <span class="n">degrees</span>
+<span class="n">ELEV</span>  <span class="o">-</span> <span class="n">Elevation</span> <span class="n">above</span> <span class="n">sea</span> <span class="n">level</span>                      <span class="n">m</span>
+<span class="n">TMIN</span>  <span class="o">-</span> <span class="n">Minimum</span> <span class="n">temperature</span>                            <span class="n">C</span>
+<span class="n">TMAX</span>  <span class="o">-</span> <span class="n">Maximum</span> <span class="n">temperature</span>                            <span class="n">C</span>
+<span class="n">AVRAD</span> <span class="o">-</span> <span class="n">Daily</span> <span class="n">shortwave</span> <span class="n">radiation</span>                   <span class="n">J</span> <span class="n">m</span><span class="o">-</span><span class="mi">2</span> <span class="n">d</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">VAP</span>   <span class="o">-</span> <span class="mi">24</span> <span class="n">hour</span> <span class="n">average</span> <span class="n">vapour</span> <span class="n">pressure</span>               <span class="n">hPa</span>
+<span class="n">WIND2</span> <span class="o">-</span> <span class="mi">24</span> <span class="n">hour</span> <span class="n">average</span> <span class="n">windspeed</span> <span class="n">at</span> <span class="mi">2</span> <span class="n">meter</span>          <span class="n">m</span><span class="o">/</span><span class="n">s</span>
+</pre></div>
+</div>
+<p>Output is:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>ET0   - Penman-Monteith potential transpiration</dt><dd><p>rate from a crop canopy                     [mm/d]</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost_util.util.doy">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost_util.util.</span></span><span class="sig-name descname"><span class="pre">doy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost_util.util.doy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a date or datetime object to day-of-year (Jan 1st = doy 1)</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../../_sources/autoapi/ecrops/ecrops/wofost_util/util/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

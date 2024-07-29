@@ -1,0 +1,48 @@
+:py:mod:`ecrops.ecrops.SeriesAccumulator`
+=========================================
+
+.. py:module:: ecrops.ecrops.SeriesAccumulator
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.SeriesAccumulator.SeriesAccumulator
+
+
+
+
+.. py:class:: SeriesAccumulator
+
+   SeriesAccumulator is a step used to collect some particular output variables into arrays which are organized by
+   variable, and not by day. In this step we accumulate variables of Wofost (LAI, roots) and water balance (Soil
+   moisture, transpiration, runoff,...)
+
+
+   .. py:method:: getparameterslist()
+
+
+   .. py:method:: setparameters(status)
+
+
+   .. py:method:: initialize(status)
+
+      Initializes the variables to fill during the simulation
+
+
+   .. py:method:: runstep(status)
+
+      At every step fills the variables with values taken from status
+
+
+   .. py:method:: integrate(status)
+
+      Does nothing
+
+
+

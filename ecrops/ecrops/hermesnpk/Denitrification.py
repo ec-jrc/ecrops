@@ -5,12 +5,12 @@
 
 
 import numpy as np
-
+from ecrops.Step import Step
 from ..Printable import Printable
 import math
 
 
-class Denitrification:
+class Denitrification(Step):
     """Denitrification from Hermes. Copied from file denit.go , rows 1-50"""
 
     #   /*  Denitrification sub model                                    */
@@ -25,6 +25,17 @@ class Denitrification:
     def getparameterslist(self):
         return {
         }
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
+
 
     def setparameters(self, status):
 

@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress">
+<span id="ecrops-ecrops-heatstress-linkcanopytemperaturetoheatstress"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress" title="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress" title="Permalink to this headline">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress" title="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinkCanopyTemperatureToHeatStress</span></code></a></p></td>
+<td><p>Link class to move canopy temperature outputs to heat stress</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.</span></span><span class="sig-name descname"><span class="pre">LinkCanopyTemperatureToHeatStress</span></span><a class="headerlink" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ecrops.Step.Step</span></code></p>
+<p>Link class to move canopy temperature outputs to heat stress</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.getparameterslist">
+<span class="sig-name descname"><span class="pre">getparameterslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.getparameterslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the parameters of the steps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.setparameters">
+<span class="sig-name descname"><span class="pre">setparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.setparameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.runstep">
+<span class="sig-name descname"><span class="pre">runstep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.runstep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all the step’s operations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.integrate">
+<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the values of the previous time interval before the calculation of the current time interval step operations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.getinputslist">
+<span class="sig-name descname"><span class="pre">getinputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.getinputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the inputs of the step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.getoutputslist">
+<span class="sig-name descname"><span class="pre">getoutputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.heatstress.LinkCanopyTemperatureToHeatStress.LinkCanopyTemperatureToHeatStress.getoutputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the outputs of the step</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../../_sources/autoapi/ecrops/ecrops/heatstress/LinkCanopyTemperatureToHeatStress/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

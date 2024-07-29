@@ -1,0 +1,82 @@
+:py:mod:`ecrops.ecrops.wofost.Phenology`
+========================================
+
+.. py:module:: ecrops.ecrops.wofost.Phenology
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost.Phenology.DVS_Phenology
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost.Phenology.stopAtMaturity
+
+
+
+.. py:function:: stopAtMaturity(status, crop)
+
+   For crops that have END_EVENT=4 (harvest,like crops 6 and 7) returns False, because for some crop we simulate the phenology after maturity. For other
+   crops return True 
+
+
+.. py:class:: DVS_Phenology
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Phenology of Wofost model
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: next_stage(status)
+
+      Moves status.states.STAGE to the next phenological stage
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: integrate(status)
+
+      Updates the state variable and checks for phenologic stages
+              
+
+
+   .. py:method:: runstep(status)
+
+      Calculates the rates for phenological development
+              
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

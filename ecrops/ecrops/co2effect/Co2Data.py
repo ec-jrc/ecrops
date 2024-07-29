@@ -1,8 +1,8 @@
 from ecrops.wofost_util.util import isC3crop
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class Co2Data:
+class Co2Data(Step):
     """This step calculates the CO2 effect on plant, starting from input parameters Co2FertSlope and Co2FertReference"""
 
     def getparameterslist(self):
@@ -52,3 +52,33 @@ class Co2Data:
 
     def integrate(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+
+            "Co2Concentration": {"Description": "Co2 concentration",
+                                "Type": "Number", "UnitOfMeasure": "ppm",
+                                "StatusVariable": "status.Co2Concentration"},
+            "Co2FertReference": {"Description": "Co2 reference",
+                               "Type": "Number", "UnitOfMeasure": "ppm",
+                               "StatusVariable": "status.Co2FertReference"},
+            "crop": {"Description": "Crop code",
+                                                 "Type": "Number", "UnitOfMeasure": "unitless",
+                                                 "StatusVariable": "status.crop"},
+        }
+
+    def getoutputslist(self):
+        return {
+
+            "Co2EffectOnAMAX": {"Description": "Co2 Effect On AMAX",
+                                "Type": "Number", "UnitOfMeasure": "unitless",
+                                "StatusVariable": "status.co2data.Co2EffectOnAMAX"},
+            "Co2EffectOnEFF": {"Description": "Co2 Effect On EFF",
+                               "Type": "Number", "UnitOfMeasure": "unitless",
+                               "StatusVariable": "status.co2data.Co2EffectOnEFF"},
+            "Co2EffectOnPotentialTraspiration": {"Description": "Co2 Effect On potential transpiration",
+                                                 "Type": "Number", "UnitOfMeasure": "unitless",
+                                                 "StatusVariable": "status.co2data.Co2EffectOnPotentialTraspiration"},
+
+
+        }

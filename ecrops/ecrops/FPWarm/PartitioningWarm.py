@@ -1,17 +1,28 @@
-import copy
+from ecrops.Step import Step
 
 
-class PartitioningWarm():
+class PartitioningWarm(Step):
     """Aboveground biomass partitioning. Reference: Confalonieri, R., Gusberti, D., Acutis, M., 2006. Comparison of WOFOST, CropSyst and WARM for
     simulating rice growth (Japonica type – short cycle varieties). Italian Journal of Agrometeorology, 3, 7-16"""
 
     def setparameters(self, container):
+        container.WarmParameters.PartitioningToLeavesAtEmergence = container.allparameters['PartitioningToLeavesAtEmergence']
+
         return container
 
     def initialize(self, container):
+        container.states.ColdInducedSpikeletSterilityState = 0
+        container.states.HeatInducedSpikeletSterilityState = 0
+        container.auxiliary.Sterility=0
+        container.states.LeavesBiomass = 0
+        container.states.StemsBiomass = 0
+        container.states.StorageOrgansBiomass = 0
         return container
 
     def integrate(self, container):
+        s = container.states  # states
+        r = container.rates  # rates
+
         return container
 
     def getparameterslist(self):
@@ -20,28 +31,94 @@ class PartitioningWarm():
                                                 "Mandatory": "True", "UnitOfMeasure": "unitess"},
         }
 
+    def getinputslist(self):
+        return {
+
+            "DevelopmentStageCode": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                                     "StatusVariable": "status.states.DevelopmentStageCode"},
+            "AbovegroundBiomassRate": {"Description": "Aboveground biomass rate",
+                                  "Type": "Number",
+                                  "UnitOfMeasure": "kg/ha",
+                                  "StatusVariable": "status.rates.AbovegroundBiomassRate"},
+            "ColdInducedSpikeletSterilityState": {"Description": "Cold induced spikelet sterility",
+                                                  "Type": "Number",
+                                                  "UnitOfMeasure": "unitless",
+                                                  "StatusVariable": "status.states.ColdInducedSpikeletSterilityState"},
+            "HeatInducedSpikeletSterilityState": {"Description": "Heat induced spikelet sterility",
+                                                  "Type": "Number",
+                                                  "UnitOfMeasure": "unitless",
+                                                  "StatusVariable": "status.states.HeatInducedSpikeletSterilityState"},
+            "StorageOrgansBiomass": {"Description": "Storage organs biomass ",
+                                     "Type": "Number",
+                                     "UnitOfMeasure": "kg/ha",
+                                     "StatusVariable": "status.states.StorageOrgansBiomass"},
+            "StemsBiomass": {"Description": "Stems biomass ",
+                             "Type": "Number",
+                             "UnitOfMeasure": "kg/ha",
+                             "StatusVariable": "status.states.StemsBiomass"},
+            "Sterility": {"Description": "Sterility (cold plus heat induced sterility)",
+                          "Type": "Number",
+                          "UnitOfMeasure": "unitless",
+                          "StatusVariable": "status.auxiliary.Sterility"},
+        }
+
+    def getoutputslist(self):
+        return {
+            "LeavesBiomassRate": {"Description": "Leaves biomass rate",
+                              "Type": "Number",
+                              "UnitOfMeasure": "kg/ha",
+                              "StatusVariable": "status.rates.LeavesBiomassRate"},
+            "StorageOrgansBiomassRate": {"Description": "Storage organs biomass rate",
+                                  "Type": "Number",
+                                  "UnitOfMeasure": "kg/ha",
+                                  "StatusVariable": "status.rates.StorageOrgansBiomassRate"},
+            "StemsBiomassRate": {"Description": "Stems biomass rate",
+                                         "Type": "Number",
+                                         "UnitOfMeasure": "kg/ha",
+                                         "StatusVariable": "status.rates.StemsBiomassRate"},
+            "LeavesBiomass": {"Description": "Leaves biomass ",
+                                  "Type": "Number",
+                                  "UnitOfMeasure": "kg/ha",
+                                  "StatusVariable": "status.states.LeavesBiomass"},
+            "StorageOrgansBiomass": {"Description": "Storage organs biomass ",
+                                         "Type": "Number",
+                                         "UnitOfMeasure": "kg/ha",
+                                         "StatusVariable": "status.states.StorageOrgansBiomass"},
+            "StemsBiomass": {"Description": "Stems biomass ",
+                                 "Type": "Number",
+                                 "UnitOfMeasure": "kg/ha",
+                                 "StatusVariable": "status.states.StemsBiomass"},
+            "Sterility": {"Description": "Sterility (cold plus heat induced sterility)",
+                                  "Type": "Number",
+                                  "UnitOfMeasure": "unitless",
+                                  "StatusVariable": "status.auxiliary.Sterility"},
+
+        }
+
     def runstep(self, container):
 
         try:
-            ex = container.Weather[(container.day - container.first_day).days]  # get the meteo data for current day
-            p = container.Parameters  # parameters
-            s = container.States  # states
-            s1 = container.States1  # ???
-            a = container.Auxiliary  # ???
-            r = container.Rates  # rates
+
+            p = container.WarmParameters  # parameters
+            s = container.states  # states
+            r = container.rates  # rates
+            a = container.auxiliary
 
             r.LeavesBiomassRate = r.AbovegroundBiomassRate * self.PartitioningToLeaves(
                 p.PartitioningToLeavesAtEmergence,
                 s.DevelopmentStageCode)
+
+            #put togheter cold and heat sterility  (1= max sterility, 0= no sterility)
+            a.Sterility = min(1, s.ColdInducedSpikeletSterilityState + s.HeatInducedSpikeletSterilityState)
 
             r.StorageOrgansBiomassRate = r.AbovegroundBiomassRate * self.PartitioningToStorageOrgans(
                 s.DevelopmentStageCode) * (1 - a.Sterility)
 
             r.StemsBiomassRate = r.AbovegroundBiomassRate - r.LeavesBiomassRate - r.StorageOrgansBiomassRate
 
-            s1.LeavesBiomass = s.LeavesBiomass + r.LeavesBiomassRate
-            s1.StemsBiomass = s.StemsBiomass + r.StemsBiomassRate
-            s1.StorageOrgansBiomass = s.StorageOrgansBiomass + r.StorageOrgansBiomassRate
+            s.LeavesBiomass = s.LeavesBiomass + r.LeavesBiomassRate
+            s.StemsBiomass = s.StemsBiomass + r.StemsBiomassRate
+            s.StorageOrgansBiomass = s.StorageOrgansBiomass + r.StorageOrgansBiomassRate
 
         except  Exception as e:
             print('Error in method runstep of class PartitionWarm:' + str(e))

@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.hermesnpk.TransportOfNitrate &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.hermesnpk.TransportOfNitrate">
+<span id="ecrops-ecrops-hermesnpk-transportofnitrate"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.hermesnpk.TransportOfNitrate" title="ecrops.ecrops.hermesnpk.TransportOfNitrate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.hermesnpk.TransportOfNitrate</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.hermesnpk.TransportOfNitrate" title="Permalink to this headline">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate" title="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransportOfNitrate</span></code></a></p></td>
+<td><p>Transport of Nitrate from Hermes. Copied from file nitro.go, rows 554-686</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.hermesnpk.TransportOfNitrate.</span></span><span class="sig-name descname"><span class="pre">TransportOfNitrate</span></span><a class="headerlink" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ecrops.Step.Step</span></code></p>
+<p>Transport of Nitrate from Hermes. Copied from file nitro.go, rows 554-686</p>
+<p>Inputs:
+-DV                        = Dispersion length for convection-dispersion equation (cm)
+-FLUSS                    = Infiltration through soil surface (cm/d)
+-Q1(Z)                     = Water flux through lower boundary of layer z (cm/d)
+-QDRAIN                    = Water flux to tile drain (cm/d)
+-DRAIDEP                   = depth of tile drain (dm)
+-AD                        = Faktor for diffusivity
+-DZ                        = Thickness layer (cm)
+-WG(0,Z)                   = Water content at begin time step in layer Z  (cm^3/cm^3)
+-WNOR(Z)                   = NORM-field capacity (without water logging) in layer Z (cm^3/cm^3)
+-WMIN(Z)                   = Water content at wilting point in layer Z (cm^3/cm^3)
+-PORGES(Z)                 = Total pore space in layer Z  (cm^3/cm^3)
+-PE(Z)                     = N-uptake of crop in layer Z (kg N/ha)
+-C1(Z)                     = Soil mineral N content (NO3+NH4) in layer Z (kg N/ha)
+-DN(Z)                     = Source term from mineralisation routine (kg N/ha) in layer Z
+-OUTN                      = Depth for seepage and N-leaching (to be defined by user) (dm)
+-W                            = FIELD CAPACITY (cm^3/cm^3)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.getparameterslist">
+<span class="sig-name descname"><span class="pre">getparameterslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.getparameterslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the parameters of the steps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.setparameters">
+<span class="sig-name descname"><span class="pre">setparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.setparameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.getinputslist">
+<span class="sig-name descname"><span class="pre">getinputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.getinputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the inputs of the step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.getoutputslist">
+<span class="sig-name descname"><span class="pre">getoutputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.getoutputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the outputs of the step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.runstep">
+<span class="sig-name descname"><span class="pre">runstep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.runstep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all the step’s operations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.integrate">
+<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.hermesnpk.TransportOfNitrate.TransportOfNitrate.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the values of the previous time interval before the calculation of the current time interval step operations</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../../_sources/autoapi/ecrops/ecrops/hermesnpk/TransportOfNitrate/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

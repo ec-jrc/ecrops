@@ -1,16 +1,25 @@
 from math import exp
+from ecrops.Step import Step
 
-class PotentialWaterUptake():
+class PotentialWaterUptake(Step):
     """
     Growing Degrees Days Temperature
     """
     def setparameters(self, container):
+        container.WarmParameters.FullCanopyWaterUptakeMaximum = container.allparameters['FullCanopyWaterUptakeMaximum']
+        container.WarmParameters.ExtinctionCoefficientSolarRadiation = container.allparameters['ExtinctionCoefficientSolarRadiation']
+
         return container
 
     def initialize(self, container):
+        container.states.WaterUptake = 0
         return container
 
     def integrate(self, container):
+        s = container.states  # states
+        r = container.rates  # rates
+
+
         return container
 
     def getparameterslist(self):
@@ -25,12 +34,10 @@ class PotentialWaterUptake():
     def runstep(self, container):
 
         try :
-            ex = container.Weather[(container.day - container.first_day).days]  # get the meteo data for current day
-            p = container.Parameters  # parameters
-            s = container.States  # states
-            s1 = container.States1  # ???
-            a = container.Auxiliary  # ???
-            r = container.Rates  # rates
+
+            p = container.WarmParameters  # parameters
+            s = container.states  # states
+            r = container.rates  # rates
 
             if (s.DevelopmentStageCode > 1):
                 r.WaterUptakeRate = p.FullCanopyWaterUptakeMaximum * \
@@ -38,10 +45,10 @@ class PotentialWaterUptake():
 
             else:
 
-                s1.WaterUptake = 0
+                s.WaterUptake = 0
                 r.WaterUptakeRate = 0
+            s.WaterUptake = s.WaterUptake + r.WaterUptakeRate
 
-            s1.WaterUptake = s.WaterUptake + r.WaterUptakeRate
 
         except  Exception as e:
             print('Error in method runstep of class PotentialWaterUptake:'+str(e))
@@ -54,3 +61,28 @@ class PotentialWaterUptake():
         result = 1 - exp(-coeff * GLAI)
 
         return result
+
+    def getinputslist(self):
+        return {
+
+            "DevelopmentStageCode": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                                     "StatusVariable": "status.states.DevelopmentStageCode"},
+            "GreenLeafAreaIndex": {"Description": "Green leaf area index",
+                                   "Type": "Number", "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.states.GreenLeafAreaIndex"},
+
+
+            "WaterUptake": {"Description": "Water uptake ",
+                            "Type": "Number", "UnitOfMeasure": "cm",
+                            "StatusVariable": "status.states.WaterUptake"},
+        }
+
+    def getoutputslist(self):
+        return {
+             "WaterUptakeRate": {"Description": "Water uptake rate",
+                                "Type": "Number", "UnitOfMeasure": "cm",
+                                "StatusVariable": "status.rates.WaterUptakeRate"},
+            "WaterUptake": {"Description": "Water uptake ",
+                                "Type": "Number", "UnitOfMeasure": "cm",
+                                "StatusVariable": "status.states.WaterUptake"},
+        }

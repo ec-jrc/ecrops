@@ -12,10 +12,12 @@ from ecrops.wofost_util.util import limit
 from ecrops.Printable import Printable
 
 from ecrops.wofost_util import Afgen
+from ecrops.Step import Step
+RootDepthForWaterbalanceInAdvance = 10  # 10 cm
+ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING = 100  # 1m
 
-RootDepthForWaterbalanceInAdvance = 10 #10 cm
 
-class WaterbalanceFD:
+class WaterbalanceFD(Step):
     """Classic mono layer water balance for freely draining soils under water-limited production.
 
     The purpose of the soil water balance calculations is to estimate the
@@ -48,9 +50,9 @@ class WaterbalanceFD:
     SM0       Porosity of the soil                             SSo     -
     SMW       Wilting point of the soil                        SSo     -
     CRAIRC    Soil critical air content (waterlogging)         SSo     -
-    SOPE      maximum percolation rate root zone               SSo    |cmday-1|
-    KSUB      maximum percolation rate subsoil                 SSo    |cmday-1|
-    K0        hydraulic conductivity of saturated soil         SSo    |cmday-1|
+    SOPE      maximum percolation rate root zone               SSo    cm day-1
+    KSUB      maximum percolation rate subsoil                 SSo    cm day-1
+    K0        hydraulic conductivity of saturated soil         SSo    cm day-1
     RDMSOL    Soil rootable depth                              SSo     cm
     IFUNRN    Indicates whether non-infiltrating fraction of   SSi    -
               rain is a function of storm size (1)
@@ -110,21 +112,21 @@ class WaterbalanceFD:
     ======== ================================================= ==== ============
      Name     Description                                      Pbl      Unit
     ======== ================================================= ==== ============
-    EVS      Actual evaporation rate from soil                  N    |cmday-1|
-    EVW      Actual evaporation rate from water surface         N    |cmday-1|
-    WTRA     Actual transpiration rate from plant canopy,       N    |cmday-1|
+    EVS      Actual evaporation rate from soil                  N    cm day-1
+    EVW      Actual evaporation rate from water surface         N    cm day-1
+    WTRA     Actual transpiration rate from plant canopy,       N    cm day-1
              is directly derived from the variable "TRA" in
              the evapotranspiration module
-    RAIN     Rainfall rate for current day                      N    |cmday-1|
-    RIN      Infiltration rate for current day                  N    |cmday-1|
-    RIRR     Effective irrigation rate for current day,         N    |cmday-1|
+    RAIN     Rainfall rate for current day                      N    cm day-1
+    RIN      Infiltration rate for current day                  N    cm day-1
+    RIRR     Effective irrigation rate for current day,         N    cm day-1
              computed as irrigation amount * efficiency.
-    PERC     Percolation rate to non-rooted zone                N    |cmday-1|
-    LOSS     Rate of water loss to deeper soil                  N    |cmday-1|
-    DW       Change in amount of water in rooted zone as a      N    |cmday-1|
+    PERC     Percolation rate to non-rooted zone                N    cm day-1
+    LOSS     Rate of water loss to deeper soil                  N    cm day-1
+    DW       Change in amount of water in rooted zone as a      N    cm day-1
              result of infiltration, transpiration and
              evaporation.
-    DWLOW    Change in amount of water in subsoil               N    |cmday-1|
+    DWLOW    Change in amount of water in subsoil               N    cm day-1
     ======== ================================================= ==== ============
 
 
@@ -133,11 +135,11 @@ class WaterbalanceFD:
     ============ ============================== ====================== =========
      Name        Description                         Provided by         Unit
     ============ ============================== ====================== =========
-     TRA          Crop transpiration rate       Evapotranspiration     |cmday-1|
-     EVSMX        Maximum evaporation rate      Evapotranspiration     |cmday-1|
+     TRA          Crop transpiration rate       Evapotranspiration     cm day-1
+     EVSMX        Maximum evaporation rate      Evapotranspiration     cm day-1
                   from a soil surface below
                   the crop canopy
-     EVWMX        Maximum evaporation rate       Evapotranspiration    |cmday-1|
+     EVWMX        Maximum evaporation rate       Evapotranspiration    cm day-1
                   from a water surface below
                   the crop canopy
      RD           Rooting depth                  Root_dynamics          cm
@@ -150,32 +152,37 @@ class WaterbalanceFD:
 
     def getparameterslist(self):
         return {
-            "RDMSOL": {"Description": "Soil rootable depth", "Type": "Number", "Mandatory": "True",  "UnitOfMeasure": "cm"},
-            "WAV": {"Description": "Initial amount of water in total soil in profile", "Type": "Number", "Mandatory": "True",
-                     "UnitOfMeasure": "cm"},
+            "RDMSOL": {"Description": "Soil rootable depth", "Type": "Number", "Mandatory": "True",
+                       "UnitOfMeasure": "cm"},
+            "WAV": {"Description": "Initial amount of water in total soil in profile", "Type": "Number",
+                    "Mandatory": "True",
+                    "UnitOfMeasure": "cm"},
             "SSI": {"Description": "Initial surface storage", "Type": "Number", "Mandatory": "True",
-                     "UnitOfMeasure": "cm"},
-            "SMW": {"Description": "Volumetric soil moisture content at wilting point", "Type": "Number", "Mandatory": "True",
-                      "UnitOfMeasure": "unitless"},
-            "SMFCF": {"Description": "Volumetric soil moisture content at field capacity", "Type": "Number", "Mandatory": "True",
+                    "UnitOfMeasure": "cm"},
+            "SMW": {"Description": "Volumetric soil moisture content at wilting point", "Type": "Number",
+                    "Mandatory": "True",
+                    "UnitOfMeasure": "unitless"},
+            "SMFCF": {"Description": "Volumetric soil moisture content at field capacity", "Type": "Number",
+                      "Mandatory": "True",
                       "UnitOfMeasure": "unitless"},
             "SM0": {"Description": "Porosity of the soil", "Type": "Number", "Mandatory": "True",
-                      "UnitOfMeasure": "unitless"},
+                    "UnitOfMeasure": "unitless"},
             "SSMAX": {"Description": "Maximum surface storage", "Type": "Number", "Mandatory": "True",
                       "UnitOfMeasure": "unitless"},
-            "IFUNRN": {"Description": "Indicates whether non-infiltrating fraction of rain is a function of storm size (1) or not (0)", "Type": "Number", "Mandatory": "True",
-                      "UnitOfMeasure": "unitless"},
-            "NOTINF": {"Description": "Maximum fraction of rain not-infiltrating into the soil", "Type": "Number", "Mandatory": "True",
-                      "UnitOfMeasure": "unitless"},
+            "IFUNRN": {
+                "Description": "Indicates whether non-infiltrating fraction of rain is a function of storm size (1) or not (0)",
+                "Type": "Number", "Mandatory": "True",
+                "UnitOfMeasure": "unitless"},
+            "NOTINF": {"Description": "Maximum fraction of rain not-infiltrating into the soil", "Type": "Number",
+                       "Mandatory": "True",
+                       "UnitOfMeasure": "unitless"},
             "SOPE": {"Description": "Maximum percolation rate root zone", "Type": "Number", "Mandatory": "True",
-                      "UnitOfMeasure": "cm/day"},
+                     "UnitOfMeasure": "cm/day"},
             "KSUB": {"Description": "Maximum percolation rate subsoil", "Type": "Number", "Mandatory": "True",
-                      "UnitOfMeasure": "cm/day"}
+                     "UnitOfMeasure": "cm/day"}
         }
 
     def setparameters(self, status):
-
-
 
         status.classicwaterbalance = Printable()
         status.classicwaterbalance.states = Printable()
@@ -184,14 +191,24 @@ class WaterbalanceFD:
         status.soildata = status.soilparameters
         status.classicwaterbalance.params = Printable()
         status.classicwaterbalance.params.RDMSOL = status.soildata['RDMSOL']
-        status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance = 'CALC_SOILWATER_BEFORE_SOWING' in status.allparameters and status.allparameters[
-            'CALC_SOILWATER_BEFORE_SOWING']==1
-        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False:
-            # in case of soil water from sowing, the soil initial water is given by WAV
-            status.classicwaterbalance.params.WAV = status.soildata['WAV']
+        status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance = 'CALC_SOILWATER_BEFORE_SOWING' in status.allparameters and \
+                                                                              status.allparameters[
+                                                                                  'CALC_SOILWATER_BEFORE_SOWING'] == 1
+        status.classicwaterbalance.params.PerformWaterBalanceStartInAdvanceUntilSowing = 'CALC_SOILWATER_BEFORE_SOWING' in status.allparameters and \
+                                                                                         status.allparameters[
+                                                                                             'CALC_SOILWATER_BEFORE_SOWING'] == 3
+
+        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvanceUntilSowing == True:
+            # in this case, water is initialized to WP, so WAV is zero
+            status.classicwaterbalance.params.WAV = 0
         else:
-            #in case of soil water in advance, the soil initial water is given by ROOTING_DEPTH_POT_WATER_ISV
-            status.classicwaterbalance.params.WAV = status.soildata['ROOTING_DEPTH_POT_WATER_ISV']
+            if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False:
+                # in case of soil water from sowing, the soil initial water is given by WAV
+                status.classicwaterbalance.params.WAV = status.soildata['WAV']
+            else:
+                # in case of soil water in advance, the soil initial water is given by ROOTING_DEPTH_POT_WATER_ISV
+                status.classicwaterbalance.params.WAV = status.soildata['ROOTING_DEPTH_POT_WATER_ISV']
+
         status.classicwaterbalance.params.SSI = status.soildata['SSI']
         status.classicwaterbalance.params.SMW = status.soildata['SMW']
         status.classicwaterbalance.params.SMFCF = status.soildata['SMFCF']
@@ -202,12 +219,9 @@ class WaterbalanceFD:
         status.classicwaterbalance.params.SOPE = status.soildata['SOPE']
         status.classicwaterbalance.params.KSUB = status.soildata['KSUB']
 
-
         return status
 
-    def initialize(self,status):
-
-
+    def initialize(self, status):
 
         # previous and maximum rooting depth value
         status.classicwaterbalance.states.RDold = float(-99.)
@@ -232,10 +246,12 @@ class WaterbalanceFD:
         r = status.classicwaterbalance.rates
 
         # Current, maximum and old rooting depth
-        s.RD = s.RDI
+        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvanceUntilSowing:
+            s.RD = ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING
+        else:
+            s.RD = s.RDI
         s.RDM = max(s.RDI, min(p.RDMSOL, s.RDMCR))
         s.RDold = s.RD
-
 
         # Initial surface storage
         s.SS = p.SSI
@@ -258,88 +274,112 @@ class WaterbalanceFD:
         # soil evaporation, days since last rain (DLSR) set to 1
         s.DSLR = 1.
         if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance:
-            #initialize days since last rain (DLSR) set to 1 if the soil is wetter then halfway between SMW and SMFCF, else DSLR=5.
+            # initialize days since last rain (DLSR) set to 1 if the soil is wetter then halfway between SMW and SMFCF, else DSLR=5.
             if s.SM < p.SMW + 0.5 * (p.SMFCF - p.SMW):
                 s.DSLR = 5.
 
         # Initialize some remaining helper variables
         s.RINold = 0.
-        #self.in_crop_cycle = False
-        s.NINFTB =  Afgen.Afgen([0.0, 0.0, 0.5, 0.0, 1.5, 1.0])
+        # self.in_crop_cycle = False
+        s.NINFTB = Afgen.Afgen([0.0, 0.0, 0.5, 0.0, 1.5, 1.0])
 
-
-        #initialize the states to zero
+        # initialize the states to zero
         s.WTRAT = 0.
         s.EVST = 0.
         s.EVWT = 0.
         s.TSR = 0.
-        s.RAINT=0.
-        s.WDRT=0.
-        s.TOTINF=0.
-        s.TOTIRR=0.
-        s.PERCT=0.
-        s.LOSST=0.
-        s.WBALRT=-999.
-        s.WBALTT=-999.
+        s.RAINT = 0.
+        s.WDRT = 0.
+        s.TOTINF = 0.
+        s.TOTIRR = 0.
+        s.PERCT = 0.
+        s.LOSST = 0.
+        s.WBALRT = -999.
+        s.WBALTT = -999.
 
-        #initialize the rates to zero
-        r.WTRA=0
-        r.EVW=0
-        r.EVS=0
-        r.RAIN=0
-        r.RIRR=0
-        r.RIN=0
-        r.DW=0
-        r.DWLOW=0
-        r.PERC=0
-        r.LOSS=0
-
-
-
-
+        # initialize the rates to zero
+        r.WTRA = 0
+        r.EVW = 0
+        r.EVS = 0
+        r.RAIN = 0
+        r.RIRR = 0
+        r.RIN = 0
+        r.DW = 0
+        r.DWLOW = 0
+        r.PERC = 0
+        r.LOSS = 0
+        r.TRA = 0
 
         return status
-
-
 
     def runstep(self, status):
         s = status.classicwaterbalance.states
         p = status.classicwaterbalance.params
         r = status.classicwaterbalance.rates
 
-        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False:
+        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False and status.classicwaterbalance.params.PerformWaterBalanceStartInAdvanceUntilSowing == False:
             # start calculating the water balance only after emergence
             if s.DOE is None or (status.day - s.DOE).days < 0:
                 return status
         else:
-            # start calculating the water balance only after POTENTIAL_WATER_STARTDATE
-            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days < 0 :
-                return status
-            # during the period to calculated water balance in advance
-            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days <= 90:
-                s.RD = RootDepthForWaterbalanceInAdvance
-            #at the end of the period to calculated water balance in advance
-            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days == 90: #this period takes 90 days
-                #redistribute the current water between root depth and below root depth
-                currentSoilWater = s.SM * RootDepthForWaterbalanceInAdvance + s.SMUR * (s.RDM-RootDepthForWaterbalanceInAdvance)
-                calculatedWAV = currentSoilWater - p.SMW  * s.RDM
-                s.SM = limit(p.SMW, p.SMFCF, (p.SMW + calculatedWAV / s.RD))
-                s.W = s.SM * s.RD
-                initialWaterContentUnrooted_WLOWI = max(0,min(p.SM0 * (s.RDM-s.RD),calculatedWAV+(s.RDM*p.SMW)-s.W))
+            if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance:
+                # start calculating the water balance only after POTENTIAL_WATER_STARTDATE
+                if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days < 0:
+                    return status
+                # during the period to calculated water balance in advance
+                if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days <= 90:
+                    s.RD = RootDepthForWaterbalanceInAdvance
+                # at the end of the period to calculated water balance in advance
+                if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days == 90:  # this period takes 90 days
+                    # redistribute the current water between root depth and below root depth
+                    currentSoilWater = s.SM * RootDepthForWaterbalanceInAdvance + s.SMUR * (
+                                s.RDM - RootDepthForWaterbalanceInAdvance)
+                    calculatedWAV = currentSoilWater - p.SMW * s.RDM
+                    s.SM = limit(p.SMW, p.SMFCF, (p.SMW + calculatedWAV / s.RD))
+                    s.W = s.SM * s.RD
+                    initialWaterContentUnrooted_WLOWI = max(0, min(p.SM0 * (s.RDM - s.RD),
+                                                                   calculatedWAV + (s.RDM * p.SMW) - s.W))
 
-                s.WLOW = initialWaterContentUnrooted_WLOWI
-                s.SMUR = s.WLOW / (s.RDM - s.RD)
+                    s.WLOW = initialWaterContentUnrooted_WLOWI
+                    s.SMUR = s.WLOW / (s.RDM - s.RD)
 
-                # at the end of the period in advance, reset the cumulated outputs (LossToSubSoil,SoilEvaporation,RootWaterUptakeCum), so that they represent only the real crop period
-                s.WTRAT = 0
-                s.LOSST = 0
-                s.PERCT =0
-                s.EVWT=0
-                s.EVST = 0
-                s.RAINT = 0
-                s.TOTINF = 0
-                s.TOTIRR = 0
+                    # at the end of the period in advance, reset the cumulated outputs (LossToSubSoil,SoilEvaporation,RootWaterUptakeCum), so that they represent only the real crop period
+                    s.WTRAT = 0
+                    s.LOSST = 0
+                    s.PERCT = 0
+                    s.EVWT = 0
+                    s.EVST = 0
+                    s.RAINT = 0
+                    s.TOTINF = 0
+                    s.TOTIRR = 0
+            else:  # case PerformWaterBalanceStartInAdvanceUntilSowing
 
+                # start calculating the water balance only after POTENTIAL_WATER_STARTDATE
+                if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days < 0:
+                    return status
+                # during the period to calculated water balance in advance the root depth is set to max soil depth. we set it to 1 meters
+                else:
+                    if s.DOE is None or (status.day - s.DOE).days < 0:  # before emergence
+                        s.RD = ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING
+                        r.TRA = 0
+                    else:  # at emergence, redistribute the water
+                        if (status.day - s.DOE).days == 0:
+                            s.RD = s.RDI
+
+                            currentSoilWater = s.SM * ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING + s.SMUR * (
+                                        s.RDM - ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING);
+                            # WAV = currentSoilWater - WP
+                            calculatedWAV = currentSoilWater - p.SMW * s.RDM;
+                            # initial soil moisture in rooted zone is limited by WP and FC and it is equal to WP + WAV/RD
+                            soilMoistureRootedZone = max(p.SMW, min(p.SMFCF, p.SMW + (calculatedWAV / s.RD)))
+                            s.W = soilMoistureRootedZone * s.RD
+                            # initial water content in unrooted zone is limited by 0 and porosity*(rootmax-root))
+                            initialWaterContentUnrooted_WLOWI = max(0, min(p.SM0 * (s.RDM - s.RD),
+                                                                           calculatedWAV + (s.RDM * p.SMW) - s.W))
+                            s.WLOW = initialWaterContentUnrooted_WLOWI
+                            soilMoistureUnrootedZone = s.WLOW / (s.RDM - s.RD);
+                            s.SM = soilMoistureRootedZone
+                            s.SMUR = soilMoistureUnrootedZone
 
         # Rate of irrigation (RIRR)
         r.RIRR = 0.
@@ -357,7 +397,6 @@ class WaterbalanceFD:
             s.W += WDR
 
         # Rainfall rate
-
 
         # Transpiration and maximum soil and surface water evaporation rates
         # are calculated by the crop Evapotranspiration module.
@@ -436,9 +475,8 @@ class WaterbalanceFD:
         r.DW = r.RIN - r.WTRA - r.EVS - r.PERC
         r.DWLOW = r.PERC - r.LOSS
 
-
-        #integrate
-        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False:
+        # integrate
+        if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvance == False and status.classicwaterbalance.params.PerformWaterBalanceStartInAdvanceUntilSowing == False:
             # start calculating the water balance only after emergence
             if s.DOE is None or (status.day - s.DOE).days < 0:
                 return status
@@ -498,8 +536,6 @@ class WaterbalanceFD:
         if s.rooted_layer_needs_reset is True:
             status = self._reset_rootzone(status)
 
-
-
         # mean soil moisture content in rooted zone
         s.SM = s.W / RD
         if s.RDM == RD:
@@ -526,24 +562,19 @@ class WaterbalanceFD:
                                                  s.WTRAT + s.TSR + s.LOSST))
             # raise Exception(msg)
 
-
         return status
 
-    def integrate(self,status):
+    def integrate(self, status):
         s = status.classicwaterbalance.states
         p = status.classicwaterbalance.params
         r = status.classicwaterbalance.rates
 
-
-
         return status
 
-
-
-    def _reset_rootzone(self,status):
+    def _reset_rootzone(self, status):
 
         p = status.classicwaterbalance.params
-        s=status.classicwaterbalance.states
+        s = status.classicwaterbalance.states
 
         s.rooted_layer_needs_reset = False
 
@@ -556,3 +587,134 @@ class WaterbalanceFD:
         # amount of soil moisture in new resetted rootzone
         s.W -= WDR
         return status
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
+
+            "POTENTIAL_WATER_STARTDATE_date": {"Description": "Doy of start of water balance calculation",
+                                               "Type": "Number",
+                                               "UnitOfMeasure": "doy",
+                                               "StatusVariable": "status.POTENTIAL_WATER_STARTDATE_date"},
+            "soildata": {"Description": "Soil data input", "Type": "Dictionary", "UnitOfMeasure": "-",
+                         "StatusVariable": "status.soildata"},
+
+            "E0": {"Description": "Open water evapotranspiration",
+                   "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.weather.E0"},
+            "ES0": {"Description": "Bare soil evapotranspiration",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.weather.ES0"},
+
+            "RD": {"Description": "Root depth", "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.states.RD"},
+            "RDold": {"Description": "Root depth of previous day", "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.RDold"},
+        }
+
+    def getoutputslist(self):
+        return {
+            "RDold": {"Description": "Root depth of previous day", "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.RDold"},
+            "RDI": {"Description": "Initial root depth", "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.classicwaterbalance.states.RDI"},
+            "SM": {"Description": "Actual volumetric soil moisture content",
+                   "Type": "Number", "UnitOfMeasure": "",
+                   "StatusVariable": "status.classicwaterbalance.states.SM"},
+            "SMUR": {"Description": "Actual volumetric soil moisture content of not rooted zone",
+                     "Type": "Number", "UnitOfMeasure": "",
+                     "StatusVariable": "status.classicwaterbalance.states.SMUR"},
+
+            "SS": {"Description": "Surface storage (layer of water on surface) ",
+                   "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.classicwaterbalance.states.SS"},
+            "W": {"Description": "Amount of water in root zone",
+                  "Type": "Number", "UnitOfMeasure": "cm",
+                  "StatusVariable": "status.classicwaterbalance.states.W"},
+            "WI": {"Description": "Initial amount of water in root zone",
+                   "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.classicwaterbalance.states.WI"},
+            "WLOW": {
+                "Description": "Amount of water in the subsoil (between current rooting depth and maximum rootable depth)",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.classicwaterbalance.states.WLOW"},
+            "WLOWI": {"Description": "Initial amount of water in the subsoil",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.WLOWI"},
+            "WWLOW": {"Description": "Total amount of water in the  soil profile (WLOW+W)",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.WWLOW"},
+            "WTRAT": {
+                "Description": "Total water lost as transpiration as calculated by the water balance. This can be different from the CTRAT variable which only counts transpiration for a crop cycle",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.classicwaterbalance.states.WTRAT"},
+            "EVST": {"Description": "Total evaporation from the soil surface ",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.states.EVST"},
+            "EVWT": {"Description": "Total evaporation from a water surface",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.states.EVWT"},
+            "TSR": {"Description": "Total surface runoff",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.classicwaterbalance.states.TSR"},
+            "RAINT": {"Description": "Total amount of rainfall",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.RAINT"},
+            "WDRT": {"Description": "Amount of water added to root zone by increase of root growth",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.states.WDRT"},
+            "TOTINF": {"Description": "Total amount of infiltration",
+                       "Type": "Number", "UnitOfMeasure": "cm",
+                       "StatusVariable": "status.classicwaterbalance.states.TOTINF"},
+            "TOTIRR": {"Description": "Total amount of effective irrigation",
+                       "Type": "Number", "UnitOfMeasure": "cm",
+                       "StatusVariable": "status.classicwaterbalance.states.TOTIRR"},
+            "PERCT": {"Description": "Total amount of water percolating from rooted ",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.PERCT"},
+            "LOSST": {"Description": "Total amount of water lost to deeper soil",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.LOSST"},
+            "WBALRT": {
+                "Description": "Checksum for root zone waterbalance. If abs(WBALRT) >  0.0001 will raise a WaterBalanceError",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.states.classicwaterbalance.WBALRT"},
+            "WBALTT": {
+                "Description": "Checksum for total waterbalance. If abs(WBALTT) >  0.0001 will raise a WaterBalanceError",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.states.classicwaterbalance.WBALTT"},
+
+            "EVS": {"Description": "Daily increase of actual evaporation from soil",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.rates.classicwaterbalance.EVS"},
+            "EVW": {"Description": "Daily increase of actual evaporation from water surface  ",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.rates.classicwaterbalance.EVW"},
+            "WTRA": {"Description": "Daily increase of actual transpiration rate from plant canopy",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.rates.classicwaterbalance.WTRA"},
+            "RAIN": {"Description": "Daily increase of rainfall",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.rates.RAIN"},
+            "RIN": {"Description": "Daily increase of infiltration rate for current day   ",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.classicwaterbalance.rates.RIN"},
+            "RIRR": {"Description": "Daily increase of effective irrigation",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.rates.RIRR"},
+            "PERC": {"Description": "Daily increase of percolation to non-rooted zone ",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.rates.PERC"},
+            "LOSS": {"Description": "Daily increase of water loss to deeper soil",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.rates.LOSS"},
+            "DW": {
+                "Description": "Daily increase of amount of water in rooted zone as a result of infiltration, transpiration and evaporation",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.classicwaterbalance.rates.DW"},
+            "DWLOW": {"Description": "Daily increase of amount of water in non-rooted zone",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.rates.DWLOW"},
+
+        }

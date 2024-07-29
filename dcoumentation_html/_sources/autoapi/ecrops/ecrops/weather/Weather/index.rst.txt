@@ -1,0 +1,86 @@
+:py:mod:`ecrops.ecrops.weather.Weather`
+=======================================
+
+.. py:module:: ecrops.ecrops.weather.Weather
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.weather.Weather.Weather
+
+
+
+
+.. py:class:: Weather
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   This step reads weather data from input 'status.weather.WeatherDataArray' for the current day
+   and fills the status weather variables (for example status.weather.TEMP_MAX, status.weather.IRRAD, status.weather.RAIN).
+
+   Expected weather variables in 'status.weather.WeatherDataArray' and their unit of measure:
+   TEMP_MAX Celsius
+   TEMP_Min Celsius
+   IRRAD J/m^2 *day
+   RAIN cm
+   WIND m/s
+   RH perc
+   E0,ES0,ET0 cm
+
+   Other managed variables (not mandatory):
+   SD (cm)
+   SOIL_TEMPERATURE_MIN, SOIL_TEMPERATURE_MAX Celsius
+
+   .. py:method:: getparameterslist()
+
+      no parameters in this step
+
+
+   .. py:method:: setparameters(status)
+
+      No parameters in this step, but this method checks for the presence of status.weather.WeatherDataArray: if not present, an exception is raised.
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: initialize(status)
+
+      initialize the weather variables
+
+
+   .. py:method:: setweatherdata(status)
+
+      Every day moves data from status.weather.WeatherDataArray to the proper status weather variables
+
+
+   .. py:method:: _7day_running_avg(status)
+
+      Calculate 7-days running mean of minimum temperature.
+              
+
+
+   .. py:method:: integrate(status)
+
+      Does nothing
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

@@ -1,6 +1,7 @@
+from ecrops.Step import Step
 from ..Printable import Printable
 
-class CalculateNewPartitioning():
+class CalculateNewPartitioning(Step):
     """Class for recalculate the partitioning coefficients using CO2 data.
 
     =======  ============================================= =======  ============
@@ -18,7 +19,7 @@ class CalculateNewPartitioning():
 
     Name     Description                         Pbl                Unit
     =======  =================================== =================  ============
-    GRLV     Growth rate leaves                   N                 |kg ha-1 d-1|
+    GRLV     Growth rate leaves                   N                 kg ha-1 d-1
     =======  =================================== =================  ============
 
     """
@@ -111,3 +112,46 @@ class CalculateNewPartitioning():
 
     def integrate(self,status):
         return status
+
+    def getinputslist(self):
+        return {
+
+            "FR": {"Description": "Partitioning to roots", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FR"},
+            "FL": {"Description": "Partitioning to leaves", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FL"},
+            "FS": {"Description": "Partitioning to stems", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FS"},
+            "FO": {"Description": "Partitioning to storage organs", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FO"},
+            "Co2Concentration": {"Description": "Co2 concentration",
+                                 "Type": "Number", "UnitOfMeasure": "ppm",
+                                 "StatusVariable": "status.Co2Concentration"},
+            "Co2FertReference": {"Description": "Co2 reference",
+                                 "Type": "Number", "UnitOfMeasure": "ppm",
+                                 "StatusVariable": "status.Co2FertReference"},
+            "DMI_NoCo2": {"Description": "Daily increase of total dry matter", "Type": "Number",
+                          "UnitOfMeasure": "unitless",
+                          "StatusVariable": "status.co2data.DMI_NoCo2"},
+            "ASRC": {"Description": "Available respiration", "Type": "Number", "UnitOfMeasure": " kg CH2O kg-1",
+                     "StatusVariable": "status.rates.ASRC"},
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+        }
+
+    def getoutputslist(self):
+        return {
+            "FR": {"Description": "Partitioning to roots", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FR"},
+            "FL": {"Description": "Partitioning to leaves", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FL"},
+            "FS": {"Description": "Partitioning to stems", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FS"},
+            "FO": {"Description": "Partitioning to storage organs", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FO"},
+
+        }

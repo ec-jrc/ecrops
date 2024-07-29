@@ -1,4 +1,5 @@
-class LinkWeatherToHermesRootDepth():
+from ecrops.Step import Step
+class LinkWeatherToHermesRootDepth(Step):
     """This step passes weather data to Hermes root depth step"""
 
     def getparameterslist(self):
@@ -7,6 +8,15 @@ class LinkWeatherToHermesRootDepth():
     def setparameters(self,status):
         return status
 
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
 
 
     def initialize(self,status):

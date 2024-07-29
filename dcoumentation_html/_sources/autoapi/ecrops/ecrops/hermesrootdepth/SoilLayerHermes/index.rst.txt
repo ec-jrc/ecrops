@@ -1,0 +1,44 @@
+:py:mod:`ecrops.ecrops.hermesrootdepth.SoilLayerHermes`
+=======================================================
+
+.. py:module:: ecrops.ecrops.hermesrootdepth.SoilLayerHermes
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.hermesrootdepth.SoilLayerHermes.SoilLayerHermes
+
+
+
+
+.. py:class:: SoilLayerHermes
+
+   This class represents the soil layer in an Hermes nitrogen component
+
+   .. py:attribute:: upperBoundary
+
+      Upper boundary of the layer (cm)
+
+
+   .. py:attribute:: lowerBoundary
+
+      Lower boundary of the layer (cm)
+
+
+   .. py:attribute:: cumulativePercentageOfRootUntilLayer
+
+      Cumulative percentage of roots until this layer 
+
+
+   .. py:attribute:: percentageOfRootInLayer
+
+      Percentage of roots in this layer
+
+
+

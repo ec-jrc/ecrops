@@ -1,0 +1,30 @@
+:py:mod:`ecrops.ecrops.Printable`
+=================================
+
+.. py:module:: ecrops.ecrops.Printable
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.Printable.Printable
+
+
+
+
+.. py:class:: Printable
+
+   This class is printable through a ___str___ function that returns a string containing its attributes. It is used
+   as an empty container 
+
+   .. py:method:: __str__()
+
+      Return str(self).
+
+
+

@@ -8,7 +8,7 @@
 from ecrops.Printable import Printable
 import ecrops.wofost_util.Afgen
 from ecrops.wofost_util.util import limit
-
+from ecrops.Step import Step
 
 def stopAtMaturity(status,crop):
     """For crops that have END_EVENT=4 (harvest,like crops 6 and 7) returns False, because for some crop we simulate the phenology after maturity. For other
@@ -23,7 +23,7 @@ def stopAtMaturity(status,crop):
 
 
 
-class DVS_Phenology:
+class DVS_Phenology(Step):
     """Phenology of Wofost model"""
 
     def getparameterslist(self):
@@ -251,3 +251,60 @@ class DVS_Phenology:
             print('Error in method runstep of class Phenology:' + str(e))
 
         return status;
+
+    def getinputslist(self):
+        return {
+
+            "sowing_emergence_day": {"Description": "Doy of sowing or emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                "StatusVariable": "status.sowing_emergence_day"},
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "STAGE": {"Description": "Phenological stage", "Type": "String", "UnitOfMeasure": "-",
+                    "StatusVariable": "status.states.STAGE"},
+            "TSUM": {"Description": "Thermal sum", "Type": "Number", "UnitOfMeasure": "degree days",
+                     "StatusVariable": "status.states.TSUM"},
+            "TSUME": {"Description": "Thermal sum to emergence", "Type": "Number",
+                      "UnitOfMeasure": "degree days",
+                      "StatusVariable": "status.states.TSUM"},
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "VERNFAC": {"Description": "Reduction factor on development rate due to vernalisation effect.", "Type": "Number",
+                      "UnitOfMeasure": "",
+                      "StatusVariable": "status.VERNFAC"},
+            "TEMP": {"Description": "Average daily temperature",
+                         "Type": "Number", "UnitOfMeasure": "C",
+                         "StatusVariable": "status.weather.TEMP"},
+        }
+
+    def getoutputslist(self):
+        return {
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "DVR": {"Description": "Daily increase in development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.rates.DVR"},
+            "DTSUM": {"Description": "Daily increase in thermal sum", "Type": "Number", "UnitOfMeasure": "degree days",
+                    "StatusVariable": "status.rates.DTSUM"},
+            "DTSUME": {"Description": "Daily increase in thermal sum to emergence", "Type": "Number", "UnitOfMeasure": "degree days",
+                      "StatusVariable": "status.rates.DTSUM"},
+            "TSUM": {"Description": "Thermal sum", "Type": "Number", "UnitOfMeasure": "degree days",
+                      "StatusVariable": "status.states.TSUM"},
+            "TSUME": {"Description": "Thermal sum to emergence", "Type": "Number",
+                       "UnitOfMeasure": "degree days",
+                       "StatusVariable": "status.states.TSUM"},
+            "DVRED": {"Description": "Day length sensitivity", "Type": "Number",
+                       "UnitOfMeasure": "unitless",
+                       "StatusVariable": "status.DVRED"},
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DOA": {"Description": "Doy of anthesys", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOA"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+            "STAGE": {"Description": "Phenological stage", "Type": "String", "UnitOfMeasure": "-",
+                    "StatusVariable": "status.states.STAGE"},
+
+        }

@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.waterbalance.Layer &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.waterbalance.Layer">
+<span id="ecrops-ecrops-waterbalance-layer"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.waterbalance.Layer" title="ecrops.ecrops.waterbalance.Layer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.waterbalance.Layer</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.waterbalance.Layer" title="Permalink to this headline">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.waterbalance.Layer.Layer" title="ecrops.ecrops.waterbalance.Layer.Layer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Layer</span></code></a></p></td>
+<td><p>This class represents a soil layer used in the LayeredWaterBalance and in the nitrogen related steps</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.waterbalance.Layer.</span></span><span class="sig-name descname"><span class="pre">Layer</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class represents a soil layer used in the LayeredWaterBalance and in the nitrogen related steps</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.SOIL_GROUP_NO">
+<span class="sig-name descname"><span class="pre">SOIL_GROUP_NO</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.SOIL_GROUP_NO" title="Permalink to this definition">¶</a></dt>
+<dd><p>soil typology code, used only to check whether soil layers have the same soil type</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.TSL">
+<span class="sig-name descname"><span class="pre">TSL</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.TSL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Layer thickness [cm]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.LBSL">
+<span class="sig-name descname"><span class="pre">LBSL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.LBSL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lower boundary of the layer [cm]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.SMFCF">
+<span class="sig-name descname"><span class="pre">SMFCF</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.SMFCF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field capacity point of the layer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.SM0">
+<span class="sig-name descname"><span class="pre">SM0</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.SM0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Porosity (water content at saturation) of the layer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.SMW">
+<span class="sig-name descname"><span class="pre">SMW</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.SMW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wilting point of the layer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.WC0">
+<span class="sig-name descname"><span class="pre">WC0</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.WC0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Water content at saturation (SM0 * thickness) of the layer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.WCW">
+<span class="sig-name descname"><span class="pre">WCW</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.WCW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Water content at wilting point (SMW * thickness) of the layer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.WCFC">
+<span class="sig-name descname"><span class="pre">WCFC</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.WCFC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Water content  at field capacity  (SMFCF * thickness) of the layer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.SOPE">
+<span class="sig-name descname"><span class="pre">SOPE</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.SOPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum percolation rate root zone [cm day-1]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.KSUB">
+<span class="sig-name descname"><span class="pre">KSUB</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.KSUB" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum percolation rate subsoil [cm day-1]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.K0">
+<span class="sig-name descname"><span class="pre">K0</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.K0" title="Permalink to this definition">¶</a></dt>
+<dd><p>hydraulic conductivity of saturated soil [cm day-1]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.CONTAB">
+<span class="sig-name descname"><span class="pre">CONTAB</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.CONTAB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conductivity from Potential Flux, 10-log hydraulic conductivity as a function of pF (log(cm) log(cm /day) ).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.SMTAB">
+<span class="sig-name descname"><span class="pre">SMTAB</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.SMTAB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Soil Moisture from Potential Flux, volumetric moisture content as function of (log (cm); cm3/cm3)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.PFTAB">
+<span class="sig-name descname"><span class="pre">PFTAB</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.PFTAB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Potential Flux from Soil Moisture, reverse of the SMTAB (X changed with Y, then reordered by X values)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.MFPTAB">
+<span class="sig-name descname"><span class="pre">MFPTAB</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.MFPTAB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matric Flux Potential. The MFP is defined as the integral of the conductivity K(teta) from -Infinity to a certain teta (teta is the soil moisture content SM).
+The MPF is calculated as an integral of (K(teta) * 10^(pF) * eLog10) over the pF range considered.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.WaterFromHeight">
+<span class="sig-name descname"><span class="pre">WaterFromHeight</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.WaterFromHeight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only used for GroundWater: cumulative amount of water as a function of height above groundwater under
+equilibrium conditions.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.HeightFromAir">
+<span class="sig-name descname"><span class="pre">HeightFromAir</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.HeightFromAir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only used for GroundWater:  soil air volume above watertable at equilibrium</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.CRAIRC">
+<span class="sig-name descname"><span class="pre">CRAIRC</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.CRAIRC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Critical air content for root aeration</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.Wtop">
+<span class="sig-name descname"><span class="pre">Wtop</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.Wtop" title="Permalink to this definition">¶</a></dt>
+<dd><p>layer weight factor Wtop (weights for contribution to rootzone: changes from 0 to 1. 1 means the layer is entirely within the rooted zone. O
+entirely outside the rooted zone)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.Wpot">
+<span class="sig-name descname"><span class="pre">Wpot</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.Wpot" title="Permalink to this definition">¶</a></dt>
+<dd><p>layer weight factor Wpot (weights for contribution to potentially rooted zone)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.Wund">
+<span class="sig-name descname"><span class="pre">Wund</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.Wund" title="Permalink to this definition">¶</a></dt>
+<dd><p>layer weight factor Wund (weights for contribution to never rooted layers)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.WC">
+<span class="sig-name descname"><span class="pre">WC</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.WC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Actual water content of the layer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.CondFC">
+<span class="sig-name descname"><span class="pre">CondFC</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.CondFC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.CondK0">
+<span class="sig-name descname"><span class="pre">CondK0</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.CondK0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.SM">
+<span class="sig-name descname"><span class="pre">SM</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.SM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Actual soil moisture</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.DWC">
+<span class="sig-name descname"><span class="pre">DWC</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.DWC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Actual layer water daily change</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.Layer.Layer.DownwardFLOWAtBottomOfLayer">
+<span class="sig-name descname"><span class="pre">DownwardFLOWAtBottomOfLayer</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#ecrops.ecrops.waterbalance.Layer.Layer.DownwardFLOWAtBottomOfLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downward flow at the bottom of the layer</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../../_sources/autoapi/ecrops/ecrops/waterbalance/Layer/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

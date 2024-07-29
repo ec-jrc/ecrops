@@ -1,0 +1,69 @@
+:py:mod:`ecrops.ecrops.ModelWorkflowReader`
+===========================================
+
+.. py:module:: ecrops.ecrops.ModelWorkflowReader
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader
+
+
+
+
+.. py:class:: ModelWorkflowReader(abstractGraphBuilders)
+
+   This class explores the workflow of the model and pass the informations of the workflow structure to the provided graph builders.
+   The list of configured graph builders is provided in the init method.
+   The graph builders should be valid implementations of the ecrops.graphbuilders.AbstractGraphBuilder abstract class.
+
+   Each step of the workflow is transfomed in a node of the resulting graph.
+   The edges (connections) between the nodes are the built considering the information between the inputs and the outputs of the steps:
+   if an input variable X of a step A is an output of a step B, then a directed edge between the two steps is built. The direction of the edge is from B to A, and the label of the step is X, the name of the variable.
+
+   The equality of the variables is based on the property 'StatusVariable' defined in each step's getinputslist and getoutputslist methods.
+
+   The display_graph method triggers the creation of the graph by the configured graph builders. The nature of final graph depends on the builder implementation.
+
+   .. py:method:: get_unique_pairs(lst)
+
+
+   .. py:method:: add_class(step_instance)
+
+      Adds a step to the graph.
+
+      Args:
+          step_instance: An instance of the step.
+
+
+   .. py:method:: add_all_connections()
+
+      Adds all the connections between the steps
+      :return:
+
+
+   .. py:method:: add_connection(from_step, to_step, reverse=True, selfConnection=False)
+
+      Add a connection between two nodes
+      :param from_step: the outboud step
+      :param to_step: the inbound step
+      :param reverse: true is the reverse connection should be applied too
+      :param selfConnection: true if is is a connection between a node and itself
+      :return:
+
+
+   .. py:method:: display_graph(config_file, runMode)
+
+      Displays the input-output connections graph.
+
+      :param config_file : path to the workflow configuration file
+      :param runMode : selected runmode
+
+
+

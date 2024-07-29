@@ -9,13 +9,23 @@ import numpy as np
 
 from ..Printable import Printable
 import math
+from ecrops.Step import Step
 
-
-class NitrogenStress:
+class NitrogenStress(Step):
     """Nitrogen stress on plant growth from Hermes. Copied from file crop.go rows 507-525"""
 
     def getparameterslist(self):
         return {
+        }
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
         }
 
     def setparameters(self, status):

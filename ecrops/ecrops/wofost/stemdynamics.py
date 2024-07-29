@@ -7,9 +7,9 @@
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class WOFOST_Stem_Dynamics:
+class WOFOST_Stem_Dynamics(Step):
     """Implementation of stem biomass dynamics.
 
     Stem biomass increase results from the assimilates partitioned to
@@ -27,10 +27,10 @@ class WOFOST_Stem_Dynamics:
     =======  ============================================= =======  ============
      Name     Description                                   Type     Unit
     =======  ============================================= =======  ============
-    TDWI     Initial total crop dry weight                  SCr       |kg ha-1|
+    TDWI     Initial total crop dry weight                  SCr       kg ha-1
     RDRSTB   Relative death rate of stems as a function     TCr       -
              of development stage
-    SSATB    Specific Stem Area as a function of            TCr       |ha kg-1|
+    SSATB    Specific Stem Area as a function of            TCr       ha kg-1
              development stage
     =======  ============================================= =======  ============
 
@@ -41,9 +41,9 @@ class WOFOST_Stem_Dynamics:
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
     SAI      Stem Area Index                                    Y     -
-    WST      Weight of living stems                             Y     |kg ha-1|
-    DWST     Weight of dead stems                               N     |kg ha-1|
-    TWST     Total weight of stems                              Y     |kg ha-1|
+    WST      Weight of living stems                             Y     kg ha-1
+    DWST     Weight of dead stems                               N     kg ha-1
+    TWST     Total weight of stems                              Y     kg ha-1
     =======  ================================================= ==== ============
 
     **Rate variables**
@@ -51,9 +51,9 @@ class WOFOST_Stem_Dynamics:
     =======  ================================================= ==== ============
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
-    GRST     Growth rate stem biomass                           N   |kg ha-1 d-1|
-    DRST     Death rate stem biomass                            N   |kg ha-1 d-1|
-    GWST     Net change in stem biomass                         N   |kg ha-1 d-1|
+    GRST     Growth rate stem biomass                           N   kg ha-1 d-1
+    DRST     Death rate stem biomass                            N   kg ha-1 d-1
+    GWST     Net change in stem biomass                         N   kg ha-1 d-1
     =======  ================================================= ==== ============
 
     **Signals send or handled**
@@ -66,7 +66,7 @@ class WOFOST_Stem_Dynamics:
      Name     Description                         Provided by         Unit
     =======  =================================== =================  ============
     DVS      Crop development stage              DVS_Phenology       -
-    ADMI     Above-ground dry matter             CropSimulation     |kg ha-1 d-1|
+    ADMI     Above-ground dry matter             CropSimulation     kg ha-1 d-1
              increase
     FR       Fraction biomass to roots           DVS_Partitioning    -
     FS       Fraction biomass to stems           DVS_Partitioning    -
@@ -147,7 +147,6 @@ class WOFOST_Stem_Dynamics:
         states = status.states
 
 
-
         # Stem biomass (living, dead, total)
         states.WST += rates.GWST
         states.DWST += rates.DRST
@@ -157,3 +156,50 @@ class WOFOST_Stem_Dynamics:
         DVS = status.states.DVS
         states.SAI = states.WST * params.SSATB(DVS)
         return status
+
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                   "StatusVariable": "status.day"},
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+            "FS": {"Description": "Partitioning to stems", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FS"},
+            "FR": {"Description": "Partitioning to roots", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FR"},
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "ADMI": {"Description": "Daily increase in above-ground dry matter", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.rates.ADMI"},
+            "WST": {"Description": " Dry weight of living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WST"},
+            "DWST": {"Description": "Dry weight of dead stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DWST"},
+            "TWST": {"Description": "Total weight dry + living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TWST"},
+
+        }
+    def getoutputslist(self):
+        return {
+            "SAI": {"Description": "Stem area index",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.SAI"},
+            "GRST": {"Description": "Daily increase of dry weight of living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.rates.GRRT"},
+            "DRST": {"Description": "Daily increase of dry weight of dead stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.DRRT"},
+            "GWST": {"Description": "Daily increase of total weight dry + living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.GWRT"},
+            "WST": {"Description": " Dry weight of living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WRT"},
+            "DWST": {"Description": "Dry weight of dead stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                   "StatusVariable": "status.states.DWRT"},
+            "TWST": {"Description": "Total weight dry + living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                   "StatusVariable": "status.states.TWRT"},
+
+        }

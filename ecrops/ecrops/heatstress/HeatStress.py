@@ -1,7 +1,7 @@
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class HeatStress:
+class HeatStress(Step):
     """Calculation of the Heat Stress"""
 
     def getparameterslist(self):
@@ -15,7 +15,7 @@ class HeatStress:
             "TKill": {"Description": "Kill threshold temperature", "Type": "Number", "Mandatory": "True",
                       "UnitOfMeasure": "unitless"},
             "AnthesysPeriodDamegeComputationMethod": {
-                "Description": "How to compute anthesys period damage (could be:Average of the damages,Greater of the damages,Product of the damages)",
+                "Description": "How to compute anthesys period damage (could be:Average of the damages,Greater of the damages,Product of the damages,Sum of the damages)",
                 "Type": "String", "Mandatory": "True",
                 "UnitOfMeasure": "unitless"},
             "ReductionFactorMethod": {"Description": "Reduction factor function (could be: Quadratic,Linear)",
@@ -109,7 +109,8 @@ class HeatStress:
             status.heatstress.AnthesisReached = True;
             status.heatstress.DaysAfterAnthesis = status.heatstress.DaysAfterAnthesis + 1;
 
-            if (status.heatstress.DaysAfterAnthesis == 0):  # the anthesis day (do the calculation on current day and also on previous NUMBER_OF_DAYS_AROUND_FLOWERING days)
+            if (
+                    status.heatstress.DaysAfterAnthesis == 0):  # the anthesis day (do the calculation on current day and also on previous NUMBER_OF_DAYS_AROUND_FLOWERING days)
 
                 for canopyTemperatureLast7Day in status.heatstress.CanopyTemperatureLastNdays:  # at this day, the list contains NUMBER_OF_DAYS_AROUND_FLOWERING elements, all NUMBER_OF_DAYS_AROUND_FLOWERING the days before anthesys
 
@@ -144,32 +145,40 @@ class HeatStress:
                     status.heatstress.DailyHeatStressFactor)  # save the stress factor ( if different from 1) to the list of stress factors around anthesys
 
             if (
-                status.heatstress.DaysAfterAnthesis == p.NUMBER_OF_DAYS_AROUND_FLOWERING):  # the last day of the anthesis period (from this day HarvestIndexAfterAnthesis does not change anymore)
+                    status.heatstress.DaysAfterAnthesis == p.NUMBER_OF_DAYS_AROUND_FLOWERING):  # the last day of the anthesis period (from this day HarvestIndexAfterAnthesis does not change anymore)
 
                 cumulativeStressFactorAroundAnthesys = 1;
 
                 if (
-                    p.AnthesysPeriodDamegeComputationMethod == "Average of the damages"):  # the final stress factor during anthesys is the average of the stress factors happened during the anthesys period.If no stress happened, then is 1
+                        p.AnthesysPeriodDamegeComputationMethod == "Average of the damages"):  # the final stress factor during anthesys is the average of the stress factors happened during the anthesys period.If no stress happened, then is 1
 
                     if (len(status.heatstress.DailyStressesAroundAnthesis) > 0):
                         cumulativeStressFactorAroundAnthesys = sum(status.heatstress.DailyStressesAroundAnthesis) / len(
                             status.heatstress.DailyStressesAroundAnthesis)
-
-
                 else:
                     if (
-                        p.AnthesysPeriodDamegeComputationMethod == "Greater of the damages"):  # the final stress factor during anthesys is the greater of the stress factors happened during the anthesys period.If no stress happened, then is 1
+                            p.AnthesysPeriodDamegeComputationMethod == "Sum of the damages"):  # the final stress factor during anthesys is the average of the stress factors happened during the anthesys period.If no stress happened, then is 1
 
+                        cumulativeStressFactorAroundAnthesys = 0
                         if (len(status.heatstress.DailyStressesAroundAnthesis) > 0):
-                            cumulativeStressFactorAroundAnthesys = max(status.heatstress.DailyStressesAroundAnthesis)
+                            for u in status.heatstress.DailyStressesAroundAnthesis:
+                                cumulativeStressFactorAroundAnthesys += (1 - u)
 
                     else:
                         if (
-                            p.AnthesysPeriodDamegeComputationMethod == "Product of the damages"):  # the final stress factor during anthesys is the product of the stress factors happened during the anthesys period.If no stress happened, then is 1
+                                p.AnthesysPeriodDamegeComputationMethod == "Greater of the damages"):  # the final stress factor during anthesys is the greater of the stress factors happened during the anthesys period.If no stress happened, then is 1
 
                             if (len(status.heatstress.DailyStressesAroundAnthesis) > 0):
-                                for v in status.heatstress.DailyStressesAroundAnthesis:
-                                    cumulativeStressFactorAroundAnthesys = v * cumulativeStressFactorAroundAnthesys
+                                cumulativeStressFactorAroundAnthesys = max(
+                                    status.heatstress.DailyStressesAroundAnthesis)
+
+                        else:
+                            if (
+                                    p.AnthesysPeriodDamegeComputationMethod == "Product of the damages"):  # the final stress factor during anthesys is the product of the stress factors happened during the anthesys period.If no stress happened, then is 1
+
+                                if (len(status.heatstress.DailyStressesAroundAnthesis) > 0):
+                                    for v in status.heatstress.DailyStressesAroundAnthesis:
+                                        cumulativeStressFactorAroundAnthesys = v * cumulativeStressFactorAroundAnthesys
 
                 status.heatstress.HarvestIndexAfterAnthesis = cumulativeStressFactorAroundAnthesys * status.heatstress.HarvestIndexAfterAnthesis
                 status.heatstress.FinalHarvestIndex = status.heatstress.HarvestIndexAfterAnthesis
@@ -182,9 +191,56 @@ class HeatStress:
         # We calculate the impact of heat stress in this period directly in the WOFOST mdoel, as impact on the biomasses of Wofost.
         # In the Bioma version there is an alternative way for calculating the heat stress also in this period, but we dont implement it here
 
-
         return status
 
     def integrate(self, status):
         return status
 
+    def getinputslist(self):
+        return {
+
+            "canopytemperature": {"Description": "Canopy temperature",
+                                  "Type": "Number", "UnitOfMeasure": "C",
+                                  "StatusVariable": "status.heatstress.canopytemperature"},
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "PlantHeight": {"Description": "Plant height", "Type": "Number",
+                            "UnitOfMeasure": "cm",
+                            "StatusVariable": "status.plantheight.PlantHeight"},
+        }
+
+    def getoutputslist(self):
+        return {
+
+            "DaysAfterAnthesis": {
+                "Description": "Number of days after anthesys considered in the period around anthesys",
+                "Type": "Boolean", "UnitOfMeasure": "days",
+                "StatusVariable": "status.heatstress.DaysAfterAnthesis"},
+            "DailyHeatStressFactor": {
+                "Description": "Daily heat stress factor",
+                "Type": "Boolean", "UnitOfMeasure": "unitless",
+                "StatusVariable": "status.heatstress.DailyHeatStressFactor"},
+            "DailyStressesAroundAnthesis": {
+                "Description": "Array containing daily stresses around anthesis (one value per day)",
+                "Type": "Boolean", "UnitOfMeasure": "unitless",
+                "StatusVariable": "status.heatstress.DailyStressesAroundAnthesis"},
+            "HarvestIndexAfterAnthesis": {"Description": "Harvest index after anthesis",
+                                          "Type": "Boolean", "UnitOfMeasure": "unitless",
+                                          "StatusVariable": "status.heatstress.HarvestIndexAfterAnthesis"},
+            "FinalHarvestIndex": {"Description": "Final harvest index",
+                                  "Type": "Boolean", "UnitOfMeasure": "unitless",
+                                  "StatusVariable": "status.heatstress.FinalHarvestIndex"},
+            "DailyHeatStressFactor": {"Description": "Daily heat stress factor",
+                                      "Type": "Boolean", "UnitOfMeasure": "unitless",
+                                      "StatusVariable": "status.heatstress.DailyHeatStressFactor"},
+            "MaturityReached": {"Description": "Maturity reached (True/False)",
+                                "Type": "Boolean", "UnitOfMeasure": "",
+                                "StatusVariable": "status.heatstress.MaturityReached"},
+            "AnthesysReached": {"Description": "Anthesys reached (True/False)",
+                                "Type": "Boolean", "UnitOfMeasure": "",
+                                "StatusVariable": "status.heatstress.AnthesysReached"},
+            "HIMAX": {"Description": "Maximum attainable heat stress (always 1 by convention)",
+                                "Type": "Boolean", "UnitOfMeasure": "",
+                                "StatusVariable": "status.heatstress.HIMAX"},
+
+        }

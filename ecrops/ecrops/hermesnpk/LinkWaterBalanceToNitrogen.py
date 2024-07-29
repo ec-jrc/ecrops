@@ -1,9 +1,9 @@
 import numpy as np
 
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class LinkWaterBalanceToNitrogen:
+class LinkWaterBalanceToNitrogen(Step):
     """This step links water balance output to nitrogen steps"""
 
     def getparameterslist(self):
@@ -13,6 +13,15 @@ class LinkWaterBalanceToNitrogen:
 
         return status
 
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
 
 
     def initialize(self,status):

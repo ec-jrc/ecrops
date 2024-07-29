@@ -1,6 +1,6 @@
 
-
-class LinkWeatherToNitrogen:
+from ecrops.Step import Step
+class LinkWeatherToNitrogen(Step):
     """This step passes weather data to nitrogen steps"""
 
     def getparameterslist(self):
@@ -10,6 +10,15 @@ class LinkWeatherToNitrogen:
 
         return status
 
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
 
 
     def initialize(self,status):

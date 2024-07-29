@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.waterbalance.HermesWaterBalance &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.waterbalance.HermesWaterBalance">
+<span id="ecrops-ecrops-waterbalance-hermeswaterbalance"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.waterbalance.HermesWaterBalance" title="ecrops.ecrops.waterbalance.HermesWaterBalance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.waterbalance.HermesWaterBalance</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.waterbalance.HermesWaterBalance" title="Permalink to this headline">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance" title="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HermesWaterBalance</span></code></a></p></td>
+<td><p>Waterbalance from Hermes model (Keserbaum)</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.waterbalance.HermesWaterBalance.</span></span><span class="sig-name descname"><span class="pre">HermesWaterBalance</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ecrops.Step.Step</span></code></p>
+<p>Waterbalance from Hermes model (Keserbaum)</p>
+<p>WATER MODEL acc.to BURNS drainage when field capacity is exceeded upward movement for evaporation acc.to Groot (1987)</p>
+<dl class="simple">
+<dt>Used VARIABLEs:</dt><dd><p>thickness layer (standard 10cm):           dz
+FIELD CAPACITY (cm^3/cm^3):                W(z)
+no. of layers:                             N
+WATER CONTENT of LAYERS (cm^3/cm^3):       WG(,)
+Absolute WATER PER LAYER (cm = 10mm/m^2):  WASSER
+INFILTRATION(+) resp. EVAPORATION(-)(cm):  FLUSS0
+Depth of TILE DRAIN  (dm)                  DRAIDEP
+Drainfactor (fraction) if &gt; FC             DRAIFAK</p>
+</dd>
+</dl>
+<p>Q1(I) = water flux through the bottom of layer I (cm/d)
+FLUSS0 = INFILTRATION(+) resp. EVAPORATION(-)(cm)</p>
+<p>Description from: K.C. Kersebaum / Application of a simple management model to simulate water and nitrogen
+dynamics  / 1994. To describe water balance in soil a simple plate theory model is used. Therefore the soil
+profile has been divided into layers of 30 cm thickness. In the present version a profile of 120 cm is simulated.
+The capacity parameters required by the model as 9, the water content at field capacity and 9, the water content
+at wilting point are derived automatically within the model from the soil texture class of the layer modified by
+organic matter content, hydromorphic patterns and bulk density class. The texture classes and values are taken
+from tables of AG Bodenkunde (1982). Capillary rise from the groundwater table is taken into account by using
+constant flux rates (mm day- ‘) dependent on texture class and distance between the regarded layer and the
+groundwater table. These values, also taken from AG Bodenkttnde (19821, are defined for a water conten? of 70% of
+usable field capacity. The model determines from the bottom to the top the first layer where water content is
+below 70% usabIe field capacity. Then using the distance of this layer to the groundwater table the flux is
+calculated as a steady state flux through all the soil layers below. Potential evapotranspiration (PET) is
+calculated by a simple empirical method developed by Haude (1955) using plant-speciCc coefficients from Heger (
+1978). This methc!rl requires only daily vapour pressure deficit as input data. The percentage of potential
+evaporation (E,,) can be calculated from the actual leaf area index (Goudriaan, 1977) using  Epot = PETexp(
+-0SLAI) (1)  Potential evaporation is reduced to actual  evaporation ,dependent on soil water content in the
+upper layer which is distributed over depth with an exponential function over depth according to van Keulen (
+1975). Water uptake by plants is calculated based on potential transpiration and distributed over depth relating
+uptake to the root length density and a soil water-dependent root efficiency factor (Groot, 1987). Potential
+transpiration is reduced if water supply is insufficient. Water deficits can partly be compensated in rooted
+layers below.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.getparameterslist">
+<span class="sig-name descname"><span class="pre">getparameterslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.getparameterslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the parameters of the steps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.getinputslist">
+<span class="sig-name descname"><span class="pre">getinputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.getinputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the inputs of the step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.getoutputslist">
+<span class="sig-name descname"><span class="pre">getoutputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.getoutputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the outputs of the step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.setparameters">
+<span class="sig-name descname"><span class="pre">setparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.setparameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.runstep">
+<span class="sig-name descname"><span class="pre">runstep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.runstep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all the step’s operations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.integrate">
+<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the values of the previous time interval before the calculation of the current time interval step operations</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../../_sources/autoapi/ecrops/ecrops/waterbalance/HermesWaterBalance/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

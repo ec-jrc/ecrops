@@ -1,0 +1,20 @@
+:py:mod:`ecrops.ecrops.weather`
+===============================
+
+.. py:module:: ecrops.ecrops.weather
+
+.. autoapi-nested-parse::
+
+   This sub package contain model steps to read and process weather data
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   Weather/index.rst
+
+

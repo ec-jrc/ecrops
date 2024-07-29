@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.waterbalance.ClassicWaterBalance &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.waterbalance.ClassicWaterBalance">
+<span id="ecrops-ecrops-waterbalance-classicwaterbalance"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.waterbalance.ClassicWaterBalance" title="ecrops.ecrops.waterbalance.ClassicWaterBalance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.waterbalance.ClassicWaterBalance</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.waterbalance.ClassicWaterBalance" title="Permalink to this headline">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD" title="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WaterbalanceFD</span></code></a></p></td>
+<td><p>Classic mono layer water balance for freely draining soils under water-limited production.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.RootDepthForWaterbalanceInAdvance" title="ecrops.ecrops.waterbalance.ClassicWaterBalance.RootDepthForWaterbalanceInAdvance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RootDepthForWaterbalanceInAdvance</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING" title="ecrops.ecrops.waterbalance.ClassicWaterBalance.ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.RootDepthForWaterbalanceInAdvance">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.waterbalance.ClassicWaterBalance.</span></span><span class="sig-name descname"><span class="pre">RootDepthForWaterbalanceInAdvance</span></span><em class="property"> <span class="pre">=</span> <span class="pre">10</span></em><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.RootDepthForWaterbalanceInAdvance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.waterbalance.ClassicWaterBalance.</span></span><span class="sig-name descname"><span class="pre">ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING</span></span><em class="property"> <span class="pre">=</span> <span class="pre">100</span></em><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.waterbalance.ClassicWaterBalance.</span></span><span class="sig-name descname"><span class="pre">WaterbalanceFD</span></span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ecrops.Step.Step</span></code></p>
+<p>Classic mono layer water balance for freely draining soils under water-limited production.</p>
+<p>The purpose of the soil water balance calculations is to estimate the
+daily value of the soil moisture content. The soil moisture content
+influences soil moisture uptake and crop transpiration.</p>
+<p>The dynamic calculations are carried out in two sections, one for the
+calculation of rates of change per timestep (= 1 day) and one for the
+calculation of summation variables and state variables. The water balance
+is driven by rainfall, possibly buffered as surface storage, and
+evapotranspiration. The processes considered are infiltration, soil water
+retention, percolation (here conceived as downward water flow from rooted
+zone to second layer), and the loss of water beyond the maximum root zone.</p>
+<p>The textural profile of the soil is conceived as homogeneous. Initially the
+soil profile consists of two layers, the actually rooted  soil and the soil
+immediately below the rooted zone until the maximum rooting depth (soil and
+crop dependent). The extension of the root zone from initial rooting depth
+to maximum rooting depth is described in Root_Dynamics class. From the
+moment that the maximum rooting depth is reached the soil profile is
+described as a one layer system. The class WaterbalanceFD is derived
+from WATFD.FOR in WOFOST7.1</p>
+<p><strong>Simulation parameters:</strong> (provide in crop, soil and sitedata dictionary)</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 65%" />
+<col style="width: 10%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SMFCF</p></td>
+<td><p>Field capacity of the soil</p></td>
+<td><p>SSo</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>SM0</p></td>
+<td><p>Porosity of the soil</p></td>
+<td><p>SSo</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>SMW</p></td>
+<td><p>Wilting point of the soil</p></td>
+<td><p>SSo</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CRAIRC</p></td>
+<td><p>Soil critical air content (waterlogging)</p></td>
+<td><p>SSo</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>SOPE</p></td>
+<td><p>maximum percolation rate root zone</p></td>
+<td><p>SSo</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>KSUB</p></td>
+<td><p>maximum percolation rate subsoil</p></td>
+<td><p>SSo</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-even"><td><p>K0</p></td>
+<td><p>hydraulic conductivity of saturated soil</p></td>
+<td><p>SSo</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>RDMSOL</p></td>
+<td><p>Soil rootable depth</p></td>
+<td><p>SSo</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>IFUNRN</p></td>
+<td><p>Indicates whether non-infiltrating fraction of
+rain is a function of storm size (1)
+or not (0)</p></td>
+<td><p>SSi</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>SSMAX</p></td>
+<td><p>Maximum surface storage</p></td>
+<td><p>SSi</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>SSI</p></td>
+<td><p>Initial surface storage</p></td>
+<td><p>SSi</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>WAV</p></td>
+<td><p>Initial amount of water in total soil
+profile</p></td>
+<td><p>SSi</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>NOTINF</p></td>
+<td><p>Maximum fraction of rain not-infiltrating into
+the soil</p></td>
+<td><p>SSi</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>SMLIM</p></td>
+<td><p>Initial maximum moisture content in initial
+rooting depth zone.</p></td>
+<td><p>SSi</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>IAIRDU</p></td>
+<td><p>Switch airducts on (1) or off (0)</p></td>
+<td><p>SCr</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>RDMCR</p></td>
+<td><p>Maximum rooting depth of the crop</p></td>
+<td><p>SCr</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>RDI</p></td>
+<td><p>Initial rooting depth of the crop</p></td>
+<td><p>SCr</p></td>
+<td><p>cm</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>State variables:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 68%" />
+<col style="width: 6%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Pbl</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SM</p></td>
+<td><p>Volumetric moisture content in root zone</p></td>
+<td><p>Y</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>SS</p></td>
+<td><p>Surface storage (layer of water on surface)</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>W</p></td>
+<td><p>Amount of water in root zone</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>WI</p></td>
+<td><p>Initial amount of water in the root zone</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>WLOW</p></td>
+<td><p>Amount of water in the subsoil (between current
+rooting depth and maximum rootable depth)</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>WLOWI</p></td>
+<td><p>Initial amount of water in the subsoil</p></td>
+<td></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>WWLOW</p></td>
+<td><p>Total amount of water in the  soil profile
+WWLOW = WLOW + W</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>WTRAT</p></td>
+<td><p>Total water lost as transpiration as calculated
+by the water balance. This can be different
+from the CTRAT variable which only counts
+transpiration for a crop cycle.</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>EVST</p></td>
+<td><p>Total evaporation from the soil surface</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>EVWT</p></td>
+<td><p>Total evaporation from a water surface</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>TSR</p></td>
+<td><p>Total surface runoff</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>RAINT</p></td>
+<td><p>Total amount of rainfall</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>WDRT</p></td>
+<td><p>Amount of water added to root zone by increase
+of root growth</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>TOTINF</p></td>
+<td><p>Total amount of infiltration</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>TOTIRR</p></td>
+<td><p>Total amount of effective irrigation</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>PERCT</p></td>
+<td><p>Total amount of water percolating from rooted
+zone to subsoil</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>LOSST</p></td>
+<td><p>Total amount of water lost to deeper soil</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-odd"><td><p>WBALRT</p></td>
+<td><p>Checksum for root zone waterbalance. Will be
+calculated within <cite>finalize()</cite>, abs(WBALRT) &gt;
+0.0001 will raise a WaterBalanceError</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+<tr class="row-even"><td><p>WBALTT</p></td>
+<td><p>Checksum for total waterbalance. Will be
+calculated within <cite>finalize()</cite>, abs(WBALTT) &gt;
+0.0001 will raise a WaterBalanceError</p></td>
+<td><p>N</p></td>
+<td><p>cm</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rate variables:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 67%" />
+<col style="width: 5%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Pbl</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>EVS</p></td>
+<td><p>Actual evaporation rate from soil</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>EVW</p></td>
+<td><p>Actual evaporation rate from water surface</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-even"><td><p>WTRA</p></td>
+<td><p>Actual transpiration rate from plant canopy,
+is directly derived from the variable “TRA” in
+the evapotranspiration module</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>RAIN</p></td>
+<td><p>Rainfall rate for current day</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-even"><td><p>RIN</p></td>
+<td><p>Infiltration rate for current day</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>RIRR</p></td>
+<td><p>Effective irrigation rate for current day,
+computed as irrigation amount * efficiency.</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-even"><td><p>PERC</p></td>
+<td><p>Percolation rate to non-rooted zone</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>LOSS</p></td>
+<td><p>Rate of water loss to deeper soil</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-even"><td><p>DW</p></td>
+<td><p>Change in amount of water in rooted zone as a
+result of infiltration, transpiration and
+evaporation.</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>DWLOW</p></td>
+<td><p>Change in amount of water in subsoil</p></td>
+<td><p>N</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>External dependencies:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 41%" />
+<col style="width: 30%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Provided by</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TRA</p></td>
+<td><p>Crop transpiration rate</p></td>
+<td><p>Evapotranspiration</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>EVSMX</p></td>
+<td><p>Maximum evaporation rate
+from a soil surface below
+the crop canopy</p></td>
+<td><p>Evapotranspiration</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-even"><td><p>EVWMX</p></td>
+<td><p>Maximum evaporation rate
+from a water surface below
+the crop canopy</p></td>
+<td><p>Evapotranspiration</p></td>
+<td><p>cm day-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>RD</p></td>
+<td><p>Rooting depth</p></td>
+<td><p>Root_dynamics</p></td>
+<td><p>cm</p></td>
+</tr>
+</tbody>
+</table>
+<p>A Waterbalance warning is printed in std output when the waterbalance is not closing at the
+end of the simulation cycle (e.g water has “leaked” away).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.getparameterslist">
+<span class="sig-name descname"><span class="pre">getparameterslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.getparameterslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the parameters of the steps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.setparameters">
+<span class="sig-name descname"><span class="pre">setparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.setparameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.runstep">
+<span class="sig-name descname"><span class="pre">runstep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.runstep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all the step’s operations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.integrate">
+<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the values of the previous time interval before the calculation of the current time interval step operations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD._reset_rootzone">
+<span class="sig-name descname"><span class="pre">_reset_rootzone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD._reset_rootzone" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.getinputslist">
+<span class="sig-name descname"><span class="pre">getinputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.getinputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the inputs of the step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.getoutputslist">
+<span class="sig-name descname"><span class="pre">getoutputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD.getoutputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the outputs of the step</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../../_sources/autoapi/ecrops/ecrops/waterbalance/ClassicWaterBalance/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

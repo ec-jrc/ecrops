@@ -10,14 +10,14 @@ from collections import namedtuple
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
-
+from ecrops.Step import Step
 
 class PartioningFactors(namedtuple("partitioning_factors", "FR FL FS FO")):
     """Tuple containing the 4 partitioning factors: FR FL FS FO """
     pass
 
 
-class DVS_Partitioning:
+class DVS_Partitioning(Step):
     """Class for assimilate partitioning based on development stage (`DVS`).
 
     `DVS_partitioning` calculates the partitioning of the assimilates to roots,
@@ -145,3 +145,25 @@ class DVS_Partitioning:
 
     def integrate(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+
+        }
+
+    def getoutputslist(self):
+        return {
+            "FR": {"Description": "Partitioning to roots", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FR"},
+            "FL": {"Description": "Partitioning to leaves", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FL"},
+            "FS": {"Description": "Partitioning to stems", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FS"},
+            "FO": {"Description": "Partitioning to storage organs", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FO"},
+            "PF": {"Description": "Pack partitioning factors into tuple", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.PF"},
+        }

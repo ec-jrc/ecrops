@@ -1,7 +1,8 @@
+from ecrops.Step import Step
 from ..Printable import Printable
 
 
-class LinkSoilToWofost:
+class LinkSoilToWofost(Step):
     """This step passes soil data to Wofost steps"""
 
     def getparameterslist(self):
@@ -10,8 +11,7 @@ class LinkSoilToWofost:
     def setparameters(self, status):
         status.soildata = Printable()
         status.soildata = status.soilparameters
-        status.rates = Printable()
-        status.states = Printable()
+
         return status
 
     def initialize(self, status):
@@ -36,3 +36,28 @@ class LinkSoilToWofost:
 
     def integrate(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+
+            "soildata": {"Description": "Soil data input", "Type": "Dictionary", "UnitOfMeasure": "-",
+                         "StatusVariable": "status.soildata"},
+        }
+
+    def getoutputslist(self):
+        return {
+
+            "SOIL_LAYERS": {"Description": "Soil layers data (only in case of multi layer soil data)", "Type": "List",
+                            "UnitOfMeasure": "-",
+                            "StatusVariable": "status.states.SOIL_LAYERS"},
+
+            "NSL": {"Description": "Number of soil layers (only in case of multi layer soil data)", "Type": "Number",
+                    "UnitOfMeasure": "-",
+                    "StatusVariable": "status.states.NSL"},
+            "HermesGlobalVarsMain": {
+                "Description": "Container of Hermes related soil data (only in case of multi layer Hermes model soil data)",
+                "Type": "Number",
+                "UnitOfMeasure": "-",
+                "StatusVariable": "status.states.HermesGlobalVarsMain"},
+
+        }

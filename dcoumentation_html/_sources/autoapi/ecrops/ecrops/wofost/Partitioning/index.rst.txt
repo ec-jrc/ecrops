@@ -1,0 +1,132 @@
+:py:mod:`ecrops.ecrops.wofost.Partitioning`
+===========================================
+
+.. py:module:: ecrops.ecrops.wofost.Partitioning
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost.Partitioning.PartioningFactors
+   ecrops.ecrops.wofost.Partitioning.DVS_Partitioning
+
+
+
+
+.. py:class:: PartioningFactors
+
+   Bases: :py:obj:`namedtuple`\ (\ :py:obj:`'partitioning_factors'`\ , :py:obj:`'FR FL FS FO'`\ )
+
+   Tuple containing the 4 partitioning factors: FR FL FS FO 
+
+
+.. py:class:: DVS_Partitioning
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Class for assimilate partitioning based on development stage (`DVS`).
+
+   `DVS_partitioning` calculates the partitioning of the assimilates to roots,
+   stems, leaves and storage organs using fixed partitioning tables as a
+   function of crop development stage. The available assimilates are first
+   split into below-ground and abovegrond using the values in FRTB. In a
+   second stage they are split into leaves (`FLTB`), stems (`FSTB`) and storage
+   organs (`FOTB`).
+
+   Since the partitioning fractions are derived from the state variable `DVS`
+   they are regarded state variables as well.
+
+   **Simulation parameters** (To be provided in cropdata dictionary):
+
+   =======  ============================================= =======  ============
+    Name     Description                                   Type     Unit
+   =======  ============================================= =======  ============
+   FRTB     Partitioning to roots as a function of          TCr       -
+            development stage.
+   FSTB     Partitioning to stems as a function of          TCr       -
+            development stage.
+   FLTB     Partitioning to leaves as a function of         TCr       -
+            development stage.
+   FOTB     Partitioning to storage organs as a function    TCr       -
+            of development stage.
+   =======  ============================================= =======  ============
+
+
+   **State variables**
+
+   =======  ================================================= ==== ============
+    Name     Description                                      Pbl      Unit
+   =======  ================================================= ==== ============
+   FR        Fraction partitioned to roots.                     Y    -
+   FS        Fraction partitioned to stems.                     Y    -
+   FL        Fraction partitioned to leaves.                    Y    -
+   FO        Fraction partitioned to storage orgains            Y    -
+   =======  ================================================= ==== ============
+
+   **Rate variables**
+
+   None
+
+   **Signals send or handled**
+
+   None
+
+   **External dependencies:**
+
+   =======  =================================== =================  ============
+    Name     Description                         Provided by         Unit
+   =======  =================================== =================  ============
+   DVS      Crop development stage              DVS_Phenology       -
+   =======  =================================== =================  ============
+
+   *Exceptions raised*
+
+   A PartitioningError is raised if the partitioning coefficients to leaves,
+   stems and storage organs on a given day do not add up to '1'.
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: _check_partitioning(s)
+
+      Check for partitioning errors.
+
+
+   .. py:method:: runstep(status)
+
+      Update partitioning factors based on development stage (DVS)
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

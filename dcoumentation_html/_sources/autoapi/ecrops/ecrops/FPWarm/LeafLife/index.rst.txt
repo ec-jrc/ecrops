@@ -1,0 +1,66 @@
+:py:mod:`ecrops.ecrops.FPWarm.LeafLife`
+=======================================
+
+.. py:module:: ecrops.ecrops.FPWarm.LeafLife
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.FPWarm.LeafLife.LeafLife
+
+
+
+
+.. py:class:: LeafLife
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Leaf Life duration 
+
+   .. py:method:: setparameters(container)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(container)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: integrate(container)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+   .. py:method:: runstep(container)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: LeavesAging(list, LeafDuration, GDDtoday)
+
+      Leaves aging
+
+
+

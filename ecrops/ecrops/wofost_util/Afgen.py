@@ -82,8 +82,8 @@ class Afgen(object):
         self.unit = unit
 
         x_list, y_list = _check_x_ascending(tbl_xy)
-        if hasattr(x_list, "__len__") is False or x_list.__len__ == 1:
-            return
+        # if hasattr(x_list, "__len__") is False or x_list.__len__ == 1:
+        #     return
         x_list = self.x_list = list(map(float, x_list))
         y_list = self.y_list = list(map(float, y_list))
         intervals = list(zip(x_list, x_list[1:], y_list, y_list[1:]))
@@ -97,7 +97,7 @@ class Afgen(object):
             return self.y_list[-1]
 
         i = bisect_left(self.x_list, x) - 1
-        v = round(self.y_list[i] + self.slopes[i] * (x - self.x_list[i]),6)
+        v = self.y_list[i] + self.slopes[i] * (x - self.x_list[i])
 
         # if a unum unit is defined, multiply with a unit
         if self.unit is not None:

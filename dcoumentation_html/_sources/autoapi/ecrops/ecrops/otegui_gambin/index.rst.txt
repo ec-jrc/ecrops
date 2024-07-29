@@ -1,0 +1,21 @@
+:py:mod:`ecrops.ecrops.otegui_gambin`
+=====================================
+
+.. py:module:: ecrops.ecrops.otegui_gambin
+
+.. autoapi-nested-parse::
+
+   This sub package contain model steps rapresenting Otegui-Gambin model for grain maize panicle simulation
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   KernelMaize_Otegui_Gambin/index.rst
+   KernelMaize_Otegui_Gambin_based_on_GDD/index.rst
+
+

@@ -1,0 +1,170 @@
+:py:mod:`ecrops.ecrops.waterbalance.LayeredWaterBalance`
+========================================================
+
+.. py:module:: ecrops.ecrops.waterbalance.LayeredWaterBalance
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.waterbalance.LayeredWaterBalance.WaterbalanceLayered
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.waterbalance.LayeredWaterBalance.zeros
+
+
+
+.. py:function:: zeros(n)
+
+   Mimic np.zeros() by returning a list of zero floats of length n.
+       
+
+
+.. py:class:: WaterbalanceLayered
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Waterbalance for freely draining soils under water-limited production.
+   In routine WATFD the simulation of the soil water balance is performed for FREELY DRAINING soil
+   In routine WATGW the simulation of the soil water balance is performed for soils influenced by the presence of groundwater
+
+   The purpose of the soil water balance calculations is to estimate the
+   daily value of the soil moisture content. The soil moisture content
+   influences soil moisture uptake and crop transpiration.
+
+   The dynamic calculations are carried out in two sections, one for the
+   calculation of rates of change per timestep (= 1 day) and one for the
+   calculation of summation variables and state variables. The water balance
+   is driven by rainfall, possibly buffered as surface storage, and
+   evapotranspiration. The processes considered are infiltration, soil water
+   retention, percolation (here conceived as downward water flow from rooted
+   zone to second layer), and the loss of water beyond the maximum root zone.
+
+   The textural profile of the soil is conceived as homogeneous. Initially the
+   soil profile consists of two layers, the actually rooted  soil and the soil
+   immediately below the rooted zone until the maximum rooting depth (soil and
+   crop dependent). The extension of the root zone from initial rooting depth
+   to maximum rooting depth is described in Root_Dynamics class. From the
+   moment that the maximum rooting depth is reached the soil profile is
+   described as a one layer system.
+
+   The class WaterbalanceLayered is derived from WATFDGW.F90 in WOFOSTx.x
+   (release March 2012)
+
+   .. py:attribute:: RDold
+
+      
+
+   .. py:attribute:: RDMSLB
+
+      
+
+   .. py:attribute:: DSLR
+
+      
+
+   .. py:attribute:: RINold
+
+      
+
+   .. py:attribute:: XDEF
+      :value: 1000.0
+
+      
+
+   .. py:attribute:: PFFC
+      :value: 2.0
+
+      
+
+   .. py:attribute:: PFWP
+
+      
+
+   .. py:attribute:: PFSAT
+
+      
+
+   .. py:attribute:: EquilTableLEN
+      :value: 30
+
+      
+
+   .. py:attribute:: MaxFlowIter
+      :value: 50
+
+      
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: IsWaterBalanceStarted(status)
+
+      return true if, according to the type of water balance start, the water balance is already started at the current day
+      :param status:
+      :return: true if started, false otherwise
+
+
+   .. py:method:: InitialWaterForWaterBalanceStart(status)
+
+      return the amount of water to be set in soil at the initialization of the water balance, according to the type of water balance start
+      :param status:
+      :return: the amount of water
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: _layer_weights(RD, RDM, ILR, ILM, NSL, SOIL_LAYERS)
+
+      Calculate weight factors for rooted- and sub-layer calculations
+              
+
+
+   .. py:method:: _SUBSOL(PF, D, CONTAB)
+
+      SUBSOL...
+              
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

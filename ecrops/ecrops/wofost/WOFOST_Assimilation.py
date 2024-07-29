@@ -10,6 +10,7 @@ from math import pi
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
 from collections import deque
+from ecrops.Step import Step
 
 def totass(DAYL, AMAX, EFF, LAI, KDIF, AVRAD, DIFPP, DSINBE, SINLD, COSLD):
     """ This routine calculates the daily total gross CO2 assimilation by performing a Gaussian integration over
@@ -124,12 +125,12 @@ def assim(AMAX, EFF, LAI, KDIF, SINB, PARDIR, PARDIF):
     return FGROS
 
 
-class WOFOST_Assimilation():
+class WOFOST_Assimilation(Step):
     """This step implements a WOFOST/SUCROS style assimilation routine.
 
-    WOFOST calculates the daily gross |CO2| assimilation rate of a crop from the absorbed radiation and the
+    WOFOST calculates the daily gross CO2 assimilation rate of a crop from the absorbed radiation and the
     photosynthesis-light response curve of individual leaves. This response is dependent on temperature and leaf age.
-    The absorbed radiation is calculated from the total incoming radiation and the leaf area. Daily gross |CO2|
+    The absorbed radiation is calculated from the total incoming radiation and the leaf area. Daily gross CO2
     assimilation is obtained by integrating the assimilation rates over the leaf layers and over the day.
 
     *Simulation parameters*
@@ -137,9 +138,9 @@ class WOFOST_Assimilation():
     =======  ============================================= =======  ============
      Name     Description                                   Type     Unit
     =======  ============================================= =======  ============
-    AMAXTB   Max. leaf |CO2| assim. rate as a function of   TCr     |kg ha-1 hr-1|
+    AMAXTB   Max. leaf CO2 assim. rate as a function of     TCr     kg ha-1 hr-1
              of DVS
-    EFFTB    Light use effic. single leaf as a function     TCr     |kg ha-1 hr-1 /(J m-2 s-1)|
+    EFFTB    Light use effic. single leaf as a function     TCr     kg ha-1 hr-1 /(J m-2 s-1)
              of daily mean temperature
     KDIFTB   Extinction coefficient for diffuse visible     TCr      -
              as function of DVS
@@ -172,7 +173,7 @@ class WOFOST_Assimilation():
 
     def getparameterslist(self):
         return {
-            "AMAXTB": {"Description": "Max. leaf |CO2| assim. rate as a function of DVS", "Type": "Array",
+            "AMAXTB": {"Description": "Max. leaf CO2 assim. rate as a function of DVS", "Type": "Array",
                        "Mandatory": "True", "UnitOfMeasure": "kg ha-1 hr-1"},
             "EFFTB": {"Description": "Light use effic. single leaf as a function of daily mean temperature",
                       "Type": "Array", "Mandatory": "True", "UnitOfMeasure": "kg ha-1 hr-1 /(J m-2 s-1)"},
@@ -208,7 +209,8 @@ class WOFOST_Assimilation():
         states = status.states
         if (states.DOE is None or status.day < states.DOE) or \
                 (states.DOE is not None and status.day >= states.DOE and
-                 (states.DOM is not None and status.day >= states.DOM)):  # execute only after emergence and before maturity
+                 (
+                         states.DOM is not None and status.day >= states.DOM)):  # execute only after emergence and before maturity
             return status
 
         # CALCULATE INITIAL STATE VARIABLES at sowing/emergence day
@@ -255,7 +257,13 @@ class WOFOST_Assimilation():
 
         # gross assimilation and correction for sub-optimum
         # average day temperature
-        status.states.AMAX = status.assimilation.params.AMAXTB(status.states.DVS)
+
+        # davide:fix for crops having AMAXTB(2)=0, to make it similar to bioma. Added this IF to manage the case where AMAXTB at the end of the season (DVS=2) is zero: since in bioma it uses DVS+DVR, we do the same at the end of the season
+        if status.states.DVS + status.rates.DVR >= status.phenology.params.DVSEND and status.assimilation.params.AMAXTB(
+                status.states.DVS + status.rates.DVR) == 0:
+            status.states.AMAX = status.assimilation.params.AMAXTB(status.states.DVS + status.rates.DVR)
+        else:
+            status.states.AMAX = status.assimilation.params.AMAXTB(status.states.DVS)
         status.states.AMAX *= status.assimilation.params.TMPFTB(status.states.DTEMP)
 
         # davidefuma co2 effect
@@ -283,3 +291,58 @@ class WOFOST_Assimilation():
 
     def integrate(self, status):
         return status
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "DVR": {"Description": "Daily increase in development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.rates.DVR"},
+            "DTEMP": {"Description": "Max temperature plus average daily temperature, divided by 2", "Type": "Number",
+                      "UnitOfMeasure": "C",
+                      "StatusVariable": "status.states.DTEMP"},
+            "IRRAD": {"Description": "Daily shortwave radiation",
+                      "Type": "Number", "UnitOfMeasure": "J/(m2 day) ",
+                      "StatusVariable": "status.states.IRRAD"},
+            "LAI": {"Description": "Leaf area index",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.LAI"},
+            "DAYL": {"Description": " Astronomical daylength (base = 0 degrees)",
+                     "Type": "Number", "UnitOfMeasure": "h",
+                     "StatusVariable": "status.astrodata.DAYL"},
+            "DIFPP": {"Description": "Diffuse irradiation perpendicular to direction of light",
+                      "Type": "Number", "UnitOfMeasure": "J m-2 s-1",
+                      "StatusVariable": "status.astrodata.DIFPP"},
+            "DSINBE": {"Description": " Daily total of effective solar height ",
+                       "Type": "Number", "UnitOfMeasure": "s",
+                       "StatusVariable": "status.astrodata.DSINBE"},
+            "SINLD": {"Description": "Seasonal offset of sine of solar height ",
+                      "Type": "Number", "UnitOfMeasure": "unitless",
+                      "StatusVariable": "status.astrodata.SINLD"},
+            "COSLD": {"Description": "Amplitude of sine of solar height   ",
+                      "Type": "Number", "UnitOfMeasure": "unitless",
+                      "StatusVariable": "status.astrodata.COSLD"},
+
+        }
+
+    def getoutputslist(self):
+        return {
+            "PGASS": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                      "StatusVariable": "status.states.PGASS"},
+            "DTGA": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                     "StatusVariable": "status.states.DTGA"},
+            "EFF": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                    "StatusVariable": "status.states.EFF"},
+            "KDIF": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                     "StatusVariable": "status.states.KDIF"},
+            "AMAX": {"Description": "", "Type": "Number", "UnitOfMeasure": "",
+                     "StatusVariable": "status.states.AMAX"},
+
+        }

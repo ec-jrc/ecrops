@@ -1,0 +1,44 @@
+:py:mod:`ecrops.ecrops.FPWarm.GAIage`
+=====================================
+
+.. py:module:: ecrops.ecrops.FPWarm.GAIage
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.FPWarm.GAIage.GAIage
+
+
+
+
+.. py:class:: GAIage
+
+   This class contains the Green Area index properties
+
+   .. py:attribute:: DailyGreenLeafAreaIndex
+      :value: 0
+
+      
+
+   .. py:attribute:: GrowingDegreeDaysAssociatedToGAIunits
+      :value: 0
+
+      
+
+   .. py:attribute:: PhysiologicAge_FYSDEL
+      :value: 0
+
+      
+
+   .. py:attribute:: DailyLivingLeavesBiomass
+      :value: 0
+
+      
+
+

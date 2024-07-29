@@ -5,12 +5,12 @@
 # European Commission, Joint Research Centre, March 2023
 
 
-import ecrops.wofost_util.Afgen
+from ..wofost_util.Afgen import Afgen
 from ..Printable import Printable
 from ..wofost_util.util import limit
+from ecrops.Step import Step
 
-
-class Vernalisation:
+class Vernalisation(Step):
     """ Modification of phenological development due to vernalisation.
 
     The vernalization approach here is based on the work of Lenny van Bussel
@@ -109,10 +109,11 @@ class Vernalisation:
             cropparams = status.allparameters
             status.vernalisation.params.VERNSAT = cropparams['VERNSAT']
             status.vernalisation.params.VERNBASE = cropparams['VERNBASE']
-            status.vernalisation.params.VERNRTB = ecrops.wofost_util.Afgen.Afgen(cropparams['VERNRTB'])
+            status.vernalisation.params.VERNRTB = Afgen(cropparams['VERNRTB'])
             status.vernalisation.params.VERNDVS = cropparams['VERNDVS']
         except Exception as e:
-            print('Error in method setparameters of class vernalisation:' + str(e))
+            # print('Error in method setparameters of class vernalisation:' + str(e))
+            pass  # Some crops do not require vernalization parameters, so let this pass for now
         return status
 
     def initialize(self, status):
@@ -178,3 +179,42 @@ class Vernalisation:
         except Exception as e:
             print('Error in method integrate of class vernalisation:' + str(e))
         return status
+
+    def getinputslist(self):
+        return {
+
+
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "STAGE": {"Description": "Phenological stage", "Type": "String", "UnitOfMeasure": "-",
+                      "StatusVariable": "status.states.STAGE"},
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "TEMP": {"Description": "Average daily temperature",
+                     "Type": "Number", "UnitOfMeasure": "C",
+                     "StatusVariable": "status.weather.TEMP"},
+            "VERN": {"Description": "Vernalisation state", "Type": "Boolean",
+                     "UnitOfMeasure": "days",
+                     "StatusVariable": "status.vernalisation.VERN"},
+        }
+
+    def getoutputslist(self):
+        return {
+
+            "DOV": {"Description": "Doy of vernalisation end", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOV"},
+            "ISVERNALISED": {"Description": "True if the crop is vernalised, False otherwise", "Type": "Boolean", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.vernalisation.ISVERNALISED"},
+            "VERN": {"Description": "Vernalisation state", "Type": "Number",
+                             "UnitOfMeasure": "days",
+                             "StatusVariable": "status.vernalisation.VERN"},
+            "VERNR": {"Description": "Rate of vernalisation", "Type": "Number",
+                     "UnitOfMeasure": "",
+                     "StatusVariable": "status.vernalisation.VERNR"},
+            "VERNFAC": {"Description": "Reduction factor on development rate due to vernalisation effect.", "Type": "Number",
+                      "UnitOfMeasure": "",
+                      "StatusVariable": "status.VERNFAC"},
+
+        }

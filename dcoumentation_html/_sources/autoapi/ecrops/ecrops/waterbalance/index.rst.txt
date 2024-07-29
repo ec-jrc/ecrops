@@ -1,0 +1,36 @@
+:py:mod:`ecrops.ecrops.waterbalance`
+====================================
+
+.. py:module:: ecrops.ecrops.waterbalance
+
+.. autoapi-nested-parse::
+
+   This sub package contain model steps to simulate soil water balance.
+   These are the model available:
+    - classic mono layer water balance (class ecrops.waterbalance.ClassicWaterBalance.WaterbalanceFD)
+    - multi layer water balance (class ecrops.waterbalance.LayeredWaterBalance.WaterbalanceLayered)
+    - multi layer Hermes water balance, from Hermes model (class ecrops.waterbalance.HermesWaterBalance.HermesWaterBalance )
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   ClassicWaterBalance/index.rst
+   HermesGlobalVarsMain/index.rst
+   HermesWaterBalance/index.rst
+   Layer/index.rst
+   LayeredWaterBalance/index.rst
+   LinkWaterbalanceToWofost/index.rst
+   LinkWeatherToHermesWaterBalance/index.rst
+   LinkWeatherToLayeredWaterBalance/index.rst
+   LinkWeatherToWaterbalance/index.rst
+   LinkWofostToHermesWaterBalance/index.rst
+   LinkWofostToLayeredWaterBalance/index.rst
+   LinkWofostToWaterbalance/index.rst
+   evapotranspiration/index.rst
+
+

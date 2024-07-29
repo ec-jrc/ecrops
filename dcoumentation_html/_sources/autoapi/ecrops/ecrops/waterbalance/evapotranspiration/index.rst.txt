@@ -1,0 +1,149 @@
+:py:mod:`ecrops.ecrops.waterbalance.evapotranspiration`
+=======================================================
+
+.. py:module:: ecrops.ecrops.waterbalance.evapotranspiration
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.waterbalance.evapotranspiration.Evapotranspiration
+
+
+
+
+.. py:class:: Evapotranspiration
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Calculation of evaporation (water and soil) and transpiration rates.
+
+   Model logic parametrization:
+   USE_HERMES_FRROOT if 'False' (default bahaviour), the system use the original FRROOT (root fraction distribution) , based on the ratio between the
+   layer depth and the root depth (assuming the roots are equally distributed at every detph). If 'True', it uses a distribution of
+   roots factor calculated by HermesRootDepth class. So if USE_HERMES_FRROOT is True, the class HermesRootDepth should be included in the model.
+
+   *Simulation parameters*:
+
+   =======  ============================================= =======  ============
+    Name     Description                                   Type     Unit
+   =======  ============================================= =======  ============
+   CFET     Correction factor for potential transpiration   SCr       -
+            rate.
+   DEPNR    Dependency number for crop sensitivity to       SCr       -
+            soil moisture stress.
+   KDIFTB   Extinction coefficient for diffuse visible      TCr       -
+            as function of DVS.
+   IOX      Switch oxygen stress on (1) or off (0)          SCr       -
+   IAIRDU   Switch airducts on (1) or off (0)               SCr       -
+   CRAIRC   Critical air content for root aeration          SSo       -
+   SM0      Soil porosity                                   SSo       -
+   SMW      Volumetric soil moisture content at wilting     SSo       -
+            point
+   SMCFC    Volumetric soil moisture content at field       SSo       -
+            capacity
+   SM0      Soil porosity                                   SSo       -
+   =======  ============================================= =======  ============
+
+
+   *State variables*
+
+   Note that these state variables are only assigned after finalize() has been
+   run.
+
+   =======  ================================================= ==== ============
+    Name     Description                                      Pbl      Unit
+   =======  ================================================= ==== ============
+   IDWST     Nr of days with water stress.                      N    -
+   IDOST     Nr of days with oxygen stress.                     N    -
+   =======  ================================================= ==== ============
+
+
+   *Rate variables*
+
+   =======  ================================================= ==== ============
+    Name     Description                                      Pbl      Unit
+   =======  ================================================= ==== ============
+   EVWMX    Maximum evaporation rate from an open water        Y    cm day-1
+            surface.
+   EVSMX    Maximum evaporation rate from a wet soil surface.  Y    cm day-1
+   TRAMX    Maximum transpiration rate from the plant canopy   Y    cm day-1
+   TRA      Actual transpiration rate from the plant canopy    Y    cm day-1
+   IDOS     Indicates oxygen stress on this day (True|False)   N    -
+   IDWS     Indicates water stress on this day (True|False)    N    -
+   =======  ================================================= ==== ============
+
+
+
+   *External dependencies:*
+
+   =======  =================================== =================  ============
+    Name     Description                         Provided by         Unit
+   =======  =================================== =================  ============
+   DVS      Crop development stage              DVS_Phenology       -
+   LAI      Leaf area index                     Leaf_dynamics       -
+   SM       Volumetric soil moisture content    Waterbalance        -
+   =======  =================================== =================  ============
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: SWEAF(ET0, DEPNR)
+
+      Calculates the Soil Water Easily Available Fraction (SWEAF).
+
+      :param ET0: The evapotranpiration from a reference crop.
+      :param DEPNR: The crop dependency number.
+
+      The fraction of easily available soil water between field capacity and wilting point is a function of the
+      potential evapotranspiration rate (for a closed canopy) in cm/day, ET0, and the crop group number,
+      DEPNR (from 1 (=drought-sensitive) to 5 (=drought-resistent)). The function SWEAF describes this relationship
+      given in tabular form by Doorenbos & Kassam (1979) and by Van Keulen & Wolf (1986; p.108, table 20)
+      http://edepot.wur.nl/168025.
+
+
+   .. py:method:: IsWaterBalanceStarted(status)
+
+      return true if, according to the type of water balance start, the water balance is already started at the current day
+      :param status:
+      :return: true if started, false otherwise
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

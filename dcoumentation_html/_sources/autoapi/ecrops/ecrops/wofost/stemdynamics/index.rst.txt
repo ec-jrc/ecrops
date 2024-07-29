@@ -1,0 +1,121 @@
+:py:mod:`ecrops.ecrops.wofost.stemdynamics`
+===========================================
+
+.. py:module:: ecrops.ecrops.wofost.stemdynamics
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.wofost.stemdynamics.WOFOST_Stem_Dynamics
+
+
+
+
+.. py:class:: WOFOST_Stem_Dynamics
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   Implementation of stem biomass dynamics.
+
+   Stem biomass increase results from the assimilates partitioned to
+   the stem system. Stem death is defined as the current stem biomass
+   multiplied by a relative death rate (`RDRSTB`). The latter as a function
+   of the development stage (`DVS`).
+
+   Stems are green elements of the plant canopy and can as such contribute
+   to the total photosynthetic active area. This is expressed as the Stem
+   Area Index which is obtained by multiplying stem biomass with the
+   Specific Stem Area (SSATB), which is a function of DVS.
+
+   **Simulation parameters**:
+
+   =======  ============================================= =======  ============
+    Name     Description                                   Type     Unit
+   =======  ============================================= =======  ============
+   TDWI     Initial total crop dry weight                  SCr       kg ha-1
+   RDRSTB   Relative death rate of stems as a function     TCr       -
+            of development stage
+   SSATB    Specific Stem Area as a function of            TCr       ha kg-1
+            development stage
+   =======  ============================================= =======  ============
+
+
+   **State variables**
+
+   =======  ================================================= ==== ============
+    Name     Description                                      Pbl      Unit
+   =======  ================================================= ==== ============
+   SAI      Stem Area Index                                    Y     -
+   WST      Weight of living stems                             Y     kg ha-1
+   DWST     Weight of dead stems                               N     kg ha-1
+   TWST     Total weight of stems                              Y     kg ha-1
+   =======  ================================================= ==== ============
+
+   **Rate variables**
+
+   =======  ================================================= ==== ============
+    Name     Description                                      Pbl      Unit
+   =======  ================================================= ==== ============
+   GRST     Growth rate stem biomass                           N   kg ha-1 d-1
+   DRST     Death rate stem biomass                            N   kg ha-1 d-1
+   GWST     Net change in stem biomass                         N   kg ha-1 d-1
+   =======  ================================================= ==== ============
+
+   **Signals send or handled**
+
+   None
+
+   **External dependencies:**
+
+   =======  =================================== =================  ============
+    Name     Description                         Provided by         Unit
+   =======  =================================== =================  ============
+   DVS      Crop development stage              DVS_Phenology       -
+   ADMI     Above-ground dry matter             CropSimulation     kg ha-1 d-1
+            increase
+   FR       Fraction biomass to roots           DVS_Partitioning    -
+   FS       Fraction biomass to stems           DVS_Partitioning    -
+   =======  =================================== =================  ============
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

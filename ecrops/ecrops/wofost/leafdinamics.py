@@ -13,9 +13,9 @@ from ecrops.wofost_util.util import limit
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class WOFOST_Leaf_Dynamics:
+class WOFOST_Leaf_Dynamics(Step):
     """Leaf dynamics for the WOFOST crop model.
 
     Implementation of biomass partitioning to leaves, growth and senenscence
@@ -36,14 +36,14 @@ class WOFOST_Leaf_Dynamics:
      Name     Description                                   Type     Unit
     =======  ============================================= =======  ============
     RGRLAI   Maximum relative increase in LAI.              SCr     ha ha-1 d-1
-    SPAN     Life span of leaves growing at 35 Celsius      SCr     |d|
-    TBASE    Lower threshold temp. for ageing of leaves     SCr     |C|
+    SPAN     Life span of leaves growing at 35 Celsius      SCr     d
+    TBASE    Lower threshold temp. for ageing of leaves     SCr     C
     PERDL    Max. relative death rate of leaves due to      SCr
              water stress
-    TDWI     Initial total crop dry weight                  SCr     |kg ha-1|
+    TDWI     Initial total crop dry weight                  SCr     kg ha-1
     KDIFTB   Extinction coefficient for diffuse visible     TCr
              light as function of DVS
-    SLATB    Specific leaf area as a function of DVS        TCr     |ha kg-1|
+    SLATB    Specific leaf area as a function of DVS        TCr     ha kg-1
     =======  ============================================= =======  ============
 
     *State variables*
@@ -51,20 +51,20 @@ class WOFOST_Leaf_Dynamics:
     =======  ================================================= ==== ============
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
-    LV       Leaf biomass per leaf class                        N    |kg ha-1|
-    SLA      Specific leaf area per leaf class                  N    |ha kg-1|
-    LVAGE    Leaf age per leaf class                            N    |d|
-    LVSUM    Sum of LV                                          N    |kg ha-1|
+    LV       Leaf biomass per leaf class                        N    kg ha-1
+    SLA      Specific leaf area per leaf class                  N    ha kg-1
+    LVAGE    Leaf age per leaf class                            N    d
+    LVSUM    Sum of LV                                          N    kg ha-1
     LAIEM    LAI at emergence                                   N    -
     LASUM    Total leaf area as sum of LV*SLA,                  N    -
              not including stem and pod area                    N
     LAIEXP   LAI value under theoretical exponential growth     N    -
     LAIMAX   Maximum LAI reached during growth cycle            N    -
     LAI      Leaf area index, including stem and pod area       Y    -
-    WLV      Dry weight of living leaves                        Y    |kg ha-1|
-    DWLV     Dry weight of dead leaves                          N    |kg ha-1|
-    TWLV     Dry weight of total leaves (living + dead)         Y    |kg ha-1|
-    TAGP     Total        above - ground                N | kg/    ha - 1
+    WLV      Dry weight of living leaves                        Y    kg ha-1
+    DWLV     Dry weight of dead leaves                          N    kg ha-1
+    TWLV     Dry weight of total leaves (living + dead)         Y    kg ha-1
+    TAGP     Total above - ground biomass                       N    kg ha-1
     =======  ================================================= ==== ============
 
 
@@ -73,21 +73,21 @@ class WOFOST_Leaf_Dynamics:
     =======  ================================================= ==== ============
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
-    GRLV     Growth rate leaves                                 N   |kg ha-1 d-1|
-    DSLV1    Death rate leaves due to water stress              N   |kg ha-1 d-1|
-    DSLV2    Death rate leaves due to self-shading              N   |kg ha-1 d-1|
-    DSLV3    Death rate leaves due to frost kill                N   |kg ha-1 d-1|
-    DSLV     Maximum of DLSV1, DSLV2, DSLV3                     N   |kg ha-1 d-1|
-    DALV     Death rate leaves due to aging.                    N   |kg ha-1 d-1|
-    DRLV     Death rate leaves as a combination of DSLV and     N   |kg ha-1 d-1|
+    GRLV     Growth rate leaves                                 N   kg ha-1 d-1
+    DSLV1    Death rate leaves due to water stress              N   kg ha-1 d-1
+    DSLV2    Death rate leaves due to self-shading              N   kg ha-1 d-1
+    DSLV3    Death rate leaves due to frost kill                N   kg ha-1 d-1
+    DSLV     Maximum of DLSV1, DSLV2, DSLV3                     N   kg ha-1 d-1
+    DALV     Death rate leaves due to aging.                    N   kg ha-1 d-1
+    DRLV     Death rate leaves as a combination of DSLV and     N   kg ha-1 d-1
              DALV
-    SLAT     Specific leaf area for current time step,          N   |ha kg-1|
+    SLAT     Specific leaf area for current time step,          N   ha kg-1
              adjusted for source/sink limited leaf expansion
              rate.
     FYSAGE   Increase in physiological leaf age                 N   -
-    GLAIEX   Sink-limited leaf expansion rate (exponential      N   |ha ha-1 d-1|
+    GLAIEX   Sink-limited leaf expansion rate (exponential      N   ha ha-1 d-1
              curve)
-    GLASOL   Source-limited leaf expansion rate (biomass        N   |ha ha-1 d-1|
+    GLASOL   Source-limited leaf expansion rate (biomass        N   ha ha-1 d-1
              increase)
     =======  ================================================= ==== ============
 
@@ -102,9 +102,9 @@ class WOFOST_Leaf_Dynamics:
     FR       Fraction biomass to roots      DVS_Partitioning                 -
     SAI      Stem area index                WOFOST_Stem_Dynamics             -
     PAI      Pod area index                 WOFOST_Storage_Organ_Dynamics    -
-    TRA      Transpiration rate             Evapotranspiration              |cm day-1|
-    TRAMX    Maximum transpiration rate     Evapotranspiration              |cm day-1|
-    ADMI     Above-ground dry matter        CropSimulation                  |kg ha-1 d-1|
+    TRA      Transpiration rate             Evapotranspiration              cm day-1
+    TRAMX    Maximum transpiration rate     Evapotranspiration              cm day-1
+    ADMI     Above-ground dry matter        CropSimulation                  kg ha-1 d-1
              increase
     RF_FROST Reduction factor frost kill    FROSTOL                          -
     ======== ============================== =============================== ===========
@@ -443,3 +443,174 @@ class WOFOST_Leaf_Dynamics:
                       "WLV": states.WLV - oWLV,
                       "TWLV": states.TWLV - oTWLV}
         return increments
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+            "TEMP": {"Description": "Average daily temperature", "Type": "Number", "UnitOfMeasure": "C",
+                     "StatusVariable": "status.states.TEMP"},
+            "TEMP_MIN": {"Description": "Minimum temperature",
+                         "Type": "Number", "UnitOfMeasure": "C",
+                         "StatusVariable": "status.weather.TEMP_MIN"},
+            "TEMP_MAX": {"Description": "Maximum temperature",
+                         "Type": "Number", "UnitOfMeasure": "C",
+                         "StatusVariable": "status.weather.TEMP_MAX"},
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "TRA": {"Description": "Actual transpiration rate from the plant canopy", "Type": "Number",
+                    "UnitOfMeasure": "cm/day",
+                    "StatusVariable": "status.rates.TRA"},
+            "TRAMX": {"Description": "Max transpiration rate from the plant canopy", "Type": "Number",
+                      "UnitOfMeasure": "cm/day",
+                      "StatusVariable": "status.rates.TRAMX"},
+            "FL": {"Description": "Partitioning to leaves", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FL"},
+            "FR": {"Description": "Partitioning to roots", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FR"},
+            "ADMI": {"Description": "Daily increase in above-ground dry matter", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.ADMI"},
+            "WLV": {"Description": " Dry weight of living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WLV"},
+            "DWLV": {"Description": "Dry weight of dead leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DWLV"},
+            "TWLV": {"Description": "Total weight dry + living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TWLV"},
+            "LV": {"Description": "List containing the biomass of the leaves for each day (one value per day)",
+                   "Type": "Array of numbers",
+                   "UnitOfMeasure": "Kg/ha",
+                   "StatusVariable": "status.states.LV"},
+            "SLA": {
+                "Description": "List containing the SLA (Specific leaf area) of the leaves for each day (one value per day)",
+                "Type": "Array of numbers",
+                "UnitOfMeasure": "ha/kg",
+                "StatusVariable": "status.states.SLA"},
+            "LVAGE": {"Description": "List containing the age of the leaves for each day (one value per day)",
+                      "Type": "Array of numbers",
+                      "UnitOfMeasure": "degree days",
+                      "StatusVariable": "status.states.LVAGE"},
+            "PAI": {"Description": "Pod area index",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.PAI"},
+            "SAI": {"Description": "Stem area index",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.SAI"},
+            "LAIMAX": {"Description": "Maximum value of LAI during the season", "Type": "Number",
+                       "UnitOfMeasure": "unitless",
+                       "StatusVariable": "status.states.LAIMAX"},
+            "LASUM": {"Description": "Total leaf area as sum of LV*SLA, not including stem and pod area",
+                      "Type": "Number",
+                      "UnitOfMeasure": "unitless",
+                      "StatusVariable": "status.states.LASUM"},
+            "LAIEXP": {"Description": "LAI value under theoretical exponential growth", "Type": "Number",
+                       "UnitOfMeasure": "unitless",
+                       "StatusVariable": "status.states.LAIEXP"},
+            "TAGP": {"Description": "Total (living+dead) above-ground biomass", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TAGP"},
+
+        }
+
+    def getoutputslist(self):
+        return {
+            "LAI": {"Description": "Leaf area index",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.LAI"},
+            "LAICR": {"Description": "Leaf area index critical",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.LAICR"},
+
+            "GRLV": {"Description": "Daily increase of dry weight of living leaves", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.GRRT"},
+            "DRLV": {"Description": "Daily increase of dry weight of dead leaves", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.DRRT"},
+            "GWLV": {"Description": "Daily increase of total weight dry + living leaves", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.GWRT"},
+            "WLV": {"Description": " Dry weight of living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WRT"},
+            "DWLV": {"Description": "Dry weight of dead leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DWRT"},
+            "TWLV": {"Description": "Total weight dry + living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TWRT"},
+
+            "TAGP_previousday": {"Description": "Total (living+dead) above-ground biomass of the previous day", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TAGP_previousday"},
+            "TAGP": {"Description": "Total (living+dead) above-ground biomass", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TAGP"},
+
+            "DeadLeavesBiomassDueToSenescence": {"Description": "Dead leaves biomass due to senescence (total)", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DeadLeavesBiomassDueToSenescence"},
+            "DeadLeavesBiomassDueToSenescenceIncreaseByHeatStress": {"Description": "Increase in dead leaves biomass due to senescence caused by heat stress", "Type": "Number",
+                 "UnitOfMeasure": "Kg/ha",
+                 "StatusVariable": "status.states.DeadLeavesBiomassDueToSenescenceIncreaseByHeatStress"},
+            "DeadLeavesBiomassDueToSenescenceWithoutEffectOfHeatStress": {"Description": "Dead leaves biomass due to senescence (excluded the increase caused by heat stress)", "Type": "Number",
+                 "UnitOfMeasure": "Kg/ha",
+                 "StatusVariable": "status.states.DeadLeavesBiomassDueToSenescenceWithoutEffectOfHeatStress"},
+            "LV": {"Description": "List containing the biomass of the leaves for each day (one value per day)", "Type": "Array of numbers",
+                 "UnitOfMeasure": "Kg/ha",
+                 "StatusVariable": "status.states.LV"},
+            "SLA": {"Description": "List containing the SLA (Specific leaf area) of the leaves for each day (one value per day)", "Type": "Array of numbers",
+                 "UnitOfMeasure": "ha/kg",
+                 "StatusVariable": "status.states.SLA"},
+            "LVAGE": {"Description": "List containing the age of the leaves for each day (one value per day)", "Type": "Array of numbers",
+                 "UnitOfMeasure": "degree days",
+                 "StatusVariable": "status.states.LVAGE"},
+            "LASUM": {"Description": "Total leaf area as sum of LV*SLA, not including stem and pod area", "Type": "Number",
+                 "UnitOfMeasure": "unitless",
+                 "StatusVariable": "status.states.LASUM"},
+            "LAIEXP": {"Description": "LAI value under theoretical exponential growth", "Type": "Number",
+                 "UnitOfMeasure": "unitless",
+                 "StatusVariable": "status.states.LAIEXP"},
+            "LAIMAX": {"Description": "Maximum value of LAI during the season", "Type": "Number",
+                 "UnitOfMeasure": "unitless",
+                 "StatusVariable": "status.states.LAIMAX"},
+            "SLAT": {"Description": "Specific leaf area for current time step, adjusted for source/sink limited leaf expansion rate", "Type": "Number",
+                       "UnitOfMeasure": "ha/Kg",
+                       "StatusVariable": "status.rates.SLAT"},
+            "GLAIEX": {"Description": "Sink-limited leaf expansion rate (exponential curve)", "Type": "Number",
+                     "UnitOfMeasure": "ha ha-1 d-1",
+                     "StatusVariable": "status.rates.GLAIEX"},
+            "GLASOL": {"Description": "Source-limited leaf expansion rate (biomass increase)", "Type": "Number",
+                 "UnitOfMeasure": "ha ha-1 d-1",
+                 "StatusVariable": "status.rates.GLASOL"},
+            "FYSAGE": {"Description": "Increase in physiological leaf age", "Type": "Number",
+                 "UnitOfMeasure": "degree days",
+                 "StatusVariable": "status.rates.FYSAGE"},
+            "DRLV": {"Description": "Death rate leaves as a combination of DSLV and DALV", "Type": "Number",
+                 "UnitOfMeasure": "Kg/ha",
+                 "StatusVariable": "status.rates.DRLV"},
+            "DALV": {"Description": "Death rate leaves due to aging", "Type": "Number",
+                 "UnitOfMeasure": "Kg/ha",
+                 "StatusVariable": "status.rates.DALV"},
+            "DSLV": {"Description": "Maximum of DLSV1, DSLV2, DSLV3", "Type": "Number",
+                 "UnitOfMeasure": "Kg/ha",
+                 "StatusVariable": "status.rates.DSLV"},
+            "DSLV1": {"Description": "Death rate leaves due to water stress", "Type": "Number",
+                      "UnitOfMeasure": "Kg/ha",
+                      "StatusVariable": "status.rates.DSLV1"},
+            "DSLV2": {"Description": " Death rate leaves due to self-shading", "Type": "Number",
+                      "UnitOfMeasure": "Kg/ha",
+                      "StatusVariable": "status.rates.DSLV2"},
+            "DSLV3": {"Description": "Death rate leaves due to frost kill (currently not implemented, always set to 0)", "Type": "Number",
+                      "UnitOfMeasure": "Kg/ha",
+                      "StatusVariable": "status.rates.DSLV3"},
+            "DALV_Original": {"Description": "Death rate leaves due to aging (before heat stress effect)", "Type": "Number",
+                 "UnitOfMeasure": "Kg/ha",
+                 "StatusVariable": "status.rates.DALV_Original"},
+            "factorToIncreaseSenescenceForHeatStress": {"Description": "Factor that increases senescence due to temperature", "Type": "Number",
+                 "UnitOfMeasure": "unitless",
+                 "StatusVariable": "status.rates.factorToIncreaseSenescenceForHeatStress"},
+
+        }

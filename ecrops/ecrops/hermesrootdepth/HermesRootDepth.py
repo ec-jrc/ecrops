@@ -6,9 +6,9 @@
 
 from ..Printable import Printable
 import math
+from ecrops.Step import Step
 
-
-class HermesRootDepth:
+class HermesRootDepth(Step):
     """Calculation of root distribution and root length density. Used by HERMES for water uptake"""
 
     def getparameterslist(self):
@@ -19,6 +19,15 @@ class HermesRootDepth:
                 "Mandatory": "True",
                 "UnitOfMeasure": "mm/C"}
 
+        }
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
         }
 
     def setparameters(self, status):

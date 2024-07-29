@@ -1,6 +1,6 @@
 ECroPS
-version: 1.5.0
-Copyright (C) 2023 European Union
+version: 1.7.0
+Copyright (C) 2024 European Union
 
 This program is free software: you can redistribute it and/or modify it under the terms of the European Union Public Licence, either version 1.2 of the License, or (at your option) any later version.
 You may not use this work except in compliance with the Licence.
@@ -16,7 +16,7 @@ See the Licence for the specific language governing permissions and limitations 
 This software makes use of the following third party components:
 
 
-numpy==1.6.0	 				->       BSD 3-Clause License
+numpy==1.6.1	 				->       BSD 3-Clause License
 netCDF4==1.3.0                                  ->       MIT License 
 mpi4py==2.0.0                                   ->       BSD 2-Clause "Simplified" License
 
@@ -24,7 +24,7 @@ mpi4py==2.0.0                                   ->       BSD 2-Clause "Simplifie
 
 =============================================================================
 
-numpy==1.6.0 
+numpy==1.6.1
 -------------------
 
 https://numpy.org/doc/stable/license.html

@@ -1,0 +1,167 @@
+:py:mod:`ecrops.ecrops.waterbalance.Layer`
+==========================================
+
+.. py:module:: ecrops.ecrops.waterbalance.Layer
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.waterbalance.Layer.Layer
+
+
+
+
+.. py:class:: Layer
+
+   This class represents a soil layer used in the LayeredWaterBalance and in the nitrogen related steps
+
+   .. py:attribute:: SOIL_GROUP_NO
+
+      soil typology code, used only to check whether soil layers have the same soil type
+
+
+   .. py:attribute:: TSL
+
+      Layer thickness [cm]
+
+
+   .. py:attribute:: LBSL
+      :value: 0
+
+      Lower boundary of the layer [cm]
+
+
+   .. py:attribute:: SMFCF
+
+      Field capacity point of the layer
+
+
+   .. py:attribute:: SM0
+
+      Porosity (water content at saturation) of the layer
+
+
+   .. py:attribute:: SMW
+
+      Wilting point of the layer
+
+
+   .. py:attribute:: WC0
+
+      Water content at saturation (SM0 * thickness) of the layer 
+
+
+   .. py:attribute:: WCW
+
+      Water content at wilting point (SMW * thickness) of the layer
+
+
+   .. py:attribute:: WCFC
+
+      Water content  at field capacity  (SMFCF * thickness) of the layer
+
+
+   .. py:attribute:: SOPE
+
+      maximum percolation rate root zone [cm day-1]
+
+
+   .. py:attribute:: KSUB
+
+      maximum percolation rate subsoil [cm day-1]
+
+
+   .. py:attribute:: K0
+
+      hydraulic conductivity of saturated soil [cm day-1]
+
+
+   .. py:attribute:: CONTAB
+
+      Conductivity from Potential Flux, 10-log hydraulic conductivity as a function of pF (log(cm) log(cm /day) ).
+
+
+   .. py:attribute:: SMTAB
+
+      Soil Moisture from Potential Flux, volumetric moisture content as function of (log (cm); cm3/cm3)
+
+
+   .. py:attribute:: PFTAB
+
+      Potential Flux from Soil Moisture, reverse of the SMTAB (X changed with Y, then reordered by X values)
+
+
+   .. py:attribute:: MFPTAB
+
+      Matric Flux Potential. The MFP is defined as the integral of the conductivity K(teta) from -Infinity to a certain teta (teta is the soil moisture content SM).
+      The MPF is calculated as an integral of (K(teta) * 10^(pF) * eLog10) over the pF range considered.
+
+
+   .. py:attribute:: WaterFromHeight
+
+      Only used for GroundWater: cumulative amount of water as a function of height above groundwater under 
+      equilibrium conditions. 
+
+
+   .. py:attribute:: HeightFromAir
+
+      Only used for GroundWater:  soil air volume above watertable at equilibrium
+
+
+   .. py:attribute:: CRAIRC
+
+      Critical air content for root aeration
+
+
+   .. py:attribute:: Wtop
+
+      layer weight factor Wtop (weights for contribution to rootzone: changes from 0 to 1. 1 means the layer is entirely within the rooted zone. O 
+      entirely outside the rooted zone) 
+
+
+   .. py:attribute:: Wpot
+
+      layer weight factor Wpot (weights for contribution to potentially rooted zone) 
+
+
+   .. py:attribute:: Wund
+
+      layer weight factor Wund (weights for contribution to never rooted layers) 
+
+
+   .. py:attribute:: WC
+
+      Actual water content of the layer
+
+
+   .. py:attribute:: CondFC
+
+      
+
+   .. py:attribute:: CondK0
+
+      
+
+   .. py:attribute:: SM
+
+      Actual soil moisture
+
+
+   .. py:attribute:: DWC
+
+      Actual layer water daily change
+
+
+   .. py:attribute:: DownwardFLOWAtBottomOfLayer
+      :value: 0
+
+      Downward flow at the bottom of the layer
+
+
+

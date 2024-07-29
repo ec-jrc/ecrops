@@ -1,4 +1,5 @@
-class LinkNitrogenToWofost:
+from ecrops.Step import Step
+class LinkNitrogenToWofost(Step):
     """This step links the Nitrogen stress reduction factor to wofost"""
 
     def getparameterslist(self):
@@ -8,6 +9,15 @@ class LinkNitrogenToWofost:
 
         return status
 
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
 
 
     def initialize(self,status):

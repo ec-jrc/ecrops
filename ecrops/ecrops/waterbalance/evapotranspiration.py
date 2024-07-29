@@ -5,7 +5,6 @@
 # European Commission, Joint Research Centre, March 2023
 
 
-
 import array
 from math import exp
 
@@ -13,9 +12,9 @@ from ecrops.wofost_util.util import limit
 
 import ecrops.wofost_util.Afgen
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class Evapotranspiration():
+class Evapotranspiration(Step):
     """Calculation of evaporation (water and soil) and transpiration rates.
 
     Model logic parametrization:
@@ -64,11 +63,11 @@ class Evapotranspiration():
     =======  ================================================= ==== ============
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
-    EVWMX    Maximum evaporation rate from an open water        Y    |cm day-1|
+    EVWMX    Maximum evaporation rate from an open water        Y    cm day-1
              surface.
-    EVSMX    Maximum evaporation rate from a wet soil surface.  Y    |cm day-1|
-    TRAMX    Maximum transpiration rate from the plant canopy   Y    |cm day-1|
-    TRA      Actual transpiration rate from the plant canopy    Y    |cm day-1|
+    EVSMX    Maximum evaporation rate from a wet soil surface.  Y    cm day-1
+    TRAMX    Maximum transpiration rate from the plant canopy   Y    cm day-1
+    TRA      Actual transpiration rate from the plant canopy    Y    cm day-1
     IDOS     Indicates oxygen stress on this day (True|False)   N    -
     IDWS     Indicates water stress on this day (True|False)    N    -
     =======  ================================================= ==== ============
@@ -117,8 +116,12 @@ class Evapotranspiration():
         status.evapotranspiration = Printable()
         status.evapotranspiration.params = Printable()
         cropparams = status.allparameters
-        status.evapotranspiration.params.PerformWaterBalanceStartInAdvance = 'CALC_SOILWATER_BEFORE_SOWING' in status.allparameters and status.allparameters[
-                                                                                  'CALC_SOILWATER_BEFORE_SOWING'] == 1
+        status.evapotranspiration.params.PerformWaterBalanceStartInAdvance = 'CALC_SOILWATER_BEFORE_SOWING' in status.allparameters and \
+                                                                             status.allparameters[
+                                                                                 'CALC_SOILWATER_BEFORE_SOWING'] == 1
+        status.evapotranspiration.params.PerformWaterBalanceStartInAdvanceUntilSowing = 'CALC_SOILWATER_BEFORE_SOWING' in status.allparameters and \
+                                                                                        status.allparameters[
+                                                                                            'CALC_SOILWATER_BEFORE_SOWING'] == 3
         status.evapotranspiration.params.USE_HERMES_FRROOT = False
         if hasattr(status, 'USE_HERMES_FRROOT'):
             status.evapotranspiration.params.USE_HERMES_FRROOT = status.USE_HERMES_FRROOT
@@ -192,19 +195,34 @@ class Evapotranspiration():
 
         return limit(0.10, 0.95, sweaf)
 
+    def IsWaterBalanceStarted(self, status):
+        """
+        return true if, according to the type of water balance start, the water balance is already started at the current day
+        :param status:
+        :return: true if started, false otherwise
+        """
+        if status.evapotranspiration.params.PerformWaterBalanceStartInAdvance:
+            if status.POTENTIAL_WATER_STARTDATE_date is None:
+                raise Exception(
+                    "Error running evapotranspiration with option 'PerformWaterBalanceStartInAdvance': POTENTIAL_WATER_STARTDATE is None!")
+            return status.POTENTIAL_WATER_STARTDATE_date <= status.day
+        else:
+            if status.evapotranspiration.params.PerformWaterBalanceStartInAdvanceUntilSowing:
+                if status.POTENTIAL_WATER_STARTDATE_date is None:
+                    raise Exception(
+                        "Error running evapotranspiration with option 'PerformWaterBalanceStartInAdvance': POTENTIAL_WATER_STARTDATE is None!")
+                return status.POTENTIAL_WATER_STARTDATE_date <= status.day
+            else:
+                return status.sowing_emergence_day <= status.day
+
     def runstep(self, status):
         p = status.evapotranspiration.params
         r = status.rates
         s = status.states
 
-        if status.evapotranspiration.params.PerformWaterBalanceStartInAdvance == False:
-            # start calculating the water balance only after emergence
-            if s.DOE is None or (status.day - s.DOE).days < 0:
-                return status
-        else:
-            # start calculating the water balance only after POTENTIAL_WATER_STARTDATE
-            if (status.day - status.POTENTIAL_WATER_STARTDATE_date).days < 0:
-                return status
+        # execute only after water balance calculation must be started
+        if not self.IsWaterBalanceStarted(status):
+            return status
 
         DVS = status.states.DVS
         LAI = status.states.LAI
@@ -220,9 +238,9 @@ class Evapotranspiration():
         # maximum evaporation and transpiration rates
         EKL = round(exp(-KGLOB * LAI), 12)
 
-        # davidefuma co2 effect
-        # print('status.evapotranspiration.params.Co2EffectOnPotentialTraspiration=' + str(status.evapotranspiration.params.Co2EffectOnPotentialTraspiration))
-        EKL *= float(status.evapotranspiration.params.Co2EffectOnPotentialTraspiration)
+        # co2 effect on potential traspiration
+        if hasattr(status.evapotranspiration.params, 'Co2EffectOnPotentialTraspiration'):
+            EKL *= float(status.evapotranspiration.params.Co2EffectOnPotentialTraspiration)
 
         r.EVWMX = status.states.E0 * EKL
         r.EVSMX = max(0., status.states.ES0 * EKL)
@@ -267,8 +285,6 @@ class Evapotranspiration():
                 DEPTH = 0.0
                 SUMTRA = 0.0
 
-
-
                 TRALY = array.array('d', [0.0] * s.NSL)
                 for il in range(0, s.NSL):
                     SM0 = s.SOIL_LAYERS[il].SM0
@@ -300,7 +316,7 @@ class Evapotranspiration():
                         # davidefuma 28-02-2022 multiply FRROOT per the factor of distribution of roots calculated by hermes root depth
                         FRROOT = status.hermesrootdepth.hermes_roots_layer_data[il].percentageOfRootInLayer / 100
                     else:  # original FRROOT based on ration between layer depth and root depth
-                        if s.RD>0:
+                        if s.RD > 0:
                             FRROOT = max(0.0, (min(s.RD, DEPTH + s.SOIL_LAYERS[il].TSL) - DEPTH)) / s.RD
                         else:
                             FRROOT = 1
@@ -322,3 +338,89 @@ class Evapotranspiration():
             status.states._IDOST += 1
 
         return status
+
+
+    def getinputslist(self):
+        return {
+            "SOIL_LAYERS": {"Description": "Soil layers data (only in case of multi layer soil data)", "Type": "List",
+                            "UnitOfMeasure": "-",
+                            "StatusVariable": "status.states.SOIL_LAYERS"},
+
+            "NSL": {"Description": "Number of soil layers (only in case of multi layer soil data)", "Type": "Number",
+                    "UnitOfMeasure": "-",
+                    "StatusVariable": "status.states.NSL"},
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
+            "sowing_emergence_day": {"Description": "Doy of sowing or emergence", "Type": "Number",
+                                     "UnitOfMeasure": "doy",
+                                     "StatusVariable": "status.sowing_emergence_day"},
+            "POTENTIAL_WATER_STARTDATE_date": {"Description": "Doy of start of water balance calculation", "Type": "Number",
+                                     "UnitOfMeasure": "doy",
+                                     "StatusVariable": "status.POTENTIAL_WATER_STARTDATE_date"},
+
+            "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DVS"},
+            "LAI": {"Description": "Leaf area index",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.LAI"},
+            "SM": {"Description": "Actual volumetric soil moisture content",
+                    "Type": "Number", "UnitOfMeasure": "",
+                    "StatusVariable": "status.states.SM"},
+            "E0": {"Description": "Open water evapotranspiration",
+                   "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.weather.E0"},
+            "ES0": {"Description": "Bare soil evapotranspiration",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.weather.ES0"},
+            "ET0": {"Description": "Canopy evapotranspiration",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.weather.ET0"},
+            "RD": {"Description": "Root depth", "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.states.RD"},
+        }
+
+
+    def getoutputslist(self):
+        return {
+            "SOIL_LAYERS": {"Description": "Soil layers data (only in case of multi layer soil data)", "Type": "List",
+                            "UnitOfMeasure": "-",
+                            "StatusVariable": "status.states.SOIL_LAYERS"},
+
+            "TRA": {"Description": "Actual transpiration rate from the plant canopy", "Type": "Number",
+                    "UnitOfMeasure": "cm/day",
+                    "StatusVariable": "status.rates.TRA"},
+            "TRALY": {"Description": "Array of actual transpiration rates of different layers (one value per layer, only in case of multi layer soil model)", "Type": "ArrayOfNumbers",
+                    "UnitOfMeasure": "cm/day",
+                    "StatusVariable": "status.rates.TRALY"},
+            "TRAMX": {"Description": "Max transpiration rate from the plant canopy", "Type": "Number",
+                      "UnitOfMeasure": "cm/day",
+                      "StatusVariable": "status.rates.TRAMX"},
+            "EVWMX": {"Description": "Maximum evaporation rate from an open water surface", "Type": "Number",
+                      "UnitOfMeasure": "cm/day",
+                      "StatusVariable": "status.rates.EVWMX"},
+            "EVSMX": {"Description": "Maximum evaporation rate from a wet soil surface", "Type": "Number",
+                      "UnitOfMeasure": "cm/day",
+                      "StatusVariable": "status.rates.EVSMX"},
+            "RFWS": {"Description": "Reduction factor for transpiration in case of water shortage ", "Type": "Number",
+                      "UnitOfMeasure": "unitless",
+                      "StatusVariable": "status.rates.RFWS"},
+            "WaterStressReductionFactor": {"Description": "Reduction factor for water stress calculated as TRA/TRAMX", "Type": "Number",
+                     "UnitOfMeasure": "unitless",
+                     "StatusVariable": "status.rates.WaterStressReductionFactor"},
+
+            "IDWS": {"Description": "Indicates water stress on this day (True|False) ", "Type": "Boolean",
+                     "UnitOfMeasure": "unitless",
+                     "StatusVariable": "status.rates.IDWS"},
+            "IDOS": {"Description": "Indicates oxygen stress on this day (True|False)  ",
+                     "Type": "Boolean",
+                     "UnitOfMeasure": "unitless",
+                     "StatusVariable": "status.rates.IDOS"},
+            "_IDWST": {"Description": "Sum of water stress days", "Type": "Number",
+                     "UnitOfMeasure": "days",
+                     "StatusVariable": "status.states._IDWST"},
+            "_IDOST": {"Description": "Sum of oxygen stress days",
+                     "Type": "Number",
+                     "UnitOfMeasure": "days",
+                     "StatusVariable": "status.states._IDOST"},
+
+        }

@@ -1,0 +1,62 @@
+:py:mod:`ecrops.ecrops.FPWarm.CO2EffectOnRue`
+=============================================
+
+.. py:module:: ecrops.ecrops.FPWarm.CO2EffectOnRue
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.FPWarm.CO2EffectOnRue.CO2EffectOnRue
+
+
+
+
+.. py:class:: CO2EffectOnRue
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   CO2 Effect on Rue. Reference: Stockle, C.O., Donatelli, M., Nelson, R., 2003. CropSyst, a cropping systems simulation model.
+   # European Journal of Agronomy, 18, 289-307
+
+   .. py:method:: setparameters(container)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(container)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: integrate(container)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+   .. py:method:: runstep(container)
+
+      Execute all the step’s operations
+
+
+

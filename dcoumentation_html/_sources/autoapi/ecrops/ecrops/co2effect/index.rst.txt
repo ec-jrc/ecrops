@@ -1,0 +1,25 @@
+:py:mod:`ecrops.ecrops.co2effect`
+=================================
+
+.. py:module:: ecrops.ecrops.co2effect
+
+.. autoapi-nested-parse::
+
+   This sub package contain model steps to simulate CO2 effect on plant
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   CalculateNewPartitioning/index.rst
+   Co2Data/index.rst
+   DisableCo2Effect/index.rst
+   EnableCo2Effect/index.rst
+   LinkCo2DataToAssimilation/index.rst
+   LinkCo2DataToEvapotranspiration/index.rst
+
+

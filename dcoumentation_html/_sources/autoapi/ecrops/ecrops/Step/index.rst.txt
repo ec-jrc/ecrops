@@ -1,0 +1,68 @@
+:py:mod:`ecrops.ecrops.Step`
+============================
+
+.. py:module:: ecrops.ecrops.Step
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.Step.Step
+
+
+
+
+.. py:class:: Step
+
+   Bases: :py:obj:`abc.ABC`
+
+   Abstract class that rapresents a generic step of the model workflow
+
+   .. py:method:: getparameterslist()
+      :abstractmethod:
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: getinputslist()
+      :abstractmethod:
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+      :abstractmethod:
+
+      Return the list of the outputs of the step
+
+
+   .. py:method:: setparameters(status)
+      :abstractmethod:
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(status)
+      :abstractmethod:
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: runstep(status)
+      :abstractmethod:
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+      :abstractmethod:
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+

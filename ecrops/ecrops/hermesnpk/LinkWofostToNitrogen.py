@@ -1,10 +1,20 @@
 from ..Printable import Printable
-
-class LinkWofostToNitrogen:
+from ecrops.Step import Step
+class LinkWofostToNitrogen(Step):
     """This step passes Wofost data (biomasses, phenology data, root depth) to nitrogen steps"""
 
     def getparameterslist(self):
         return {}  # no parameters in this step
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
+        }
 
     def setparameters(self, status):
         status.hermesnpk = Printable()

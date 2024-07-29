@@ -71,11 +71,11 @@ def reference_ET(DAY, LAT, ELEV, TMIN, TMAX, IRRAD, VAP, WIND,
     Output is a tuple (E0, ES0, ET0)::
 
         E0      -  Penman potential evaporation from a free
-                   water surface [mm/d]
+                   water surface [cm/d]
         ES0     -  Penman potential evaporation from a moist
-                   bare soil surface [mm/d]
+                   bare soil surface [cm/d]
         ET0     -  Penman or Penman-Monteith potential evapotranspiration from a
-                   crop canopy [mm/d]
+                   crop canopy [cm/d]
 
 .. note:: The Penman-Monteith algorithm is valid only for a reference canopy and
     therefore it is not used to calculate the reference values for bare soil and
@@ -124,7 +124,7 @@ def reference_ET(DAY, LAT, ELEV, TMIN, TMAX, IRRAD, VAP, WIND,
     if ETMODEL == "PM":
         ET0 = penman_monteith(DAY, LAT, ELEV, TMIN, TMAX, IRRAD, VAP, WIND, ANGOT)
 
-    return float(E0 / 10.), float(ES0 / 10.), float(ET0 / 10.)
+    return float(E0 / 10.), float(ES0 / 10.), float(ET0 / 10.) #mm->cm
 
 
 def penman(DAY, LAT, ELEV, TMIN, TMAX, AVRAD, VAP, WIND2, ANGSTA, ANGSTB, ATMTR):

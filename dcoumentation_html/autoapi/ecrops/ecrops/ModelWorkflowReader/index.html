@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.ModelWorkflowReader &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.ModelWorkflowReader">
+<span id="ecrops-ecrops-modelworkflowreader"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.ModelWorkflowReader" title="ecrops.ecrops.ModelWorkflowReader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.ModelWorkflowReader</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.ModelWorkflowReader" title="Permalink to this headline">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader" title="ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelWorkflowReader</span></code></a></p></td>
+<td><p>This class explores the workflow of the model and pass the informations of the workflow structure to the provided graph builders.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.ModelWorkflowReader.</span></span><span class="sig-name descname"><span class="pre">ModelWorkflowReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">abstractGraphBuilders</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class explores the workflow of the model and pass the informations of the workflow structure to the provided graph builders.
+The list of configured graph builders is provided in the init method.
+The graph builders should be valid implementations of the ecrops.graphbuilders.AbstractGraphBuilder abstract class.</p>
+<p>Each step of the workflow is transfomed in a node of the resulting graph.
+The edges (connections) between the nodes are the built considering the information between the inputs and the outputs of the steps:
+if an input variable X of a step A is an output of a step B, then a directed edge between the two steps is built. The direction of the edge is from B to A, and the label of the step is X, the name of the variable.</p>
+<p>The equality of the variables is based on the property ‘StatusVariable’ defined in each step’s getinputslist and getoutputslist methods.</p>
+<p>The display_graph method triggers the creation of the graph by the configured graph builders. The nature of final graph depends on the builder implementation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.get_unique_pairs">
+<span class="sig-name descname"><span class="pre">get_unique_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.get_unique_pairs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.add_class">
+<span class="sig-name descname"><span class="pre">add_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_instance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.add_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a step to the graph.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>step_instance: An instance of the step.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.add_all_connections">
+<span class="sig-name descname"><span class="pre">add_all_connections</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.add_all_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds all the connections between the steps
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.add_connection">
+<span class="sig-name descname"><span class="pre">add_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selfConnection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.add_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a connection between two nodes
+:param from_step: the outboud step
+:param to_step: the inbound step
+:param reverse: true is the reverse connection should be applied too
+:param selfConnection: true if is is a connection between a node and itself
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.display_graph">
+<span class="sig-name descname"><span class="pre">display_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runMode</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.ModelWorkflowReader.ModelWorkflowReader.display_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the input-output connections graph.</p>
+<p>:param config_file : path to the workflow configuration file
+:param runMode : selected runmode</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../_sources/autoapi/ecrops/ecrops/ModelWorkflowReader/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

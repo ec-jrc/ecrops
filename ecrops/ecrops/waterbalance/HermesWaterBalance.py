@@ -1,7 +1,7 @@
 import numpy as np
+from ecrops.Step import Step
 
-
-class HermesWaterBalance():
+class HermesWaterBalance(Step):
     """Waterbalance from Hermes model (Keserbaum)
     
     WATER MODEL acc.to BURNS drainage when field capacity is exceeded upward movement for evaporation acc.to Groot (1987)
@@ -46,6 +46,16 @@ class HermesWaterBalance():
     def getparameterslist(self):
         return {
 
+        }
+
+    def getinputslist(self):
+        return {
+            # to be implemented
+        }
+
+    def getoutputslist(self):
+        return {
+            #to be implemented
         }
 
     def setparameters(self, status):

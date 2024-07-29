@@ -1,39 +1,94 @@
-import copy
-import math
-from GAIage import GAIage
+from ecrops.Step import Step
 
 
 # -----------------------------------------------
 # Leaf Life
 # -----------------------------------------------
-class LeafLife():
+from ecrops.FPWarm.GAIage import GAIage
+
+
+class LeafLife(Step):
     """Leaf Life duration """
 
     def setparameters(self, container):
+        container.WarmParameters.LeafLife = container.allparameters['LeafLife']
+
         return container
 
     def initialize(self, container):
+        container.states.LeafAreaIndexAge=[]
+        #initialization of LAI
+        container.states.GreenLeafAreaIndex = 0
+        container.states.TotalLeafAreaIndex = 0
+        container.states.DeadLeafAreaIndex = 0
+        container.rates.TotalLeafAreaIndexRate = 0
+        container.rates.GreenLeafAreaIndexRate=0
+        container.rates.DeadLeafAreaIndexRate=0
         return container
 
+
+
     def integrate(self, container):
+        s = container.states  # states
+        r = container.rates  # rates
+
+
         return container
 
     def getparameterslist(self):
         return {
-            "LeafDuration": {"Description": "Leaf duration",
+            "LeafLife": {"Description": "Leaf duration",
                              "Type": "Number",
                              "Mandatory": "True", "UnitOfMeasure": "days"},
+        }
+
+    def getinputslist(self):
+        return {
+
+            "LeafAreaIndexAge": {"Description": "Array of HAIAge containig data on the leaf area index age", "Type": "Array of GAIage classes", "UnitOfMeasure": "",
+                                     "StatusVariable": "status.states.LeafAreaIndexAge"},
+            "GrowingDegreeDaysRate": {"Description": "Growing degree days rate",
+                                 "Type": "Number", "UnitOfMeasure": "C",
+                                 "StatusVariable": "status.rates.GrowingDegreeDaysRate"},
+            "TotalLeafAreaIndex": {"Description": "Total leaf area index ",
+                                   "Type": "Number",
+                                   "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.states.TotalLeafAreaIndex"},
+            "DeadLeafAreaIndex": {"Description": "Dead leaf area index",
+                                  "Type": "Number", "UnitOfMeasure": "unitless",
+                                  "StatusVariable": "status.states.DeadLeafAreaIndex"},
+            "GreenLeafAreaIndex": {"Description": "Green leaf area index",
+                                   "Type": "Number", "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.states.GreenLeafAreaIndex"},
+
+        }
+
+    def getoutputslist(self):
+        return {
+              "LeafAreaIndexAge": {"Description": "Array of HAIAge containig data on the leaf area index age", "Type": "Array of GAIage classes", "UnitOfMeasure": "",
+                                     "StatusVariable": "status.states.LeafAreaIndexAge"},
+            "DeadLeafAreaIndexRate": {"Description": "Dead leaf area index rate",
+                                      "Type": "Number", "UnitOfMeasure": "unitless",
+                                      "StatusVariable": "status.rates.DeadLeafAreaIndexRate"},
+            "GreenLeafAreaIndexRate": {"Description": "Green leaf area index rate",
+                                      "Type": "Number", "UnitOfMeasure": "unitless",
+                                      "StatusVariable": "status.rates.GreenLeafAreaIndexRate"},
+            "DeadLeafAreaIndex": {"Description": "Dead leaf area index",
+                                       "Type": "Number", "UnitOfMeasure": "unitless",
+                                       "StatusVariable": "status.states.DeadLeafAreaIndex"},
+            "GreenLeafAreaIndex": {"Description": "Green leaf area index",
+                                  "Type": "Number", "UnitOfMeasure": "unitless",
+                                  "StatusVariable": "status.states.GreenLeafAreaIndex"},
+
         }
 
     def runstep(self, container):
 
         try:
-            ex = container.Weather[(container.day - container.first_day).days]  # get the meteo data for current day
-            p = container.Parameters  # parameters
-            s = container.States  # states
-            s1 = container.States1  # ???
-            a = container.Auxiliary  # ???
-            r = container.Rates  # rates
+
+            p = container.WarmParameters  # parameters
+            s = container.states  # states
+            r = container.rates  # rates
 
             for lai in s.LeafAreaIndexAge:
                 if (lai.DailyGreenLeafAreaIndex > 0.0):
@@ -50,25 +105,25 @@ class LeafLife():
                                         reverse=True)
 
             # Kill the GAI units older than the threshold:
-            DeadLAI = self.LeavesAging(s.LeafAreaIndexAge, p.LeafDuration, r.GrowingDegreeDaysRate)
+            DeadLAI = self.LeavesAging(s.LeafAreaIndexAge, p.LeafLife, r.GrowingDegreeDaysRate)
             r.DeadLeafAreaIndexRate = DeadLAI
 
             # Calculates other rates:
             r.GreenLeafAreaIndexRate = r.TotalLeafAreaIndexRate - r.DeadLeafAreaIndexRate
 
-            s1.DeadLeafAreaIndex = s.DeadLeafAreaIndex + r.DeadLeafAreaIndexRate
-            s1.GreenLeafAreaIndex = s.GreenLeafAreaIndex + r.GreenLeafAreaIndexRate
-            s1.TotalLeafAreaIndex = s.TotalLeafAreaIndex + r.TotalLeafAreaIndexRate
-            if (s1.DeadLeafAreaIndex < 0):
-                s1.DeadLeafAreaIndex = 0
+            s.DeadLeafAreaIndex = s.DeadLeafAreaIndex + r.DeadLeafAreaIndexRate
+            if s.GreenLeafAreaIndex==0.03:
+                s.GreenLeafAreaIndex =0
+            s.GreenLeafAreaIndex = s.GreenLeafAreaIndex + r.GreenLeafAreaIndexRate
+            #s.TotalLeafAreaIndex = s.TotalLeafAreaIndex + r.TotalLeafAreaIndexRate
+            if (s.DeadLeafAreaIndex < 0):
+                s.DeadLeafAreaIndex = 0
 
-            if (s1.GreenLeafAreaIndex < 0):
-                s1.GreenLeafAreaIndex = 0
+            if (s.GreenLeafAreaIndex < 0):
+                s.GreenLeafAreaIndex = 0
 
-            if (s1.TotalLeafAreaIndex < 0):
-                s1.TotalLeafAreaIndex = 0
-
-            s1.LeafAreaIndexAge = s.LeafAreaIndexAge
+            if (s.TotalLeafAreaIndex < 0):
+                s.TotalLeafAreaIndex = 0
 
 
         except  Exception as e:

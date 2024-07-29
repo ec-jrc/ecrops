@@ -6,9 +6,9 @@
 
 
 from ..Printable import Printable
+from ecrops.Step import Step
 
-
-class WOFOST_Storage_Organ_Dynamics:
+class WOFOST_Storage_Organ_Dynamics(Step):
     """Implementation of storage organ dynamics.
 
     Storage organs are the most simple component of the plant in WOFOST and
@@ -27,8 +27,8 @@ class WOFOST_Storage_Organ_Dynamics:
     =======  ============================================= =======  ============
      Name     Description                                   Type     Unit
     =======  ============================================= =======  ============
-    TDWI     Initial total crop dry weight                  SCr      |kg ha-1|
-    SPA      Specific Pod Area                              SCr      |ha kg-1|
+    TDWI     Initial total crop dry weight                  SCr      kg ha-1
+    SPA      Specific Pod Area                              SCr      ha kg-1
     =======  ============================================= =======  ============
 
     **State variables**
@@ -37,9 +37,9 @@ class WOFOST_Storage_Organ_Dynamics:
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
     PAI      Pod Area Index                                     Y     -
-    WSO      Weight of living storage organs                    Y     |kg ha-1|
-    DWSO     Weight of dead storage organs                      N     |kg ha-1|
-    TWSO     Total weight of storage organs                     Y     |kg ha-1|
+    WSO      Weight of living storage organs                    Y     kg ha-1
+    DWSO     Weight of dead storage organs                      N     kg ha-1
+    TWSO     Total weight of storage organs                     Y     kg ha-1
     =======  ================================================= ==== ============
 
     **Rate variables**
@@ -47,9 +47,9 @@ class WOFOST_Storage_Organ_Dynamics:
     =======  ================================================= ==== ============
      Name     Description                                      Pbl      Unit
     =======  ================================================= ==== ============
-    GRSO     Growth rate storage organs                         N   |kg ha-1 d-1|
-    DRSO     Death rate storage organs                          N   |kg ha-1 d-1|
-    GWSO     Net change in storage organ biomass                N   |kg ha-1 d-1|
+    GRSO     Growth rate storage organs                         N   kg ha-1 d-1
+    DRSO     Death rate storage organs                          N   kg ha-1 d-1
+    GWSO     Net change in storage organ biomass                N   kg ha-1 d-1
     =======  ================================================= ==== ============
 
     **Signals send or handled**
@@ -61,7 +61,7 @@ class WOFOST_Storage_Organ_Dynamics:
     =======  =================================== =================  ============
      Name     Description                         Provided by         Unit
     =======  =================================== =================  ============
-    ADMI     Above-ground dry matter             CropSimulation     |kg ha-1 d-1|
+    ADMI     Above-ground dry matter             CropSimulation     kg ha-1 d-1
              increase
     FO       Fraction biomass to storage organs  DVS_Partitioning    -
     FR       Fraction biomass to roots           DVS_Partitioning    -
@@ -137,7 +137,6 @@ class WOFOST_Storage_Organ_Dynamics:
         states = status.states
         params = status.storageorgansdynamics.params
 
-
         # Stem biomass (living, dead, total)
         states.WSO += rates.GWSO
         states.DWSO += rates.DRSO
@@ -146,3 +145,53 @@ class WOFOST_Storage_Organ_Dynamics:
         # Calculate Pod Area Index (SAI)
         states.PAI = states.WSO * params.SPA
         return status
+
+    def getinputslist(self):
+        return {
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOE"},
+            "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOM"},
+            "FO": {"Description": "Partitioning to storage organs", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FO"},
+            "FR": {"Description": "Partitioning to roots", "Type": "Number", "UnitOfMeasure": "unitless",
+                   "StatusVariable": "status.states.FR"},
+            "ADMI": {"Description": "Daily increase in above-ground dry matter", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.ADMI"},
+            "WSO": {"Description": " Dry weight of living storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WSO"},
+            "DWSO": {"Description": "Dry weight of dead storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DWSO"},
+            "TWSO": {"Description": "Total weight dry + living storage organs", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TWSO"},
+
+        }
+
+    def getoutputslist(self):
+        return {
+            "PAI": {"Description": "Pod area index",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.PAI"},
+            "GRSO": {"Description": "Daily increase of dry weight of living storage organs", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.GRRT"},
+            "DRSO": {"Description": "Daily increase of dry weight of dead storage organs", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.DRRT"},
+            "GWSO": {"Description": "Daily increase of total weight dry + living storage organs", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.rates.GWRT"},
+            "WSO": {"Description": " Dry weight of living storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WRT"},
+            "DWSO": {"Description": "Dry weight of dead storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DWRT"},
+            "TWSO": {"Description": "Total weight dry + living storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TWRT"},
+
+        }

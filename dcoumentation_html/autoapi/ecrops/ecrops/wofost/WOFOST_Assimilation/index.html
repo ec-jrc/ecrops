@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ecrops.ecrops.wofost.WOFOST_Assimilation &#8212; ECroPS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ecrops.ecrops.wofost.WOFOST_Assimilation">
+<span id="ecrops-ecrops-wofost-wofost-assimilation"></span><h1><a class="reference internal" href="#module-ecrops.ecrops.wofost.WOFOST_Assimilation" title="ecrops.ecrops.wofost.WOFOST_Assimilation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ecrops.ecrops.wofost.WOFOST_Assimilation</span></code></a><a class="headerlink" href="#module-ecrops.ecrops.wofost.WOFOST_Assimilation" title="Permalink to this headline">¶</a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation" title="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WOFOST_Assimilation</span></code></a></p></td>
+<td><p>This step implements a WOFOST/SUCROS style assimilation routine.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.totass" title="ecrops.ecrops.wofost.WOFOST_Assimilation.totass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">totass</span></code></a>(DAYL, AMAX, EFF, LAI, KDIF, AVRAD, DIFPP, …)</p></td>
+<td><p>This routine calculates the daily total gross CO2 assimilation by performing a Gaussian integration over</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.assim" title="ecrops.ecrops.wofost.WOFOST_Assimilation.assim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assim</span></code></a>(AMAX, EFF, LAI, KDIF, SINB, PARDIR, PARDIF)</p></td>
+<td><p>This routine calculates the gross CO2 assimilation rate of the whole crop, FGROS, by performing a Gaussian</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.totass">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost.WOFOST_Assimilation.</span></span><span class="sig-name descname"><span class="pre">totass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DAYL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AMAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EFF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LAI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KDIF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AVRAD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DIFPP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DSINBE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SINLD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">COSLD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.totass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine calculates the daily total gross CO2 assimilation by performing a Gaussian integration over
+time. At three different times of the day, irradiance is computed and used to calculate the instantaneous
+canopy assimilation, whereafter integration takes place. More information on this routine is given by Spitters et
+al. (1988).</p>
+<p>FORMAL PARAMETERS:  (I=input,O=output,C=control,IN=init,T=time)
+name   type meaning                                    units  class
+—-   —- ——-                                    —–  —–
+DAYL    R4  Astronomical daylength (base = 0 degrees)     h      I
+AMAX    R4  Assimilation rate at light saturation      kg CO2/   I</p>
+<blockquote>
+<div><p>ha leaf/h</p>
+</div></blockquote>
+<dl class="simple">
+<dt>EFF     R4  Initial light use efficiency              kg CO2/J/  I</dt><dd><p>ha/h m2 s</p>
+</dd>
+</dl>
+<p>LAI     R4  Leaf area index                             ha/ha    I
+KDIF    R4  Extinction coefficient for diffuse light             I
+AVRAD   R4  Daily shortwave radiation                  J m-2 d-1 I
+DIFPP   R4  Diffuse irradiation perpendicular to direction of</p>
+<blockquote>
+<div><p>light                                      J m-2 s-1 I</p>
+</div></blockquote>
+<p>DSINBE  R4  Daily total of effective solar height         s      I
+SINLD   R4  Seasonal offset of sine of solar height       -      I
+COSLD   R4  Amplitude of sine of solar height             -      I
+DTGA    R4  Daily total gross assimilation           kg CO2/ha/d O</p>
+<p>Authors: Daniel van Kraalingen
+Date   : April 1991</p>
+<p>Python version:
+Authors: Allard de Wit
+Date   : September 2011</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.assim">
+<span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost.WOFOST_Assimilation.</span></span><span class="sig-name descname"><span class="pre">assim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AMAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EFF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LAI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">KDIF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SINB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PARDIR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PARDIF</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.assim" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine calculates the gross CO2 assimilation rate of the whole crop, FGROS, by performing a Gaussian
+integration over depth in the crop canopy. At three different depths in the canopy, i.e. for different values of
+LAI, the assimilation rate is computed for given fluxes of photosynthetically active radiation, whereafter
+integration over depth takes place. More information on this routine is given by Spitters et al. (1988). The
+input variables SINB, PARDIR and PARDIF are calculated in routine TOTASS. Subroutines and functions called: none.
+Called by routine TOTASS.</p>
+<p>Author: D.W.G. van Kraalingen, 1986</p>
+<p>Python version:
+Allard de Wit, 2011</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ecrops.ecrops.wofost.WOFOST_Assimilation.</span></span><span class="sig-name descname"><span class="pre">WOFOST_Assimilation</span></span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">ecrops.Step.Step</span></code></p>
+<p>This step implements a WOFOST/SUCROS style assimilation routine.</p>
+<p>WOFOST calculates the daily gross CO2 assimilation rate of a crop from the absorbed radiation and the
+photosynthesis-light response curve of individual leaves. This response is dependent on temperature and leaf age.
+The absorbed radiation is calculated from the total incoming radiation and the leaf area. Daily gross CO2
+assimilation is obtained by integrating the assimilation rates over the leaf layers and over the day.</p>
+<p><em>Simulation parameters</em></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 54%" />
+<col style="width: 8%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>AMAXTB</p></td>
+<td><p>Max. leaf CO2 assim. rate as a function of
+of DVS</p></td>
+<td><p>TCr</p></td>
+<td><p>kg ha-1 hr-1</p></td>
+</tr>
+<tr class="row-odd"><td><p>EFFTB</p></td>
+<td><p>Light use effic. single leaf as a function
+of daily mean temperature</p></td>
+<td><p>TCr</p></td>
+<td><p>kg ha-1 hr-1 /(J m-2 s-1)</p></td>
+</tr>
+<tr class="row-even"><td><p>KDIFTB</p></td>
+<td><p>Extinction coefficient for diffuse visible
+as function of DVS</p></td>
+<td><p>TCr</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>TMPFTB</p></td>
+<td><p>Reduction factor of AMAX as function of
+daily mean temperature.</p></td>
+<td><p>TCr</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>TMNFTB</p></td>
+<td><p>Reduction factor of AMAX as function of
+daily minimum temperature.</p></td>
+<td><p>TCr</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>State and rate variables</em></p>
+<p><cite>WOFOST_Assimilation</cite> has no state/rate variables, but calculates the
+rate of assimilation which is returned directly from the <cite>__call__()</cite>
+method.</p>
+<p><em>Signals sent or handled</em></p>
+<p>None</p>
+<p><em>External dependencies:</em></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 49%" />
+<col style="width: 24%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Provided by</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DVS</p></td>
+<td><p>Crop development stage</p></td>
+<td><p>DVS_Phenology</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>LAI</p></td>
+<td><p>Leaf area index</p></td>
+<td><p>Leaf_dynamics</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.getparameterslist">
+<span class="sig-name descname"><span class="pre">getparameterslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.getparameterslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the parameters of the steps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.setparameters">
+<span class="sig-name descname"><span class="pre">setparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.setparameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.runstep">
+<span class="sig-name descname"><span class="pre">runstep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.runstep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all the step’s operations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.integrate">
+<span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the values of the previous time interval before the calculation of the current time interval step operations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.getinputslist">
+<span class="sig-name descname"><span class="pre">getinputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.getinputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the inputs of the step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.getoutputslist">
+<span class="sig-name descname"><span class="pre">getoutputslist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecrops.ecrops.wofost.WOFOST_Assimilation.WOFOST_Assimilation.getoutputslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of the outputs of the step</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../../index.html">ECroPS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Packages code documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, JRC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../../../../_sources/autoapi/ecrops/ecrops/wofost/WOFOST_Assimilation/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

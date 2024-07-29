@@ -1,0 +1,30 @@
+:py:mod:`ecrops.ecrops.hermesnpk`
+=================================
+
+.. py:module:: ecrops.ecrops.hermesnpk
+
+.. autoapi-nested-parse::
+
+   This sub package contain model steps to simulate Nitrogen distribution and Nitrogen uptake by plant
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   Denitrification/index.rst
+   LinkNitrogenToWofost/index.rst
+   LinkSoilToNitrogen/index.rst
+   LinkWaterBalanceToNitrogen/index.rst
+   LinkWeatherToNitrogen/index.rst
+   LinkWofostToNitrogen/index.rst
+   Mineralization/index.rst
+   NUptake/index.rst
+   NitrogenAndCrop/index.rst
+   NitrogenStress/index.rst
+   TransportOfNitrate/index.rst
+
+

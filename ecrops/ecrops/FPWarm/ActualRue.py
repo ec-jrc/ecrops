@@ -1,15 +1,23 @@
-class ActualRue:
+from ecrops.Step import Step
+
+class ActualRue(Step):
     """
     Actual Rue
     """
 
     def setparameters(self, container):
+        container.WarmParameters.MaximumRadiationUseEfficiency = container.allparameters['MaximumRadiationUseEfficiency']
+
         return container
 
     def initialize(self, container):
+        container.states.RUEActual=0
         return container
 
     def integrate(self, container):
+        s = container.states  # states
+        r = container.rates  # rates
+
         return container
 
     def getparameterslist(self):
@@ -18,18 +26,62 @@ class ActualRue:
                                               "Mandatory": "True", "UnitOfMeasure": "kg MJ-1"},
         }
 
+    def getinputslist(self):
+        return {
+
+            "RUESaturationEffectRate": {"Description": "RUE Saturation Effect Rate", "Type": "Number", "UnitOfMeasure": "",
+                    "StatusVariable": "status.rates.RUESaturationEffectRate"},
+            "RUESenescenceEffectRate": {"Description": "RUE Senescence Effect Rate", "Type": "Number",
+                                        "UnitOfMeasure": "",
+                                        "StatusVariable": "status.rates.RUESenescenceEffectRate"},
+            "RUETemperatureEffectRate": {"Description": "RUE Temperature Effect Rate", "Type": "Number",
+                                        "UnitOfMeasure": "",
+                                        "StatusVariable": "status.rates.RUETemperatureEffectRate"},
+
+
+            "DevelopmentStageCode": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.states.DevelopmentStageCode"},
+
+            "UseSaturation": {"Description": "Booelan to use the saturation effect on RUE", "Type": "Boolean", "UnitOfMeasure": "unitless",
+                                     "StatusVariable": "status.UseSaturation"},
+            "UseSenescence": {"Description": "Booelan to use the senescence effect on RUE", "Type": "Boolean",
+                              "UnitOfMeasure": "unitless",
+                              "StatusVariable": "status.UseSenescence"},
+            "UseTemperature": {"Description": "Booelan to use the temperature effect on RUE", "Type": "Boolean",
+                              "UnitOfMeasure": "unitless",
+                              "StatusVariable": "status.UseTemperature"},
+            "UseCO2": {"Description": "Booelan to use the co2 effect on RUE", "Type": "Boolean",
+                               "UnitOfMeasure": "unitless",
+                               "StatusVariable": "status.UseCO2"},
+            "GrowthRatioCO2": {"Description": "Growth on RUE due to CO2 concentration", "Type": "Number",
+                               "UnitOfMeasure": "unitless",
+                               "StatusVariable": "status.auxiliary.GrowthRatioCO2"},
+
+
+        }
+
+    def getoutputslist(self):
+        return {
+            "RUEActualRate": {"Description": "RUE Actual Rate", "Type": "Number",
+                                         "UnitOfMeasure": "",
+                                         "StatusVariable": "status.rates.RUEActualRate"},
+            "RUEActual": {"Description": "RUE Actual", "Type": "Number",
+                              "UnitOfMeasure": "",
+                              "StatusVariable": "status.states.RUEActual"},
+
+        }
+
     def runstep(self, container):
         """
 
         """
 
         try:
-            ex = container.Weather[(container.day - container.first_day).days]  # get the meteo data for current day
-            p = container.Parameters  # parameters
-            s = container.States  # states
-            s1 = container.States1  # ???
-            a = container.Auxiliary  # ???
-            r = container.Rates  # rates
+
+            p = container.WarmParameters  # parameters
+            s = container.states  # states
+            r = container.rates  # rates
+            a = container.auxiliary
 
             if (s.DevelopmentStageCode >= 1 and s.DevelopmentStageCode <= 3):
                 if (container.UseSaturation == True and
@@ -83,7 +135,7 @@ class ActualRue:
             if (container.UseCO2 == True):
                 r.RUEActualRate = r.RUEActualRate * a.GrowthRatioCO2
 
-            s1.RUEActual = s.RUEActual + r.RUEActualRate
+            s.RUEActual += r.RUEActualRate
 
 
 

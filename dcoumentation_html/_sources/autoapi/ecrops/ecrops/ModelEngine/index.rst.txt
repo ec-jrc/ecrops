@@ -1,0 +1,445 @@
+:py:mod:`ecrops.ecrops.ModelEngine`
+===================================
+
+.. py:module:: ecrops.ecrops.ModelEngine
+
+.. autoapi-nested-parse::
+
+   Class ModelEngine and its utility classes 
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.ModelEngine.ModelEngine
+   ecrops.ecrops.ModelEngine.ModelEngineWorkflow
+   ecrops.ecrops.ModelEngine.OutputVariable
+   ecrops.ecrops.ModelEngine.DrivingVariable
+   ecrops.ecrops.ModelEngine.InitVariable
+
+
+
+
+.. py:class:: ModelEngine(config_file)
+
+   The ModelEngine class is used to run the ecrops model. When an instance of this class is created, it reads the
+   configuration from a provided configuration file. This file defines the structure of the model execution in terms
+   of steps to be executed, input data, and output variables. The class has several properties that define the
+   driving variables, the instructions to initialize the status variables, the steps to run, and the output variables.
+
+   The simulation cycle is divided into three parts: the initialize method checks that the required driving variables
+   are present and initializes the status variables with the provided input data; the executeStep method performs the
+   simulation by calling the steps in the correct order for each day in the cycle; and the finalize method returns the
+   calculated output variables.
+
+   The status of the model and its variables are stored in a "status" variable, which is modified by each model method.
+   This variable is created by the initialize method and returned to the caller. It is the caller's responsibility to
+   manage the status variable and pass it to the executeStep and finalize methods as needed. This approach allows the
+   caller to have full control over the status variable and perform custom tasks.
+
+   To use the ModelEngine class, a caller can follow the generic workflow:
+
+   - Create a ModelEngine instance with the config file: model = ModelEngine(config_file)
+   - Initialize the model with
+   the required input variables: status = model.initialize(timedependantvariables, drivingVariables, allparameters,
+   first_day, simulation_start_day, simulation_end_day)
+   - For each simulation cycle, run the executeStep method with
+   the current status: status = model.executeStep(status)
+   - After the last simulation cycle, run the finalize method
+   to get the output: result = model.finalize(status)
+
+
+   The ModelEngine class can be used in different "run modes" that define which steps to execute. This allows the
+   same model to be run in slightly different ways.
+
+   The configuration file contains:
+   - the declarations of the driving variables (= all the inputs except the model
+   parameters). All the driving variables declared are mandatory to run the model. (property drivingVariables)
+   - the instructions to initialize the status variables  (property initVariables)
+   - the steps to run (property Workflows)
+   - the variables to return as output (property Workflows)
+
+   The reading of the workflow is done in the constructor method of the ModelEngine class. Example: model =
+   ModelEngine(“my_workflow_file.xml”) The workflow can be executed on more than one “run mode”. A “run mode”
+   defines the steps to execute and can be used when the same model should be executed in slightly different ways,
+   as, for example, adding or not adding a specific step.
+
+   .. py:attribute:: Workflows
+
+      This object, once configured in the class constructor, contains the elements of the simulation: the list of 
+      active workflows and, for each of them, the list of steps to run and the variables to returns as output 
+
+
+   .. py:attribute:: XmlWorkflowConfig
+      :value: ''
+
+      XML Configuration file 
+
+
+   .. py:attribute:: initVariables
+
+      Variable initialization configuration 
+
+
+   .. py:attribute:: drivingVariables
+
+      Driving variables declaration configuration 
+
+
+   .. py:attribute:: PrintDailyDetails
+      :value: False
+
+      boolean property used to trigger the print to console of the daily status variables. Set it to true to print 
+      the daily values of all the output columns (defined in the configuration file) 
+
+
+   .. py:attribute:: ReturnDailyDetails
+      :value: False
+
+      boolean property  used to add the daily details dictionary in the status variable, so that it can be retrieved 
+      at the end of the simulation. Set it to true to save the daily value of each of the output columns (defined in 
+      the configuration file) in a dictionary: status.dailydetails 
+
+
+   .. py:attribute:: ReturnDekadalDetails
+      :value: False
+
+      boolean property  used to add the dekadal details dictionary in the status variable, so that it can be retrieved 
+      at the end of the simulation. Set it to true to save the dekadal value of each of the output columns (defined in 
+      the configuration file) in a dictionary: status.dailydetails
+       The dekadal configuration returns only the days that are considered 'dekadal':the 10th , the 20th and the last day of the month
+       
+
+
+   .. py:attribute:: PrintDailyDetailsToFile
+      :value: False
+
+      "boolean property used to trigger the print to file of the daily status variables.
+
+
+   .. py:attribute:: PrintDailyDetails_OutputFile
+      :value: 'output.csv'
+
+      "Name of the output file to print the daily status variables.
+
+
+   .. py:attribute:: debug_timing_mode
+      :value: False
+
+      
+
+   .. py:attribute:: debug_timing_runstep_time
+
+      
+
+   .. py:attribute:: debug_timing_initialize_time
+
+      
+
+   .. py:attribute:: debug_timing_integrate_time
+
+      
+
+   .. py:method:: createModelGraph(runMode, graphbuilders=[TextualGraphBuilder()])
+
+      Create the graphs of the loaded workflow, by using the provided graph builders.
+      To do so, it uses a class ModelWorkflowReader.
+      Among the run modes defined in the workflow, only the runMode passed as argument will be considered.
+
+      :param runMode: the run mode to plot a graph. If not present in the loaded workflow, the method will raise an exception
+
+      :param graphbuilders: the list of graph builders. Each one of them should be an instance of a class, subclass of abstract class ecrops.graphbuilders.AbstractGraphBuilder
+
+
+
+   .. py:method:: getParametersList()
+
+      Collect the parameters of all the steps
+
+
+   .. py:method:: getParametersListAsJson()
+
+      Collects the parameters of all the steps and return them as a JSON file
+
+
+   .. py:method:: initialize(timedependantvariables, timeDependantVariableColumn, drivingVariables, allparameters, first_day, simulation_start_day, simulation_end_day)
+
+      Initializes the status variable, by using all the inputs defined in the “Init” section of the workflow file,
+      and reading values from the six arguments.
+
+      For example, if in the “Init” section is present this line
+      <Variable    name="LAT" source="drivingVariables['LAT']" />
+      then the engine executes this line of code
+      status.LAT=drivingVariables['LAT']
+      so it instantiates a new variable called "LAT" in “status” and sets its
+      value to the result of the execution of the instruction “drivingVariables['LAT']” (drivingVariables is one of
+      the arguments of the “initialize” method).
+
+      Arguments:
+
+      :param timedependantvariables: contains all the time dependant variables (e.g. weather data)
+
+      :param timeDependantVariableColumn: contains the position in the array of the timedependantvariables
+
+      :param allparameters: contains the model's parameters
+
+      :param first_day: first value for status.day variable
+
+      :param simulation_start_day: the simulation of the steps is performed only when simulation_start_day >= status.day
+
+      :param simulation_end_day: the simulation of the steps is performed only when simulation_start_day <= status.day
+
+      :param drivingVariables: the driving variables are all the variables that defines the configuration of the simulation to run, for example the crop to be run, the years to be run, the latitude and logitude of the simulated location, the soil properties of the location,… In practice, the driving variables contains all the input data except the time dependant variables and the model parameters.
+      If the driving variables where defined in the DrivingVariables section of the workflow configuration file, it checks that all the DrivingVariables defined in the configuration file are set. In case one is missing an
+      exception is thrown. If the DrivingVariables section was not defined in the file, the check is not performed.
+
+      :returns: the status variable.
+
+
+   .. py:method:: executeStep(status, runMode)
+
+      Runs all steps for specific run mode, in the defined order, for every value of status.day property when
+      status.simulation_start_day <= status.day <= status.simulation_end_day.
+      status.day is incremented by 1 day at the end of the method.
+      For every step, the “status” variable is set as an input of the step, is updated by the step and returned to the engine.
+
+      Arguments:
+
+      :param status: the status of the model
+
+      :param runMode: the current run mode
+
+      :returns: the updated status of the model
+
+
+
+   .. py:method:: finalize(status, runMode)
+
+      For the current run mode it generates an array with output variables calculated after the last time interval
+      executed and returns it. To do so, it uses the output variables definition read from the workflow file.
+
+      Arguments:
+
+      :param status: the status of the model
+
+      :param runMode: the current run mode returns: the array containing the values of the output variables, in the same order they are returned by getOutputVariables and
+      getOutputVariablesNames methods
+
+      :returns: a tuple containing two values: the summary output and the daily details array (if ReturnDailyDetails is False, the  daily details array is None)
+
+
+   .. py:method:: SerializeStatus(status)
+
+      Serializes the status of the model, passed as argument.
+
+      :param status: the status of the model
+
+      :returns: the pickled serialized string
+
+
+   .. py:method:: DeserializeStatus(pickled_string)
+
+      Deserializes the status of the model. Returns the new status, created  from the pickled serialized string passed as argument.
+
+      :param pickled_string: the pickled serialized string
+
+      :returns: the new status of the model
+
+
+
+   .. py:method:: readWorkflowConfigurationFromXML()
+
+      Reads the workflows configuration for which the flag RUN is ON. It reads the XML configuration file with
+      which the instance was created. While reading the file, it populates the elements of property Workflows,
+      which, at the end of this operation, will contain the configuration to run. It also populates property initVariables,
+      which,  at the end of this operation, will contain the instructions to initialize the model status.
+
+
+   .. py:method:: getSteps2Run(runMode)
+
+      Retrieves the steps to run for specific run mode from the configured Workflows property.
+
+      Arguments:
+
+      :param runMode: the current run mode
+      :returns: The list of steps to run
+
+
+   .. py:method:: getOutputVariables(runMode)
+
+      Retrieves the output variables for specific run mode from the configured Workflows property.
+
+      Arguments:
+
+      :param runMode: the current run mode
+      :returns: the list of output variables as 'Variable' objects
+
+
+   .. py:method:: getOutputVariablesNames(runMode)
+
+      Retrieves the output variables names for specific run mode from the configured Workflows property.
+
+      Arguments:
+
+      :param runMode: the current run mode
+
+      :returns: the list of output variables names
+
+
+   .. py:method:: getNumberOfOutputVariables(runMode)
+
+      Retrieves the number of output variables for a specific run mode from the configured Workflows property.
+      Arguments:
+
+      :param runMode: the current run mode
+
+      :returns: the number of output variables names
+
+
+   .. py:method:: getRunModeNames()
+
+      Returns the available run modes defined in the workflow file from the configured Workflows properties
+
+
+   .. py:method:: getTotalNumberOfOutputVariables()
+
+      Retrieves the number of output variables for all run modes from the configured Workflows properties
+
+
+   .. py:method:: getOutputVariablePosition(runMode, variablename)
+
+      Retrieves the position of a variable among all the output variables from the configured Workflows properties.
+
+      :param runMode: the current run mode
+
+      :param variablename: the variable name
+
+      :returns: the position (numeric index) of the specified variable
+
+
+
+   .. py:method:: is_last_day_of_month(dt)
+
+
+   .. py:method:: id_dekadal_day(dt)
+
+
+
+.. py:class:: ModelEngineWorkflow
+
+   Represents a model workflow file
+
+   .. py:attribute:: name
+      :value: ''
+
+      Name of the workflow
+
+
+   .. py:attribute:: steps
+
+      List of steps of the workflow
+
+
+   .. py:attribute:: outputVariables
+
+      List of output variables of the workflow (OutputVariable object)
+
+
+
+.. py:class:: OutputVariable
+
+   Represents a model output variable defined in the workflow file
+
+   .. py:attribute:: name
+      :value: ''
+
+      Name of the variable
+
+
+   .. py:attribute:: source
+      :value: ''
+
+      Definition of the variable as used in the steps. A variable to be extracted as output should belong to property 
+      'status', so the source should start with 'status' .E.g. 'status.weather.RAIN' 
+
+
+   .. py:attribute:: description
+      :value: ''
+
+      Textual description of the variable
+
+
+
+.. py:class:: DrivingVariable
+
+   Represents the definition of a driving variable
+
+   .. py:attribute:: name
+      :value: ''
+
+      
+
+   .. py:attribute:: description
+      :value: ''
+
+      
+
+   .. py:attribute:: unitofmeasure
+      :value: ''
+
+      
+
+   .. py:attribute:: type
+      :value: ''
+
+      
+
+
+.. py:class:: InitVariable
+
+   Represents a model initialization variable defined in the workflow file
+
+   .. py:attribute:: name
+      :value: ''
+
+      Name of the variable. The variable will be created as attribute of the status property using the preovided name. 
+      For example is name is 'myvar', it will be created a variable status.myvar = value provided by source attribute
+
+
+   .. py:attribute:: source
+      :value: ''
+
+      The source represents the way the Engine can get the variable value from the input data. Input data include:
+
+      - drivingVariables
+
+      - timedependantvariables
+
+      - allparameters
+
+      - first_day
+
+      - simulation_start_day
+
+      - simulation_end_day
+
+      e.g.
+      source = drivingVariables['LAT']
+      or
+      source = first_day
+      or 
+      source = timedependantvariables
+
+      Alternatively, the value of the variable can be directly written in the workflow file.
+      Any valid python expression is valid as a value. 
+      Examples:  source = "57" ,  source = "[]", source = "'a certain string'", 
+      source = "0 if drivingVariables['DEPTH'] &lt;= 0 else drivingVariables['DEPTH'] 
+
+
+

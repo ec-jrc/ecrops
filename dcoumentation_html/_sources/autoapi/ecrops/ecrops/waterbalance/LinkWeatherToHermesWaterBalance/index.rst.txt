@@ -1,0 +1,61 @@
+:py:mod:`ecrops.ecrops.waterbalance.LinkWeatherToHermesWaterBalance`
+====================================================================
+
+.. py:module:: ecrops.ecrops.waterbalance.LinkWeatherToHermesWaterBalance
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.waterbalance.LinkWeatherToHermesWaterBalance.LinkWeatherToHermesWaterBalance
+
+
+
+
+.. py:class:: LinkWeatherToHermesWaterBalance
+
+   Bases: :py:obj:`ecrops.Step.Step`
+
+   This step passes weather data to Hermes water balance
+
+   .. py:method:: getparameterslist()
+
+      Return the list of the parameters of the steps
+
+
+   .. py:method:: setparameters(status)
+
+      Prepare the parameters necessary for the step run (it is called only before executing the step for the first time)
+
+
+   .. py:method:: initialize(status)
+
+      Initialize the step data, for example the status variables used in the step (it is called only before executing the step for the first time)
+
+
+   .. py:method:: runstep(status)
+
+      Execute all the step’s operations
+
+
+   .. py:method:: integrate(status)
+
+      Merge the values of the previous time interval before the calculation of the current time interval step operations
+
+
+   .. py:method:: getinputslist()
+
+      Return the list of the inputs of the step
+
+
+   .. py:method:: getoutputslist()
+
+      Return the list of the outputs of the step
+
+
+

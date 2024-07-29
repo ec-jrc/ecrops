@@ -1,0 +1,64 @@
+:py:mod:`ecrops.ecrops.graphbuilders.AbstractGraphBuilder`
+==========================================================
+
+.. py:module:: ecrops.ecrops.graphbuilders.AbstractGraphBuilder
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   ecrops.ecrops.graphbuilders.AbstractGraphBuilder.AbstractGraphBuilder
+
+
+
+
+.. py:class:: AbstractGraphBuilder
+
+   Bases: :py:obj:`abc.ABC`
+
+   Abstract class to provide a definition for creating a graph builder class, to create/plot graphs of the ECroPS workflow structure. This definition is used by ModelWorkflowReader class.
+   An example of implementation is given by class TextualGraphBuilder.
+
+   .. py:method:: initialize()
+      :abstractmethod:
+
+      Initialize the graph builder
+      :return:
+
+
+   .. py:method:: addStepNode(step_name, step_class_instance, step_parameters_dict, step_description)
+      :abstractmethod:
+
+      Adds a step to the graph
+      :param step_name: step name
+      :param step_class_instance: instance of the step class
+      :param step_parameters_dict: the dictionary containing the step's parameters
+      :param step_description: step's description
+      :return:
+
+
+   .. py:method:: addEdge(to_step_name, from_step_name, common_variables)
+      :abstractmethod:
+
+      Adds an edge between two steps
+      :param to_step_name: inbound step name
+      :param from_step_name: outbound step name
+      :param common_variables: list of common variables that link the two steps
+      :return:
+
+
+   .. py:method:: finalize(config_file, runMode)
+      :abstractmethod:
+
+      Create/display/plot the graph
+      :param config_file : path to the workflow configuration file
+      :param runMode : selected runmode
+      :return:
+
+
+
