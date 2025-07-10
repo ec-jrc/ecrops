@@ -8,11 +8,9 @@ class PlantHeight(Step):
     """
 
     def getparameterslist(self):
-        return {
-            "MaximumPlantHeight": {"Description": "Maximum Plant Height", "Type": "Number",
-                                   "Mandatory": "True", "UnitOfMeasure": "cm"}
+        return { }
 
-        }
+
 
     def setparameters(self, status):
         status.plantheight = Printable()
@@ -42,6 +40,9 @@ class PlantHeight(Step):
             "PlantHeight": {"Description": "Plant height", "Type": "Number",
                     "UnitOfMeasure": "cm",
                     "StatusVariable": "status.plantheight.PlantHeight"},
+            "MaximumPlantHeight": {"Description": "Maximum plant height", "Type": "Number",
+                            "UnitOfMeasure": "cm",
+                            "StatusVariable": "status.MaximumPlantHeight"},
 
         }
 

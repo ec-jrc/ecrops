@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="InterceptedAbsorbedRadiation" StepModule="ecrops.FPWarm.InterceptedAbsorbedRadiation">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.weather.IRRAD" Value="" />
+        <Input Name="status.states.TotalLeafAreaIndex" Value="" />
+        <Input Name="status.states.InterceptedSolarRadiation" Value="" />
+        <Input Name="status.states.AbsorbedSolarRadiation" Value="" />
+        <Input Name="status.states.GreenLeafAreaIndex" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.TotalLeafAreaIndex" Value="" />
+        <Output Name="status.states.GreenLeafAreaIndex" Value="" />
+        <Output Name="status.rates.InterceptedSolarRadiationRate" Value="" />
+        <Output Name="status.rates.AbsorbedSolarRadiationRate" Value="" />
+        <Output Name="status.states.InterceptedSolarRadiation" Value="" />
+        <Output Name="status.states.AbsorbedSolarRadiation" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

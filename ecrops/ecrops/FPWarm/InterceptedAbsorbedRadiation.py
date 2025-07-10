@@ -10,6 +10,9 @@ class InterceptedAbsorbedRadiation(Step):
     """
 
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.ExtinctionCoefficientSolarRadiation = container.allparameters['ExtinctionCoefficientSolarRadiation']
 
         return container
@@ -17,7 +20,8 @@ class InterceptedAbsorbedRadiation(Step):
     def initialize(self, container):
         container.states.InterceptedSolarRadiation = 0
         container.states.AbsorbedSolarRadiation = 0
-
+        container.states.GreenLeafAreaIndex = 0
+        container.states.TotalLeafAreaIndex = 0
 
         return container
 
@@ -44,9 +48,9 @@ class InterceptedAbsorbedRadiation(Step):
                       "Type": "Number", "UnitOfMeasure": "J/(m2 day) ",
                       "StatusVariable": "status.weather.IRRAD"},
             "TotalLeafAreaIndex": {"Description": "Total leaf area index",
-                                                  "Type": "Number",
-                                                  "UnitOfMeasure": "unitless",
-                                                  "StatusVariable": "status.states.TotalLeafAreaIndex"},
+                                   "Type": "Number",
+                                   "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.states.TotalLeafAreaIndex"},
             "InterceptedSolarRadiation": {"Description": "Intercepted solar radiation ",
                                           "Type": "Number",
                                           "UnitOfMeasure": "unitless",
@@ -55,6 +59,10 @@ class InterceptedAbsorbedRadiation(Step):
                                        "Type": "Number",
                                        "UnitOfMeasure": "unitless",
                                        "StatusVariable": "status.states.AbsorbedSolarRadiation"},
+            "GreenLeafAreaIndex": {"Description": "Green leaf area index",
+                                   "Type": "Number",
+                                   "UnitOfMeasure": "unitless",
+                                   "StatusVariable": "status.states.GreenLeafAreaIndex"},
 
         }
 
@@ -69,21 +77,21 @@ class InterceptedAbsorbedRadiation(Step):
                                    "UnitOfMeasure": "unitless",
                                    "StatusVariable": "status.states.GreenLeafAreaIndex"},
             "InterceptedSolarRadiationRate": {"Description": "Intercepted solar radiation rate",
-                                   "Type": "Number",
-                                   "UnitOfMeasure": "unitless",
-                                   "StatusVariable": "status.rates.InterceptedSolarRadiationRate"},
+                                              "Type": "Number",
+                                              "UnitOfMeasure": "unitless",
+                                              "StatusVariable": "status.rates.InterceptedSolarRadiationRate"},
             "AbsorbedSolarRadiationRate": {"Description": "Absorbed solar radiation rate",
-                                              "Type": "Number",
-                                              "UnitOfMeasure": "unitless",
-                                              "StatusVariable": "status.rates.AbsorbedSolarRadiationRate"},
-            "InterceptedSolarRadiation": {"Description": "Intercepted solar radiation ",
-                                              "Type": "Number",
-                                              "UnitOfMeasure": "unitless",
-                                              "StatusVariable": "status.states.InterceptedSolarRadiation"},
-            "AbsorbedSolarRadiation": {"Description": "Absorbed solar radiation ",
                                            "Type": "Number",
                                            "UnitOfMeasure": "unitless",
-                                           "StatusVariable": "status.states.AbsorbedSolarRadiation"},
+                                           "StatusVariable": "status.rates.AbsorbedSolarRadiationRate"},
+            "InterceptedSolarRadiation": {"Description": "Intercepted solar radiation ",
+                                          "Type": "Number",
+                                          "UnitOfMeasure": "unitless",
+                                          "StatusVariable": "status.states.InterceptedSolarRadiation"},
+            "AbsorbedSolarRadiation": {"Description": "Absorbed solar radiation ",
+                                       "Type": "Number",
+                                       "UnitOfMeasure": "unitless",
+                                       "StatusVariable": "status.states.AbsorbedSolarRadiation"},
 
         }
 
@@ -95,8 +103,7 @@ class InterceptedAbsorbedRadiation(Step):
             s = container.states  # states
             r = container.rates  # rates
 
-
-            #initalization of LAU at emergence
+            # initalization of LAU at emergence
             if (s.DevelopmentStageCode >= 1.00 and s.TotalLeafAreaIndex == 0):
                 s.GreenLeafAreaIndex = 0.007
                 s.TotalLeafAreaIndex = 0.007

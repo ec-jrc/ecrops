@@ -6,12 +6,17 @@ class SpecificLeafAreaWarm(Step):
     simulating rice growth (Japonica type – short cycle varieties). Italian Journal of Agrometeorology, 3, 7-16
     """
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.SpecificLeafAreaAtTillering = container.allparameters['SpecificLeafAreaAtTillering']
         container.WarmParameters.SpecificLeafAreaAtEmergence = container.allparameters['SpecificLeafAreaAtEmergence']
 
         return container
 
     def initialize(self, container):
+        container.states.SpecificLeafArea = 0
+        container.rates.TotalLeafAreaIndexRate = 0
         return container
 
     def integrate(self, container):

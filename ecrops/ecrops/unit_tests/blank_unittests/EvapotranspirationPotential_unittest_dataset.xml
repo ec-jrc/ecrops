@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="EvapotranspirationPotential" StepModule="ecrops.wofost.evapotranspirationPotential">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="CFET" Value="" />
+        <Parameter Name="KDIFTB" Value="" />
+        <Parameter Name="Co2EffectOnPotentialTraspiration" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.states.LAI" Value="" />
+        <Input Name="status.states.ET0" Value="" />
+        <Input Name="status.states.E0" Value="" />
+        <Input Name="status.states.ES0" Value="" />
+        <Input Name="status.evapotranspiration.params.Co2EffectOnPotentialTraspiration" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.TRA" Value="" />
+        <Output Name="status.rates.TRAMX" Value="" />
+        <Output Name="status.rates.EVWMX" Value="" />
+        <Output Name="status.rates.EVSMX" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

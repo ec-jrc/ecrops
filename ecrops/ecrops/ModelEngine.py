@@ -69,8 +69,11 @@ class ModelEngine:
     """This object, once configured in the class constructor, contains the elements of the simulation: the list of 
     active workflows and, for each of them, the list of steps to run and the variables to returns as output """
 
+    file_mode = True
+    """Specifies if a path of the configuration file is provided, or if it is the XML string content of the file"""
+
     XmlWorkflowConfig = ''
-    """ XML Configuration file """
+    """ XML Configuration file (if file_mode is True) or the XML content string (if file_mode is False) """
 
     initVariables = None
     """ Variable initialization configuration """
@@ -100,12 +103,19 @@ class ModelEngine:
     PrintDailyDetails_OutputFile = "output.csv"
     """"Name of the output file to print the daily status variables."""
 
-    def __init__(self, config_file):
-        """Constructor: sets the path of the workflow configuration file, reads the file and populates the properties
-        Workflows, drivingVariables and initVariables
+    def __init__(self, configuration, file_mode=True):
+        """Constructor: if file_mode is True (default): sets the 'configuration' argument as the path of the workflow
+        configuration file, reads the file and populates the properties Workflows, drivingVariables and
+        initVariables. If file_mode is False, the 'configuration' string contains the content of the configuration file
+
         """
-        self.XmlWorkflowConfig = config_file
-        self.readWorkflowConfigurationFromXML()
+        self.file_mode = file_mode #True if the XML file is provided, False if the XML content string is provided
+        if file_mode:
+            self.XmlWorkflowConfig = configuration
+            self.readWorkflowConfigurationFromXMLFile()
+        else:
+            self.XmlWorkflowConfig = configuration
+            self.readWorkflowConfigurationFromXMLString()
         d = datetime.datetime(1999, 1, 1)  # do not remove!
 
     debug_timing_mode = False  # set to true to enable component time tracing
@@ -127,31 +137,37 @@ class ModelEngine:
         if self.Workflows is None:
             raise Exception("No workflow loaded")
         if runMode not in [w.name for w in self.Workflows]:
-            raise Exception("Run mode "+runMode+ "not found in the loaded workflow")
+            raise Exception("Run mode " + runMode + "not found in the loaded workflow")
         modelWorkflowReader = ModelWorkflowReader(graphbuilders)
         steps = self.getSteps2Run(runMode)
 
-        #create an INIT fake step to mimyc the input data from the configuration file
+        # create an INIT fake step to mimyc the input data from the configuration file
         class INIT():
-            def __init__(self,v):
-                self.vars=v
+            def __init__(self, v):
+                self.vars = v
+
             def getinputslist(self):
                 return {
                 }
+
             def getoutputslist(self):
                 return self.vars
 
-        initvariables={}
+        initvariables = {}
         for iVar in self.initVariables:
-            initvariables[iVar.name]={"Description": "",
-                                 "Type": "", "UnitOfMeasure": "",
-                                 "StatusVariable": "status."+ iVar.name}
+            initvariables[iVar.name] = {"Description": "",
+                                        "Type": "", "UnitOfMeasure": "",
+                                        "StatusVariable": "status." + iVar.name}
         modelWorkflowReader.add_class(INIT(initvariables))
 
         for step in steps:
             modelWorkflowReader.add_class(step)
         modelWorkflowReader.add_all_connections()
-        modelWorkflowReader.display_graph(self.XmlWorkflowConfig,runMode)
+
+        if self.file_mode:
+            modelWorkflowReader.display_graph(self.XmlWorkflowConfig, runMode)
+        else:
+            modelWorkflowReader.display_graph('-', runMode)
 
     def getParametersList(self):
         """
@@ -219,6 +235,7 @@ class ModelEngine:
         status.states = Printable()
         status.model_initialized = False
         status.day = first_day
+        status.doy = first_day
         status.first_day = first_day
         status.simulation_start_day = simulation_start_day
         status.simulation_end_day = simulation_end_day
@@ -421,6 +438,9 @@ class ModelEngine:
         """
         For the current run mode it generates an array with output variables calculated after the last time interval
         executed and returns it. To do so, it uses the output variables definition read from the workflow file.
+        It also returns the daily details object if ReturnDailyDetails or ReturnDekadalDetails are True. Finally,
+        if PrintDailyDetails or PrintDailyDetailsToFiles is True, it prints the content of the daily details object
+        to the console output or to the specified file (PrintDailyDetails_OutputFile)
 
         Arguments:
 
@@ -429,7 +449,11 @@ class ModelEngine:
         :param runMode: the current run mode returns: the array containing the values of the output variables, in the same order they are returned by getOutputVariables and
         getOutputVariablesNames methods
 
-        :returns: a tuple containing two values: the summary output and the daily details array (if ReturnDailyDetails is False, the  daily details array is None)
+        :returns: a tuple containing two values: 1) the summary output array. It is a 1D array having size  =
+        NUM_OUTPUT_VARIABLES -  2) the daily details dictionary (if ReturnDailyDetails and ReturnDekadalDetails are
+        False, the returned daily details object is None).  The dictionary contains one item for each output
+        variable: the key is the variable name, the value is a list: the list contains one item per simulated day.
+        Each item of the list is the value of the output variable at that day.
         """
         try:
             for k in self.debug_timing_initialize_time.keys():
@@ -438,6 +462,7 @@ class ModelEngine:
                 print('integrate time' + k + ' : ' + str(self.debug_timing_integrate_time[k]) + ' seconds')
             for k in self.debug_timing_runstep_time.keys():
                 print('runstep time' + k + ' : ' + str(self.debug_timing_runstep_time[k]) + ' seconds')
+
             # retrieve the output variables for the specific runMode
             outVariables = self.getOutputVariables(runMode)
             if outVariables is None:
@@ -446,7 +471,7 @@ class ModelEngine:
                 return None
 
             # initialize the array to return
-            to_return = np.zeros(len(outVariables))
+            summary_output_array = np.zeros(len(outVariables))
 
             i = 0
             for oVar in outVariables:
@@ -471,7 +496,7 @@ class ModelEngine:
                         varValue = eval(progressiveVarName)
 
                 if varConditions == True and varValue is not None:
-                    to_return[i] = varValue
+                    summary_output_array[i] = varValue
 
                 i = i + 1
 
@@ -496,14 +521,46 @@ class ModelEngine:
                             sys.stdout.write(str(status.dailydetails[col][row]) + ',')
 
             if self.ReturnDailyDetails or self.ReturnDekadalDetails:
-                return to_return, status.dailydetails
+                return summary_output_array, status.dailydetails
             else:
-                return to_return, None
+                return summary_output_array, None
 
         except Exception as exc:
             print(("\nError executing the ModelEngine finalize :" + str(exc)))
             traceback.print_exc(limit=20, file=sys.stdout)
             return None
+
+    def SerializeModelInputConfiguration(self, timedependantvariables, timeDependantVariableColumn, drivingVariables,
+                                         allparameters,
+                                         first_day, simulation_start_day,
+                                         simulation_end_day):
+        """
+        Serializes the configuration of the model, passed as argument, including:
+         - the xml configuration file
+         - all the arguments of the 'initialize' method:
+            - timedependantvariables
+            - timeDependantVariableColumn
+            - drivingVariables
+            - allparameters,
+            - first_day
+            - simulation_start_day
+            - simulation_end_day
+
+        :returns: the pickle serialized string
+        """
+        if self.file_mode:
+            with open(self.XmlWorkflowConfig, "r") as file1:
+                workflow_config_file = file1.read()
+
+
+        else:
+            workflow_config_file=self.XmlWorkflowConfig
+        model_configuration = [workflow_config_file, timedependantvariables, timeDependantVariableColumn, drivingVariables,
+                               allparameters, first_day, simulation_start_day, simulation_end_day]
+
+        pickled_string = pickle.dumps(model_configuration)
+        return pickled_string
+
 
     def SerializeStatus(self, status):
         """
@@ -529,14 +586,29 @@ class ModelEngine:
         status = pickle.loads(pickled_string)
         return status
 
-    def readWorkflowConfigurationFromXML(self):
+    def readWorkflowConfigurationFromXMLFile(self):
         """
-        Reads the workflows configuration for which the flag RUN is ON. It reads the XML configuration file with
-        which the instance was created. While reading the file, it populates the elements of property Workflows,
-        which, at the end of this operation, will contain the configuration to run. It also populates property initVariables,
-        which,  at the end of this operation, will contain the instructions to initialize the model status.
-        """
+               Reads the workflows configuration for which the flag RUN is ON. It reads the XML configuration file self.XmlWorkflowConfig with
+               which the instance was created. While reading the file, it populates the elements of property Workflows,
+               which, at the end of this operation, will contain the configuration to run. It also populates property initVariables,
+               which,  at the end of this operation, will contain the instructions to initialize the model status.
+               """
         xm = minidom.parse(self.XmlWorkflowConfig)
+        return self.readWorkflowConfigurationFromXML(xm)
+
+
+    def readWorkflowConfigurationFromXMLString(self):
+        """
+               Reads the workflows configuration for which the flag RUN is ON. It reads the XML string self.XmlWorkflowConfig with
+               which the instance was created. While reading the file, it populates the elements of property Workflows,
+               which, at the end of this operation, will contain the configuration to run. It also populates property initVariables,
+               which,  at the end of this operation, will contain the instructions to initialize the model status.
+               """
+        xm = minidom.parseString(self.XmlWorkflowConfig)
+        return self.readWorkflowConfigurationFromXML(xm)
+
+
+    def readWorkflowConfigurationFromXML(self, xm):
         xWs = xm.getElementsByTagName('Workflow')
         self.Workflows = list()
 
@@ -550,23 +622,12 @@ class ModelEngine:
                 xSteps = xWk.getElementsByTagName('Step')
                 for xStep in xSteps:
                     stepParts = str(xStep.firstChild.nodeValue).split('|')
-                    moduleParts = stepParts[0].split('.')
 
-                    # load all modules hierarchy
-                    moduleName = moduleParts[0]
-                    moduleLoaded = importlib.import_module(moduleName)
-                    for p in range(1, len(moduleParts)):
-                        moduleName = moduleName + ('' if len(moduleName) == 0 else '.') + moduleParts[p]
-                        moduleLoaded = importlib.import_module(moduleName)
+                    # create the instance of the step
+                    stepinstance = create_instance(stepParts[0], stepParts[1])
 
-                    # load the class
-                    m = getattr(moduleLoaded, stepParts[1]) #m is the loaded type
-                    #check the loaded type is implementation of abstract class step. Otherwise throw an error
-                    if not (issubclass(m,Step.Step)):
-                        raise Exception("Class "+xStep.firstChild.nodeValue+" is not a valid implementation of Step")
-                    # add the step's INSTANCE to the steps ( m() retuns the instance of type m)
-                    wk.steps.append(m())
-                    # wk.steps.append( eval(str(xStep.firstChild.nodeValue)) () )
+                    # add the step's INSTANCE to the steps list
+                    wk.steps.append(stepinstance)
 
                 # read output variables for current workflow
                 xOutput = xWk.getElementsByTagName('Output')
@@ -702,6 +763,27 @@ class ModelEngine:
     def id_dekadal_day(self, dt):
         return dt.day == 10 or dt.day == 20 or self.is_last_day_of_month(dt)
 
+def DeSerializeModelInputConfiguration(serialized_pickle_string):
+    """
+    Deserializes the model starting from a pickle serialized string returned by method 'SerializeModelInputConfiguration'.
+    It returns an instance of ModelEngine, on which the 'initialize' method was already called.
+
+    :param status: the pickle serialized string of the model configuration
+
+    :returns: a list of tuples, one for each runmode defined in the configuration file, and active (run="ON"). Every tuple contains:
+     - the runmode name
+     - the instance of a ModelEngine already initialized
+     - the status variable after the initialization
+    """
+    res = pickle.loads(serialized_pickle_string)
+    m = ModelEngine(res[0], file_mode=False)
+    runmodes = m.getRunModeNames()
+    ret=[]
+    for rm in runmodes:
+        status = m.initialize(res[1], res[2], res[3], res[4], res[5], res[6], res[7])
+        ret.append((rm,m,status))
+    return ret
+
 
 class ModelEngineWorkflow:
     """
@@ -779,3 +861,25 @@ class InitVariable:
      Examples:  source = "57" ,  source = "[]", source = "'a certain string'", 
      source = "0 if drivingVariables['DEPTH'] &lt;= 0 else drivingVariables['DEPTH'] 
      """
+
+
+def create_instance(moduleName, classname):
+    """
+    Create and return the instance of a Step, given the step module name and the class name. If the type loaded is not a valid Step implementation, an exception will be raised
+    :param moduleName: the module name (e.g. ecrops.wofost.evapotranspirationPotential)
+    :param classname: the class name (e.g EvapotranspirationPotential)
+    :return: the instance of the Step
+    """
+    moduleParts = moduleName.split('.')
+    moduleName = moduleParts[0]
+    moduleLoaded = importlib.import_module(moduleName)
+    for p in range(1, len(moduleParts)):
+        moduleName = moduleName + ('' if len(moduleName) == 0 else '.') + moduleParts[p]
+        moduleLoaded = importlib.import_module(moduleName)
+
+    # load the class
+    m = getattr(moduleLoaded, classname)  # m is the loaded type
+    # check the loaded type is implementation of abstract class step. Otherwise throw an error
+    if not (issubclass(m, Step.Step)):
+        raise Exception("Class " + classname + " is not a valid implementation of Step")
+    return m()  # create and return the instance of the loaded type

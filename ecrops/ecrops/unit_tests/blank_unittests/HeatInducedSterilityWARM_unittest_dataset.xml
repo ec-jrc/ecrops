@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="HeatInducedSterilityWARM" StepModule="ecrops.FPWarm.HeatInducedSterilityWARM">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="ThresholdTemperatureInducingHeatSterility" Value="" />
+        <Parameter Name="SensitivityToHeatShockInducedSterility" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.weather.TEMP_MIN" Value="" />
+        <Input Name="status.weather.TEMP_MAX" Value="" />
+        <Input Name="status.states.HeatInducedSpikeletSterilityState" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.HeatInducedSpikeletSterilityRate" Value="" />
+        <Output Name="status.states.HeatInducedSpikeletSterilityState" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

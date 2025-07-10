@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WaterbalanceFD" StepModule="ecrops.waterbalance.ClassicWaterBalance">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="RDMSOL" Value="" />
+        <Parameter Name="WAV" Value="" />
+        <Parameter Name="SSI" Value="" />
+        <Parameter Name="SMW" Value="" />
+        <Parameter Name="SMFCF" Value="" />
+        <Parameter Name="SM0" Value="" />
+        <Parameter Name="SSMAX" Value="" />
+        <Parameter Name="IFUNRN" Value="" />
+        <Parameter Name="NOTINF" Value="" />
+        <Parameter Name="SOPE" Value="" />
+        <Parameter Name="KSUB" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.classicwaterbalance.states.DOE" Value="" />
+        <Input Name="status.day" Value="" />
+        <Input Name="status.POTENTIAL_WATER_STARTDATE_date" Value="" />
+        <Input Name="status.soilparameters" Value="" />
+        <Input Name="status.classicwaterbalance.rates.E0" Value="" />
+        <Input Name="status.classicwaterbalance.rates.ES0" Value="" />
+        <Input Name="status.classicwaterbalance.states.RD" Value="" />
+        <Input Name="status.classicwaterbalance.states.RDold" Value="" />
+        <Input Name="status.classicwaterbalance.rates.TRA" Value="" />
+        <Input Name="status.classicwaterbalance.rates.EVWMX" Value="" />
+        <Input Name="status.classicwaterbalance.rates.EVSMX" Value="" />
+        <Input Name="status.classicwaterbalance.states.SS" Value="" />
+        <Input Name="status.classicwaterbalance.states.RDI" Value="" />
+        <Input Name="status.classicwaterbalance.states.SM" Value="" />
+        <Input Name="status.classicwaterbalance.states.SMUR" Value="" />
+        <Input Name="status.classicwaterbalance.states.W" Value="" />
+        <Input Name="status.classicwaterbalance.states.WI" Value="" />
+        <Input Name="status.classicwaterbalance.states.WLOW" Value="" />
+        <Input Name="status.classicwaterbalance.states.WLOWI" Value="" />
+        <Input Name="status.classicwaterbalance.states.WWLOW" Value="" />
+        <Input Name="status.classicwaterbalance.states.WTRAT" Value="" />
+        <Input Name="status.classicwaterbalance.states.EVST" Value="" />
+        <Input Name="status.classicwaterbalance.states.EVWT" Value="" />
+        <Input Name="status.classicwaterbalance.states.TSR" Value="" />
+        <Input Name="status.classicwaterbalance.states.RAINT" Value="" />
+        <Input Name="status.classicwaterbalance.states.WDRT" Value="" />
+        <Input Name="status.classicwaterbalance.states.TOTINF" Value="" />
+        <Input Name="status.classicwaterbalance.states.TOTIRR" Value="" />
+        <Input Name="status.classicwaterbalance.states.PERCT" Value="" />
+        <Input Name="status.classicwaterbalance.states.LOSST" Value="" />
+        <Input Name="status.classicwaterbalance.states.WBALRT" Value="" />
+        <Input Name="status.classicwaterbalance.states.WBALTT" Value="" />
+        <Input Name="status.classicwaterbalance.states.DSLR" Value="" />
+        <Input Name="status.classicwaterbalance.rates.RAIN" Value="" />
+        <Input Name="status.classicwaterbalance.rates.RIRR" Value="" />
+        <Input Name="status.classicwaterbalance.states.RDMCR" Value="" />
+        <Input Name="status.classicwaterbalance.states.RINold" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.classicwaterbalance.states.RDold" Value="" />
+        <Output Name="status.classicwaterbalance.states.RDI" Value="" />
+        <Output Name="status.classicwaterbalance.states.SM" Value="" />
+        <Output Name="status.classicwaterbalance.states.SMUR" Value="" />
+        <Output Name="status.classicwaterbalance.states.DSLR" Value="" />
+        <Output Name="status.classicwaterbalance.states.SS" Value="" />
+        <Output Name="status.classicwaterbalance.states.W" Value="" />
+        <Output Name="status.classicwaterbalance.states.WI" Value="" />
+        <Output Name="status.classicwaterbalance.states.WLOW" Value="" />
+        <Output Name="status.classicwaterbalance.states.WLOWI" Value="" />
+        <Output Name="status.classicwaterbalance.states.WWLOW" Value="" />
+        <Output Name="status.classicwaterbalance.states.WTRAT" Value="" />
+        <Output Name="status.classicwaterbalance.states.EVST" Value="" />
+        <Output Name="status.classicwaterbalance.states.EVWT" Value="" />
+        <Output Name="status.classicwaterbalance.states.TSR" Value="" />
+        <Output Name="status.classicwaterbalance.states.RAINT" Value="" />
+        <Output Name="status.classicwaterbalance.states.WDRT" Value="" />
+        <Output Name="status.classicwaterbalance.states.TOTINF" Value="" />
+        <Output Name="status.classicwaterbalance.states.TOTIRR" Value="" />
+        <Output Name="status.classicwaterbalance.states.PERCT" Value="" />
+        <Output Name="status.classicwaterbalance.states.LOSST" Value="" />
+        <Output Name="status.classicwaterbalance.states.WBALRT" Value="" />
+        <Output Name="status.classicwaterbalance.states.WBALTT" Value="" />
+        <Output Name="status.classicwaterbalance.rates.EVS" Value="" />
+        <Output Name="status.classicwaterbalance.rates.EVW" Value="" />
+        <Output Name="status.classicwaterbalance.rates.WTRA" Value="" />
+        <Output Name="status.classicwaterbalance.rates.RAIN" Value="" />
+        <Output Name="status.classicwaterbalance.rates.RIN" Value="" />
+        <Output Name="status.classicwaterbalance.rates.RIRR" Value="" />
+        <Output Name="status.classicwaterbalance.rates.PERC" Value="" />
+        <Output Name="status.classicwaterbalance.rates.LOSS" Value="" />
+        <Output Name="status.classicwaterbalance.rates.DW" Value="" />
+        <Output Name="status.classicwaterbalance.rates.DWLOW" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

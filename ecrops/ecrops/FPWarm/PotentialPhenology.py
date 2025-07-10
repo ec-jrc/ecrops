@@ -34,6 +34,9 @@ class PotentialPhenology(Step):
     """
 
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.GrowingDegreeDaysToReachEmergence = container.allparameters['GrowingDegreeDaysToReachEmergence']
         container.WarmParameters.GrowingDegreeDaysToReachFlowering = container.allparameters['GrowingDegreeDaysToReachFlowering']
         container.WarmParameters.GrowingDegreeDaysToReachMaturity = container.allparameters['GrowingDegreeDaysToReachMaturity']
@@ -41,10 +44,12 @@ class PotentialPhenology(Step):
         return container
 
     def initialize(self, container):
-        container.states.DevelopmentStageCode=0
+        container.states.DevelopmentStageCode = 0
         container.states.GrowingDegreeDays = 0
         container.states.DOS = None
-        container.rates.GrowingDegreeDaysRate=0
+        container.rates.GrowingDegreeDaysRate = 0
+        container.auxiliary.VernalizationFactor = 1
+        container.auxiliary.PhotoPeriodFactor = 1
         return container
 
     def integrate(self, container):
@@ -96,8 +101,8 @@ class PotentialPhenology(Step):
                                                  "Type": "Number",
                                                  "Mandatory": "True", "UnitOfMeasure": "C"},
             "GrowingDegreeDaysToReachHarvest": {"Description": "Growing degree days to reach harvest",
-                                                 "Type": "Number",
-                                                 "Mandatory": "True", "UnitOfMeasure": "C"},
+                                                "Type": "Number",
+                                                "Mandatory": "True", "UnitOfMeasure": "C"},
 
         }
 
@@ -111,7 +116,7 @@ class PotentialPhenology(Step):
             a = container.auxiliary
             r = container.rates  # rates
 
-            #at sowing
+            # at sowing
             if container.day == container.sowing_emergence_day:
                 s.DOS = container.day
             # before sowing and emergence
@@ -173,17 +178,17 @@ class PotentialPhenology(Step):
                                                  "StatusVariable": "status.rates.GrowingDegreeDaysTemperatureRate"},
 
             "UsePhotoPeriod": {"Description": "Booelan to use the photo period effect on phenology", "Type": "Boolean",
-                              "UnitOfMeasure": "unitless",
-                              "StatusVariable": "status.UsePhotoPeriod"},
+                               "UnitOfMeasure": "unitless",
+                               "StatusVariable": "status.UsePhotoPeriod"},
             "UseVernalization": {"Description": "Booelan to use the vernalization", "Type": "Boolean",
-                              "UnitOfMeasure": "unitless",
-                              "StatusVariable": "status.UseVernalization"},
-            "VernalizationFactor": {"Description": "Vernalization factor on phenology", "Type": "Number",
                                  "UnitOfMeasure": "unitless",
-                                 "StatusVariable": "status.auxiliary.VernalizationFactor"},
-            "PhotoPeriodFactor": {"Description": "Photo period factor on phenology", "Type": "Number",
+                                 "StatusVariable": "status.UseVernalization"},
+            "VernalizationFactor": {"Description": "Vernalization factor on phenology", "Type": "Number",
                                     "UnitOfMeasure": "unitless",
-                                    "StatusVariable": "status.auxiliary.PhotoPeriodFactor"},
+                                    "StatusVariable": "status.auxiliary.VernalizationFactor"},
+            "PhotoPeriodFactor": {"Description": "Photo period factor on phenology", "Type": "Number",
+                                  "UnitOfMeasure": "unitless",
+                                  "StatusVariable": "status.auxiliary.PhotoPeriodFactor"},
 
         }
 
@@ -193,11 +198,11 @@ class PotentialPhenology(Step):
                     "StatusVariable": "status.states.DOS"},
 
             "GrowingDegreeDaysRate": {"Description": "Growing degree days rate",
+                                      "Type": "Number",
+                                      "UnitOfMeasure": "C",
+                                      "StatusVariable": "status.rates.GrowingDegreeDaysRate"},
+            "GrowingDegreeDays": {"Description": "Growing degree days",
                                   "Type": "Number",
                                   "UnitOfMeasure": "C",
-                                  "StatusVariable": "status.rates.GrowingDegreeDaysRate"},
-            "GrowingDegreeDays": {"Description": "Growing degree days",
-                                                 "Type": "Number",
-                                                 "UnitOfMeasure": "C",
-                                                 "StatusVariable": "status.states.GrowingDegreeDays"},
+                                  "StatusVariable": "status.states.GrowingDegreeDays"},
         }

@@ -1,4 +1,5 @@
 import copy
+from ecrops.Printable import Printable
 from math import exp
 from ecrops.Step import Step
 
@@ -8,14 +9,20 @@ class PotentialTranspiration(Step):
     European Journal of Agronomy, 18, 289-307
     """
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.FullCanopyCoefficient = container.allparameters['FullCanopyCoefficient']
         container.WarmParameters.ExtinctionCoefficientSolarRadiation = container.allparameters['ExtinctionCoefficientSolarRadiation']
 
         return container
 
     def initialize(self, container):
+        if not hasattr(container,'auxiliary'):
+            container.auxiliary = Printable()
         container.auxiliary.DayOfPhysiologicalMaturity=0
         container.states.Transpiration = 0
+        container.rates.TranspirationRate = 0
         return container
 
     def integrate(self, container):

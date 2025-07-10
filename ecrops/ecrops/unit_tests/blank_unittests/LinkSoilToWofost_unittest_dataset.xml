@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="LinkSoilToWofost" StepModule="ecrops.wofost.LinkSoilToWofost">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters />
+      <Inputs>
+        <Input Name="status.soilparameters" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.SOIL_LAYERS" Value="" />
+        <Output Name="status.states.NSL" Value="" />
+        <Output Name="status.states.HermesGlobalVarsMain" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

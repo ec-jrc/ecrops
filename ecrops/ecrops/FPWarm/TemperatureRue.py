@@ -6,6 +6,9 @@ class TemperatureRue(Step):
     as a function of temperature. Agricultural and Forest Meteorology, 77, 1-16
     """
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.BaseTemperatureForGrowth = container.allparameters['BaseTemperatureForGrowth']
         container.WarmParameters.OptimumTemperatureForGrowth = container.allparameters['OptimumTemperatureForGrowth']
         container.WarmParameters.MaximumTemperatureForGrowth = container.allparameters['MaximumTemperatureForGrowth']

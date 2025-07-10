@@ -1,3 +1,5 @@
+from ecrops.Printable import Printable
+
 from ecrops.Step import Step
 class LinkWeatherToWaterbalance(Step):
     """This step passes weather data to water balance"""
@@ -12,6 +14,10 @@ class LinkWeatherToWaterbalance(Step):
         return self.runstep(status)
 
     def runstep(self, status):
+        if not hasattr(status,'classicwaterbalance'):
+            status.classicwaterbalance = Printable()
+            status.classicwaterbalance.states = Printable()
+            status.classicwaterbalance.rates = Printable()
         status.classicwaterbalance.rates.RAIN = status.weather.RAIN
         status.classicwaterbalance.rates.ES0 = status.weather.ES0
         status.classicwaterbalance.rates.E0 = status.weather.E0

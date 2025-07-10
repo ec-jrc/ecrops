@@ -139,6 +139,8 @@ class WOFOST_Stem_Dynamics(Step):
         rates.DRST = params.RDRSTB(DVS) * states.WST
         rates.GWST = rates.GRST - rates.DRST
 
+
+
         return status
 
     def integrate(self, status):
@@ -190,16 +192,16 @@ class WOFOST_Stem_Dynamics(Step):
                     "Type": "Number", "UnitOfMeasure": "unitless",
                     "StatusVariable": "status.states.SAI"},
             "GRST": {"Description": "Daily increase of dry weight of living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                    "StatusVariable": "status.rates.GRRT"},
+                    "StatusVariable": "status.rates.GRST"},
             "DRST": {"Description": "Daily increase of dry weight of dead stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.rates.DRRT"},
+                     "StatusVariable": "status.rates.DRST"},
             "GWST": {"Description": "Daily increase of total weight dry + living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.rates.GWRT"},
+                     "StatusVariable": "status.rates.GWST"},
             "WST": {"Description": " Dry weight of living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                    "StatusVariable": "status.states.WRT"},
+                    "StatusVariable": "status.states.WST"},
             "DWST": {"Description": "Dry weight of dead stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                   "StatusVariable": "status.states.DWRT"},
+                   "StatusVariable": "status.states.DWST"},
             "TWST": {"Description": "Total weight dry + living stems", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                   "StatusVariable": "status.states.TWRT"},
+                   "StatusVariable": "status.states.TWST"},
 
         }

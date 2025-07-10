@@ -1,0 +1,43 @@
+<UnitTest Step="SaturationRue" StepModule="ecrops.FPWarm.SaturationRue">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="ThresholdRadiationForSaturation" Value="25.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.weather.IRRAD" Value="20.2"/>
+                <Input Name="status.states.RUESaturationEffect" Value="120"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUESaturationEffectRate" Value="1"/>
+                <Output Name="status.states.RUESaturationEffect" Value="121"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="ThresholdRadiationForSaturation" Value="25.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.weather.IRRAD" Value="17.8"/>
+                <Input Name="status.states.RUESaturationEffect" Value="149.96399993896486"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUESaturationEffectRate" Value="1"/>
+                <Output Name="status.states.RUESaturationEffect" Value="150.964"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="ThresholdRadiationForSaturation" Value="25.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.weather.IRRAD" Value="24.2"/>
+                <Input Name="status.states.RUESaturationEffect" Value="179.33199996948244"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUESaturationEffectRate" Value="1"/>
+                <Output Name="status.states.RUESaturationEffect" Value="180.332"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

@@ -42,6 +42,8 @@ class DVS_Phenology(Step):
                            "Type": "Array", "Mandatory": "True", "UnitOfMeasure": "C"},
                 "TSUM2": {"Description": "Temperature sum from anthesis to maturity", "Type": "Number",
                           "Mandatory": "True", "UnitOfMeasure": "C day"},
+                "TSUM1": {"Description": "Temperature sum from emergence to anthesis", "Type": "Number",
+                      "Mandatory": "True", "UnitOfMeasure": "C day"},
                 "DVSEND": {"Description": "Final development stage", "Type": "Number", "Mandatory": "True",
                            "UnitOfMeasure": "unitless"},
                 "TSUMEM": {"Description": "Temperature sum from sowing to emergence", "Type": "Number",
@@ -53,7 +55,11 @@ class DVS_Phenology(Step):
             status.phenology = Printable()
             status.phenology.params = Printable()
             cropparams = status.allparameters
-            status.phenology.params.IDSL = cropparams['IDSL']
+            if 'IDSL' in cropparams:
+                status.phenology.params.IDSL = cropparams['IDSL']
+            else:
+                status.phenology.params.IDSL = 0  # if no IDSL param provided, set it to 0 (default)
+
             status.phenology.params.TEFFMX = cropparams['TEFFMX']
             status.phenology.params.TBASEM = cropparams['TBASEM']
             status.phenology.params.DLC = cropparams['DLC']
@@ -119,11 +125,13 @@ class DVS_Phenology(Step):
             s.DOA = None
             s.DOM = None
             s.DOV = None
+            s.DOStemElongation_BBCH30 = None
+            s.DOHeading_BBCH55 = None
             status.rates.DTSUME = 0.
             status.rates.DTSUM = 0.
             status.rates.DVR = 0.
             status.VERNFAC = 1.  # default (used if there is not vernalization)
-
+            status.DVRED = 1.
 
         except  Exception as e:
             print('Error in method initialize of class Phenology:' + str(e))
@@ -156,6 +164,13 @@ class DVS_Phenology(Step):
             s.TSUME += r.DTSUME
             s.DVS += r.DVR
             s.TSUM += r.DTSUM
+
+            #we set the Stem Elongation doy (BBCH30) when DVS>0.217 (value for Bermude variety)
+            if s.DVS>0.217 and s.DOStemElongation_BBCH30 is None:
+                s.DOStemElongation_BBCH30 = status.day
+            # we set the Heading doy (BBCH55) when DVS>0.84 (value for Bermude variety)
+            if s.DVS > 0.84 and s.DOHeading_BBCH55 is None:
+                s.DOHeading_BBCH55 = status.day
 
 
 
@@ -254,7 +269,8 @@ class DVS_Phenology(Step):
 
     def getinputslist(self):
         return {
-
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
             "sowing_emergence_day": {"Description": "Doy of sowing or emergence", "Type": "Number", "UnitOfMeasure": "doy",
                 "StatusVariable": "status.sowing_emergence_day"},
             "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
@@ -275,7 +291,10 @@ class DVS_Phenology(Step):
                       "StatusVariable": "status.VERNFAC"},
             "TEMP": {"Description": "Average daily temperature",
                          "Type": "Number", "UnitOfMeasure": "C",
-                         "StatusVariable": "status.weather.TEMP"},
+                         "StatusVariable": "status.states.TEMP"},
+            "DAYLP": {"Description": " Astronomical daylength (base =-4 degrees)",
+                      "Type": "Number", "UnitOfMeasure": "h",
+                      "StatusVariable": "status.astrodata.DAYLP"},
         }
 
     def getoutputslist(self):
@@ -287,7 +306,7 @@ class DVS_Phenology(Step):
             "DTSUM": {"Description": "Daily increase in thermal sum", "Type": "Number", "UnitOfMeasure": "degree days",
                     "StatusVariable": "status.rates.DTSUM"},
             "DTSUME": {"Description": "Daily increase in thermal sum to emergence", "Type": "Number", "UnitOfMeasure": "degree days",
-                      "StatusVariable": "status.rates.DTSUM"},
+                      "StatusVariable": "status.rates.DTSUME"},
             "TSUM": {"Description": "Thermal sum", "Type": "Number", "UnitOfMeasure": "degree days",
                       "StatusVariable": "status.states.TSUM"},
             "TSUME": {"Description": "Thermal sum to emergence", "Type": "Number",

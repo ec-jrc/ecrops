@@ -1,0 +1,37 @@
+<UnitTest Step="PlantHeight" StepModule="ecrops.wofost.PlantHeight">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.states.DVS" Value="0.09548496448150233"/>
+                <Input Name="status.plantheight.PlantHeight" Value="0"/>
+                <Input Name="status.MaximumPlantHeight" Value="100"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.plantheight.PlantHeight" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.states.DVS" Value="0.15092518526535417"/>
+                <Input Name="status.plantheight.PlantHeight" Value="0"/>
+                <Input Name="status.MaximumPlantHeight" Value="100"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.plantheight.PlantHeight" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.states.DVS" Value="0.3100622415563186"/>
+                <Input Name="status.plantheight.PlantHeight" Value="0"/>
+                <Input Name="status.MaximumPlantHeight" Value="100"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.plantheight.PlantHeight" Value="0"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

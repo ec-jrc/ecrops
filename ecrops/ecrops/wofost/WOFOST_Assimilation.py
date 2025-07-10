@@ -182,7 +182,9 @@ class WOFOST_Assimilation(Step):
             "TMPFTB": {"Description": "Reduction factor of AMAX as function of daily mean temperature", "Type": "Array",
                        "Mandatory": "True", "UnitOfMeasure": "unitless"},
             "TMNFTB": {"Description": "Reduction factor of AMAX as function of daily minimum temperature",
-                       "Type": "Array", "Mandatory": "True", "UnitOfMeasure": "unitless"}
+                       "Type": "Array", "Mandatory": "True", "UnitOfMeasure": "unitless"},
+            "DVSEND": {"Description": "Final development stage", "Type": "Number", "Mandatory": "True",
+                       "UnitOfMeasure": "unitless"},
         }
 
     def setparameters(self, status):
@@ -197,6 +199,7 @@ class WOFOST_Assimilation(Step):
         status.assimilation.params.Co2EffectOnAMAX = 1
         status.assimilation.params.Co2EffectOnEFF = 1
         status.assimilation.params.NSTRESS_REDUCTION_FACTOR = 1  # nitrogen stress reduction factor
+        status.assimilation.params.DVSEND=cropparams['DVSEND']
         return status
 
     def initialize(self, status):
@@ -259,7 +262,7 @@ class WOFOST_Assimilation(Step):
         # average day temperature
 
         # davide:fix for crops having AMAXTB(2)=0, to make it similar to bioma. Added this IF to manage the case where AMAXTB at the end of the season (DVS=2) is zero: since in bioma it uses DVS+DVR, we do the same at the end of the season
-        if status.states.DVS + status.rates.DVR >= status.phenology.params.DVSEND and status.assimilation.params.AMAXTB(
+        if status.states.DVS + status.rates.DVR >= status.assimilation.params.DVSEND and status.assimilation.params.AMAXTB(
                 status.states.DVS + status.rates.DVR) == 0:
             status.states.AMAX = status.assimilation.params.AMAXTB(status.states.DVS + status.rates.DVR)
         else:
@@ -300,7 +303,8 @@ class WOFOST_Assimilation(Step):
                     "StatusVariable": "status.states.DOE"},
             "DOM": {"Description": "Doy of maturity", "Type": "Number", "UnitOfMeasure": "doy",
                     "StatusVariable": "status.states.DOM"},
-
+            "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.states.DOS"},
             "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
                     "StatusVariable": "status.states.DVS"},
             "DVR": {"Description": "Daily increase in development stage", "Type": "Number", "UnitOfMeasure": "unitless",
@@ -329,6 +333,9 @@ class WOFOST_Assimilation(Step):
             "COSLD": {"Description": "Amplitude of sine of solar height   ",
                       "Type": "Number", "UnitOfMeasure": "unitless",
                       "StatusVariable": "status.astrodata.COSLD"},
+            "TMINRA": {"Description": "7-days running mean of minimum temperature",
+                       "Type": "Number", "UnitOfMeasure": "C",
+                       "StatusVariable": "status.states.TMINRA"},
 
         }
 

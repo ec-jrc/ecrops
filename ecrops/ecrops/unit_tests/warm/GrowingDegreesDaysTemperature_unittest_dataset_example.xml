@@ -1,0 +1,52 @@
+<UnitTest Step="GrowingDegreesDaysTemperature" StepModule="ecrops.FPWarm.GrowingDegreesDaysTemperature">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="BaseTemperatureDevelopment" Value="11.0"/>
+                <Parameter Name="CutoffTemperatureDevelopment" Value="42.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="0.11285713740757533"/>
+                <Input Name="status.weather.TEMP" Value="18.149999618530273"/>
+                <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.GrowingDegreeDaysTemperature" Value="26.34999942779541"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.GrowingDegreeDaysTemperatureRate" Value="7.15"/>
+                <Output Name="status.states.GrowingDegreeDaysTemperature" Value="33.49"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="BaseTemperatureDevelopment" Value="11.0"/>
+                <Parameter Name="CutoffTemperatureDevelopment" Value="42.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.0833157910798725"/>
+                <Input Name="status.weather.TEMP" Value="14.699999809265137"/>
+                <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.GrowingDegreeDaysTemperature" Value="164.1500015258789"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.GrowingDegreeDaysTemperatureRate" Value="3.7"/>
+                <Output Name="status.states.GrowingDegreeDaysTemperature" Value="167.85"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="BaseTemperatureDevelopment" Value="11.0"/>
+                <Parameter Name="CutoffTemperatureDevelopment" Value="42.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.3975263194033973"/>
+                <Input Name="status.weather.TEMP" Value="26.600000381469727"/>
+                <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.GrowingDegreeDaysTemperature" Value="474.55000400543213"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.GrowingDegreeDaysTemperatureRate" Value="15.6"/>
+                <Output Name="status.states.GrowingDegreeDaysTemperature" Value="490.15"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="DVS_Phenology" StepModule="ecrops.wofost.Phenology">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="IDSL" Value="" />
+        <Parameter Name="TEFFMX" Value="" />
+        <Parameter Name="TBASEM" Value="" />
+        <Parameter Name="DLC" Value="" />
+        <Parameter Name="DLO" Value="" />
+        <Parameter Name="DTSMTB" Value="" />
+        <Parameter Name="TSUM2" Value="" />
+        <Parameter Name="TSUM1" Value="" />
+        <Parameter Name="DVSEND" Value="" />
+        <Parameter Name="TSUMEM" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.sowing_emergence_day" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.STAGE" Value="" />
+        <Input Name="status.states.TSUM" Value="" />
+        <Input Name="status.states.TSUM" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.VERNFAC" Value="" />
+        <Input Name="status.states.TEMP" Value="" />
+        <Input Name="status.astrodata.DAYLP" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.DVS" Value="" />
+        <Output Name="status.rates.DVR" Value="" />
+        <Output Name="status.rates.DTSUM" Value="" />
+        <Output Name="status.rates.DTSUME" Value="" />
+        <Output Name="status.states.TSUM" Value="" />
+        <Output Name="status.states.TSUM" Value="" />
+        <Output Name="status.DVRED" Value="" />
+        <Output Name="status.states.DOS" Value="" />
+        <Output Name="status.states.DOE" Value="" />
+        <Output Name="status.states.DOA" Value="" />
+        <Output Name="status.states.DOM" Value="" />
+        <Output Name="status.states.STAGE" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

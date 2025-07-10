@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WOFOST_Assimilation" StepModule="ecrops.wofost.WOFOST_Assimilation">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="AMAXTB" Value="" />
+        <Parameter Name="EFFTB" Value="" />
+        <Parameter Name="KDIFTB" Value="" />
+        <Parameter Name="TMPFTB" Value="" />
+        <Parameter Name="TMNFTB" Value="" />
+        <Parameter Name="DVSEND" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOM" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.rates.DVR" Value="" />
+        <Input Name="status.states.DTEMP" Value="" />
+        <Input Name="status.states.IRRAD" Value="" />
+        <Input Name="status.states.LAI" Value="" />
+        <Input Name="status.astrodata.DAYL" Value="" />
+        <Input Name="status.astrodata.DIFPP" Value="" />
+        <Input Name="status.astrodata.DSINBE" Value="" />
+        <Input Name="status.astrodata.SINLD" Value="" />
+        <Input Name="status.astrodata.COSLD" Value="" />
+        <Input Name="status.states.TMINRA" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.PGASS" Value="" />
+        <Output Name="status.states.DTGA" Value="" />
+        <Output Name="status.states.EFF" Value="" />
+        <Output Name="status.states.KDIF" Value="" />
+        <Output Name="status.states.AMAX" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

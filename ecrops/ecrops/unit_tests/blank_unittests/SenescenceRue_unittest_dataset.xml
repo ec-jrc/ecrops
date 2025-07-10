@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="SenescenceRue" StepModule="ecrops.FPWarm.SenescenceRue">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters />
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.states.RUESenescenceEffect" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.RUESenescenceEffectRate" Value="" />
+        <Output Name="status.states.RUESenescenceEffect" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

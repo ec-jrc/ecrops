@@ -84,6 +84,8 @@ class ModelWorkflowReader():
             if hasattr(from_instance, 'getinputslist') and hasattr(to_instance, 'getoutputslist'):
                 from_inputs = from_instance.getinputslist()
                 to_outputs = to_instance.getoutputslist()
+                if from_inputs is None or to_outputs is None:
+                    return
 
                 # Add connections based on common inputs and outputs. The equality of two variables is based on the 'StatusVariable' attribute
                 class Element:

@@ -1,0 +1,29 @@
+<UnitTest Step="Weather" StepModule="ecrops.weather.Weather">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.weather.WeatherDataArray" Value="[[1.0900000e+01,5.5999999e+00,2.9750000e+06,8.3984375e-01,6.3190241e+00,6.2988281e-02,5.5957031e-02,7.0996091e-02,8.1999998e+00]]"/>
+                <Input Name="status.weather.WeatherColumnForVariable" Value="{'TEMP_MAX': 0, 'TEMP_MIN': 1, 'IRRAD': 2, 'RAIN': 3, 'WIND': 4, 'E0': 5, 'ES0': 6, 'ET0': 7, 'TEMP_AVG': 8}"/>
+                <Input Name="status.day" Value="2015-01-30 00:00:00"/>
+                <Input Name="status.doy" Value="29"/>
+                <Input Name="status.first_day" Value="2015-01-30 00:00:00"/>
+                <Input Name="status.LAT" Value="47.29964"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.weather.RAIN" Value="0.839"/>
+                <Output Name="status.weather.SD" Value="0"/>
+                <Output Name="status.weather.WIND" Value="6.31"/>
+                <Output Name="status.weather.RH" Value="80"/>
+                <Output Name="status.weather.E0" Value="0.062"/>
+                <Output Name="status.weather.ES0" Value="0.055"/>
+                <Output Name="status.weather.ET0" Value="0.070"/>
+                <Output Name="status.weather.IRRAD" Value="2975000.0"/>
+                <Output Name="status.weather.TEMP_MIN" Value="5.59"/>
+                <Output Name="status.weather.TEMP_MAX" Value="10.9"/>
+                <Output Name="status.weather.TEMP" Value="8.19"/>
+
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="PlantHeight" StepModule="ecrops.wofost.PlantHeight">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters />
+      <Inputs>
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.plantheight.PlantHeight" Value="" />
+        <Input Name="status.MaximumPlantHeight" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.plantheight.PlantHeight" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WOFOST_Maintenance_Respiration" StepModule="ecrops.wofost.maintenancerespiration">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="Q10" Value="" />
+        <Parameter Name="RMR" Value="" />
+        <Parameter Name="RML" Value="" />
+        <Parameter Name="RMS" Value="" />
+        <Parameter Name="RMO" Value="" />
+        <Parameter Name="RFSETB" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOM" Value="" />
+        <Input Name="status.states.WRT" Value="" />
+        <Input Name="status.states.WLV" Value="" />
+        <Input Name="status.states.WST" Value="" />
+        <Input Name="status.states.WSO" Value="" />
+        <Input Name="status.rates.TRA" Value="" />
+        <Input Name="status.rates.TRAMX" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.states.TEMP" Value="" />
+        <Input Name="status.states.PGASS" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.GASS" Value="" />
+        <Output Name="status.rates.PMRES" Value="" />
+        <Output Name="status.rates.MRES" Value="" />
+        <Output Name="status.rates.TEFF" Value="" />
+        <Output Name="status.rates.RMRES" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="PartitioningWarm" StepModule="ecrops.FPWarm.PartitioningWarm">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="PartitioningToLeavesAtEmergence" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.rates.AbovegroundBiomassRate" Value="" />
+        <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="" />
+        <Input Name="status.states.HeatInducedSpikeletSterilityState" Value="" />
+        <Input Name="status.states.StorageOrgansBiomass" Value="" />
+        <Input Name="status.states.StemsBiomass" Value="" />
+        <Input Name="status.states.LeavesBiomass" Value="" />
+        <Input Name="status.auxiliary.Sterility" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.LeavesBiomassRate" Value="" />
+        <Output Name="status.rates.StorageOrgansBiomassRate" Value="" />
+        <Output Name="status.rates.StemsBiomassRate" Value="" />
+        <Output Name="status.states.LeavesBiomass" Value="" />
+        <Output Name="status.states.StorageOrgansBiomass" Value="" />
+        <Output Name="status.states.StemsBiomass" Value="" />
+        <Output Name="status.auxiliary.Sterility" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

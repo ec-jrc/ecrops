@@ -1,0 +1,67 @@
+<UnitTest Step="ActualRue" StepModule="ecrops.FPWarm.ActualRue">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="MaximumRadiationUseEfficiency" Value="2.93"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.rates.RUESaturationEffectRate" Value="1"/>
+                <Input Name="status.rates.RUESenescenceEffectRate" Value="1"/>
+                <Input Name="status.rates.RUETemperatureEffectRate" Value="0.35926975340595385"/>
+                <Input Name="status.states.DevelopmentStageCode" Value="0.11285713740757533"/>
+                <Input Name="status.UseSaturation" Value="True"/>
+                <Input Name="status.UseSenescence" Value="True"/>
+                <Input Name="status.UseTemperature" Value="True"/>
+                <Input Name="status.UseCO2" Value="False"/>
+                <Input Name="status.auxiliary.GrowthRatioCO2" Value="1"/>
+                <Input Name="status.states.RUEActual" Value="0"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUEActualRate" Value="0"/>
+                <Output Name="status.states.RUEActual" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="MaximumRadiationUseEfficiency" Value="2.91821905039484"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.rates.RUESaturationEffectRate" Value="1"/>
+                <Input Name="status.rates.RUESenescenceEffectRate" Value="1"/>
+                <Input Name="status.rates.RUETemperatureEffectRate" Value="0.12470830006497267"/>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.0833157910798725"/>
+                <Input Name="status.UseSaturation" Value="True"/>
+                <Input Name="status.UseSenescence" Value="True"/>
+                <Input Name="status.UseTemperature" Value="True"/>
+                <Input Name="status.UseCO2" Value="False"/>
+                <Input Name="status.auxiliary.GrowthRatioCO2" Value="1"/>
+                <Input Name="status.states.RUEActual" Value="10.394"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUEActualRate" Value="0.364"/>
+                <Output Name="status.states.RUEActual" Value="10.757"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="MaximumRadiationUseEfficiency" Value="2.79902251918455"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.rates.RUESaturationEffectRate" Value="1"/>
+                <Input Name="status.rates.RUESenescenceEffectRate" Value="1"/>
+                <Input Name="status.rates.RUETemperatureEffectRate" Value="0.9360085347278598"/>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.3975263194033973"/>
+                <Input Name="status.UseSaturation" Value="True"/>
+                <Input Name="status.UseSenescence" Value="True"/>
+                <Input Name="status.UseTemperature" Value="True"/>
+                <Input Name="status.UseCO2" Value="False"/>
+                <Input Name="status.auxiliary.GrowthRatioCO2" Value="1"/>
+                <Input Name="status.states.RUEActual" Value="50"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUEActualRate" Value="2.62"/>
+                <Output Name="status.states.RUEActual" Value="52.62"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

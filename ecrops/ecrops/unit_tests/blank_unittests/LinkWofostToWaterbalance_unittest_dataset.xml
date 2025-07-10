@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="LinkWofostToWaterbalance" StepModule="ecrops.waterbalance.LinkWofostToWaterbalance">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="RDI" Value="" />
+        <Parameter Name="RDMCR" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status..states.RD" Value="" />
+        <Input Name="status.rates.TRA" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.rates.EVWMX" Value="" />
+        <Input Name="status.rates.EVSMX" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.classicwaterbalance.states.RD" Value="" />
+        <Output Name="status.classicwaterbalance.rates.TRA" Value="" />
+        <Output Name="status.classicwaterbalance.states.DOE" Value="" />
+        <Output Name="status.classicwaterbalance.rates.EVWMX" Value="" />
+        <Output Name="status.classicwaterbalance.rates.EVSMX" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

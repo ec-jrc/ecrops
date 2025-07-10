@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="Vernalisation" StepModule="ecrops.wofost.vernalisation">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="IDSL" Value="" />
+        <Parameter Name="VERNSAT" Value="" />
+        <Parameter Name="VERNBASE" Value="" />
+        <Parameter Name="VERNRTB" Value="" />
+        <Parameter Name="VERNDVS" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.STAGE" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.states.TEMP" Value="" />
+        <Input Name="status.vernalisation.VERN" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.vernalisation.DOV" Value="" />
+        <Output Name="status.vernalisation.ISVERNALISED" Value="" />
+        <Output Name="status.vernalisation.VERN" Value="" />
+        <Output Name="status.vernalisation.VERNR" Value="" />
+        <Output Name="status.VERNFAC" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

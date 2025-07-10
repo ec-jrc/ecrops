@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="PotentialPhenology" StepModule="ecrops.FPWarm.PotentialPhenology">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="GrowingDegreeDaysToReachEmergence" Value="" />
+        <Parameter Name="GrowingDegreeDaysToReachFlowering" Value="" />
+        <Parameter Name="GrowingDegreeDaysToReachMaturity" Value="" />
+        <Parameter Name="GrowingDegreeDaysToReachHarvest" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.sowing_emergence_day" Value="" />
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.states.GrowingDegreeDays" Value="" />
+        <Input Name="status.rates.GrowingDegreeDaysTemperatureRate" Value="" />
+        <Input Name="status.UsePhotoPeriod" Value="" />
+        <Input Name="status.UseVernalization" Value="" />
+        <Input Name="status.auxiliary.VernalizationFactor" Value="" />
+        <Input Name="status.auxiliary.PhotoPeriodFactor" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.DOS" Value="" />
+        <Output Name="status.rates.GrowingDegreeDaysRate" Value="" />
+        <Output Name="status.states.GrowingDegreeDays" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

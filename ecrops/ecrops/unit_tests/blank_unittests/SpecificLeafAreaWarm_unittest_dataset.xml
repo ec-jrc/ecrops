@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="SpecificLeafAreaWarm" StepModule="ecrops.FPWarm.SpecificLeafAreaWarm">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="SpecificLeafAreaAtTillering" Value="" />
+        <Parameter Name="SpecificLeafAreaAtEmergence" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.rates.LeavesBiomassRate" Value="" />
+        <Input Name="status.states.TotalLeafAreaIndex" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.TotalLeafAreaIndexRate" Value="" />
+        <Output Name="status.states.SpecificLeafArea" Value="" />
+        <Output Name="status.states.TotalLeafAreaIndex" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

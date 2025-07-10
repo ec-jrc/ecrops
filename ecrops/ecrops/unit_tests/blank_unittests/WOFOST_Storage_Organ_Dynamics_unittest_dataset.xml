@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WOFOST_Storage_Organ_Dynamics" StepModule="ecrops.wofost.storageorgandynamics">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="SPA" Value="" />
+        <Parameter Name="TDWI" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOM" Value="" />
+        <Input Name="status.states.FO" Value="" />
+        <Input Name="status.states.FR" Value="" />
+        <Input Name="status.rates.ADMI" Value="" />
+        <Input Name="status.states.WSO" Value="" />
+        <Input Name="status.states.DWSO" Value="" />
+        <Input Name="status.states.TWSO" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.PAI" Value="" />
+        <Output Name="status.rates.GRSO" Value="" />
+        <Output Name="status.rates.DRSO" Value="" />
+        <Output Name="status.rates.GWSO" Value="" />
+        <Output Name="status.states.WSO" Value="" />
+        <Output Name="status.states.DWSO" Value="" />
+        <Output Name="status.states.TWSO" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

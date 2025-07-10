@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="PotentialTranspiration" StepModule="ecrops.FPWarm.PotentialTranspiration">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="FullCanopyCoefficient" Value="" />
+        <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.states.GreenLeafAreaIndex" Value="" />
+        <Input Name="status.weather.ET0" Value="" />
+        <Input Name="status.rates.WaterUptakeRate" Value="" />
+        <Input Name="status.states.Transpiration" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.TranspirationRate" Value="" />
+        <Output Name="status.states.Transpiration" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

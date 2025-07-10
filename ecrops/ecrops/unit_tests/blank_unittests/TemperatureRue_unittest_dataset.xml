@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="TemperatureRue" StepModule="ecrops.FPWarm.TemperatureRue">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="BetaFunctionCShapeParameter" Value="" />
+        <Parameter Name="BaseTemperatureForGrowth" Value="" />
+        <Parameter Name="OptimumTemperatureForGrowth" Value="" />
+        <Parameter Name="MaximumTemperatureForGrowth" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.weather.TEMP" Value="" />
+        <Input Name="status.states.RUETemperatureEffect" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.RUETemperatureEffectRate" Value="" />
+        <Output Name="status.states.RUETemperatureEffect" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

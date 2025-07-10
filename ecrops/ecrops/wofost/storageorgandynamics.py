@@ -144,6 +144,8 @@ class WOFOST_Storage_Organ_Dynamics(Step):
 
         # Calculate Pod Area Index (SAI)
         states.PAI = states.WSO * params.SPA
+
+
         return status
 
     def getinputslist(self):
@@ -180,18 +182,18 @@ class WOFOST_Storage_Organ_Dynamics(Step):
                     "StatusVariable": "status.states.PAI"},
             "GRSO": {"Description": "Daily increase of dry weight of living storage organs", "Type": "Number",
                      "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.rates.GRRT"},
+                     "StatusVariable": "status.rates.GRSO"},
             "DRSO": {"Description": "Daily increase of dry weight of dead storage organs", "Type": "Number",
                      "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.rates.DRRT"},
+                     "StatusVariable": "status.rates.DRSO"},
             "GWSO": {"Description": "Daily increase of total weight dry + living storage organs", "Type": "Number",
                      "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.rates.GWRT"},
+                     "StatusVariable": "status.rates.GWSO"},
             "WSO": {"Description": " Dry weight of living storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                    "StatusVariable": "status.states.WRT"},
+                    "StatusVariable": "status.states.WSO"},
             "DWSO": {"Description": "Dry weight of dead storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.states.DWRT"},
+                     "StatusVariable": "status.states.DWSO"},
             "TWSO": {"Description": "Total weight dry + living storage organs", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.states.TWRT"},
+                     "StatusVariable": "status.states.TWSO"},
 
         }

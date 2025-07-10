@@ -191,6 +191,8 @@ class WOFOST_Root_Dynamics(Step):
 
     def getinputslist(self):
         return {
+            "soildata": {"Description": "Soil data input", "Type": "Dictionary", "UnitOfMeasure": "-",
+                         "StatusVariable": "status.soildata"},
             "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
                    "StatusVariable": "status.day"},
             "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
@@ -220,8 +222,6 @@ class WOFOST_Root_Dynamics(Step):
             "RR": {"Description": "Daily increase in root depth", "Type": "Number", "UnitOfMeasure": "cm",
                    "StatusVariable": "status.rates.RR"},
             "RD": {"Description": "Root depth", "Type": "Number", "UnitOfMeasure": "cm","StatusVariable": "status.states.RD"},
-
-
             "DRRT": {"Description": "Daily increase of dry weight of dead roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
                      "StatusVariable": "status.rates.DRRT"},
             "GRRT": {"Description": "Daily increase of dry weight of living roots", "Type": "Number",
@@ -230,15 +230,10 @@ class WOFOST_Root_Dynamics(Step):
             "GWRT": {"Description": "Daily increase of total weight dry + living roots", "Type": "Number",
                      "UnitOfMeasure": "Kg/ha",
                      "StatusVariable": "status.rates.GWRT"},
-
-
             "DWRT": {"Description": "Dry weight of dead roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
                      "StatusVariable": "status.states.DWRT"},
             "WRT": {"Description": " Dry weight of living roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
                     "StatusVariable": "status.states.WRT"},
-            "WRT_previousDay": {"Description": " Dry weight of living roots of previous day", "Type": "Number",
-                                "UnitOfMeasure": "Kg/ha",
-                                "StatusVariable": "status.states.WRT_previousDay"},
             "TWRT": {"Description": "Total weight dry + living roots", "Type": "Number", "UnitOfMeasure": "Kg/ha",
                    "StatusVariable": "status.states.TWRT"},
 

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="Lingra1" StepModule="ecrops_grassland.lingra.lingra1">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="rootdi" Value="" />
+        <Parameter Name="LAIi" Value="" />
+        <Parameter Name="tilli" Value="" />
+        <Parameter Name="wrei" Value="" />
+        <Parameter Name="wrti" Value="" />
+        <Parameter Name="co2a" Value="" />
+        <Parameter Name="kdif" Value="" />
+        <Parameter Name="LAIcr_grassland" Value="" />
+        <Parameter Name="tbase_grassland" Value="" />
+        <Parameter Name="luemax" Value="" />
+        <Parameter Name="sla" Value="" />
+        <Parameter Name="cLAI" Value="" />
+        <Parameter Name="nitmax" Value="" />
+        <Parameter Name="nitr" Value="" />
+        <Parameter Name="rdrd" Value="" />
+        <Parameter Name="tmbas1" Value="" />
+        <Parameter Name="drate" Value="" />
+        <Parameter Name="irrigf" Value="" />
+        <Parameter Name="rootdm" Value="" />
+        <Parameter Name="rrdmax" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.doy" Value="" />
+        <Input Name="status.LAT" Value="" />
+        <Input Name="status.weather.TEMP_MIN" Value="" />
+        <Input Name="status.weather.TEMP_MAX" Value="" />
+        <Input Name="status.weather.IRRAD" Value="" />
+        <Input Name="status.weather.RAIN" Value="" />
+        <Input Name="status.weather.WIND" Value="" />
+        <Input Name="status.weather.VAP" Value="" />
+        <Input Name="status.soildata.wcad" Value="" />
+        <Input Name="status.soildata.wcwp" Value="" />
+        <Input Name="status.soildata.wcfc" Value="" />
+        <Input Name="status.soildata.wci" Value="" />
+        <Input Name="status.soildata.wcwet" Value="" />
+        <Input Name="status.soildata.wcst" Value="" />
+        <Input Name="status.remotesensing.RScut" Value="" />
+        <Input Name="status.remotesensing.RStrn" Value="" />
+        <Input Name="status.remotesensing.RSevp" Value="" />
+        <Input Name="status.remotesensing.RSlai" Value="" />
+        <Input Name="status.states.parcu" Value="" />
+        <Input Name="status.states.tramcu" Value="" />
+        <Input Name="status.states.evamcu" Value="" />
+        <Input Name="status.states.irrcu" Value="" />
+        <Input Name="status.states.tsum" Value="" />
+        <Input Name="status.states.dvs" Value="" />
+        <Input Name="status.states.daha" Value="" />
+        <Input Name="status.states.tiller" Value="" />
+        <Input Name="status.states.wlvg" Value="" />
+        <Input Name="status.states.wlvd" Value="" />
+        <Input Name="status.states.hrvbl" Value="" />
+        <Input Name="status.states.grass" Value="" />
+        <Input Name="status.states.wre" Value="" />
+        <Input Name="status.states.wrt" Value="" />
+        <Input Name="status.states.tadrw" Value="" />
+        <Input Name="status.states.yielD" Value="" />
+        <Input Name="status.states.length" Value="" />
+        <Input Name="status.states.sLAInt" Value="" />
+        <Input Name="status.states.rootd" Value="" />
+        <Input Name="status.states.wa" Value="" />
+        <Input Name="status.states.raincu" Value="" />
+        <Input Name="status.states.dracu" Value="" />
+        <Input Name="status.states.runcu" Value="" />
+        <Input Name="status.states.intLAI" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.parcu" Value="" />
+        <Output Name="status.states.tramcu" Value="" />
+        <Output Name="status.states.evamcu" Value="" />
+        <Output Name="status.states.irrcu" Value="" />
+        <Output Name="status.states.tsum" Value="" />
+        <Output Name="status.states.dvs" Value="" />
+        <Output Name="status.states.daha" Value="" />
+        <Output Name="status.states.tiller" Value="" />
+        <Output Name="status.states.wlvg" Value="" />
+        <Output Name="status.states.wlvd" Value="" />
+        <Output Name="status.states.hrvbl" Value="" />
+        <Output Name="status.states.grass" Value="" />
+        <Output Name="status.states.wre" Value="" />
+        <Output Name="status.states.wrt" Value="" />
+        <Output Name="status.states.tadrw" Value="" />
+        <Output Name="status.states.yielD" Value="" />
+        <Output Name="status.states.length" Value="" />
+        <Output Name="status.states.sLAInt" Value="" />
+        <Output Name="status.states.rootd" Value="" />
+        <Output Name="status.states.wa" Value="" />
+        <Output Name="status.states.raincu" Value="" />
+        <Output Name="status.states.dracu" Value="" />
+        <Output Name="status.states.runcu" Value="" />
+        <Output Name="status.states.intLAI" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

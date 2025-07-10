@@ -8,6 +8,9 @@ class HeatInducedSterilityWARM(Step):
     """
 
     def setparameters(self, container):
+        if not hasattr(container,'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters=Printable()
         container.WarmParameters.ThresholdTemperatureInducingHeatSterility = container.allparameters['ThresholdTemperatureInducingHeatSterility']
         container.WarmParameters.SensitivityToHeatShockInducedSterility = container.allparameters['SensitivityToHeatShockInducedSterility']
 
@@ -71,14 +74,11 @@ class HeatInducedSterilityWARM(Step):
 
         """
 
+        p = container.WarmParameters  # parameters
+        s = container.states  # states
+        r = container.rates  # rates
+
         try:
-
-            p = container.WarmParameters  # parameters
-            s = container.states  # states
-            r = container.rates  # rates
-            a = container.auxiliary
-
-
             DailyStress = 0
 
             if s.DevelopmentStageCode >= 1.9 and s.DevelopmentStageCode <= 2.1:

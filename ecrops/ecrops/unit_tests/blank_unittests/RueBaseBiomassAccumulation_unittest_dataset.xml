@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="RueBaseBiomassAccumulation" StepModule="ecrops.FPWarm.RueBaseBiomassAccumulation">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="PARtoGlobalRadiationFactor" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.rates.RUEActualRate" Value="" />
+        <Input Name="status.rates.AbsorbedSolarRadiationRate" Value="" />
+        <Input Name="status.states.AbovegroundBiomass" Value="" />
+        <Input Name="status.states.BiomassRadiationDependent" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.AbovegroundBiomassRate" Value="" />
+        <Output Name="status.rates.BiomassRadiationDependentRate" Value="" />
+        <Output Name="status.states.AbovegroundBiomass" Value="" />
+        <Output Name="status.states.BiomassRadiationDependent" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

@@ -1,0 +1,52 @@
+<UnitTest Step="TemperatureRue" StepModule="ecrops.FPWarm.TemperatureRue">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="BetaFunctionCShapeParameter" Value="1.8"/>
+                <Parameter Name="BaseTemperatureForGrowth" Value="11.0"/>
+                <Parameter Name="OptimumTemperatureForGrowth" Value="29.5"/>
+                <Parameter Name="MaximumTemperatureForGrowth" Value="37.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.weather.TEMP" Value="18.149999618530273"/>
+                <Input Name="status.states.RUETemperatureEffect" Value="0.9056276451133938"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUETemperatureEffectRate" Value="0.359"/>
+                <Output Name="status.states.RUETemperatureEffect" Value="1.26"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="BetaFunctionCShapeParameter" Value="1.8"/>
+                <Parameter Name="BaseTemperatureForGrowth" Value="11.0"/>
+                <Parameter Name="OptimumTemperatureForGrowth" Value="29.5"/>
+                <Parameter Name="MaximumTemperatureForGrowth" Value="37.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.weather.TEMP" Value="14.699999809265137"/>
+                <Input Name="status.states.RUETemperatureEffect" Value="7.070408945999895"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUETemperatureEffectRate" Value="0.125"/>
+                <Output Name="status.states.RUETemperatureEffect" Value="7.19"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="BetaFunctionCShapeParameter" Value="1.8"/>
+                <Parameter Name="BaseTemperatureForGrowth" Value="11.0"/>
+                <Parameter Name="OptimumTemperatureForGrowth" Value="29.5"/>
+                <Parameter Name="MaximumTemperatureForGrowth" Value="37.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.weather.TEMP" Value="26.600000381469727"/>
+                <Input Name="status.states.RUETemperatureEffect" Value="24.639119335257046"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUETemperatureEffectRate" Value="0.936"/>
+                <Output Name="status.states.RUETemperatureEffect" Value="25.57"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

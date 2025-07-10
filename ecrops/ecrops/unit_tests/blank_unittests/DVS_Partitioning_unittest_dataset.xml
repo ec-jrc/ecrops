@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="DVS_Partitioning" StepModule="ecrops.wofost.Partitioning">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="FRTB" Value="" />
+        <Parameter Name="FLTB" Value="" />
+        <Parameter Name="FSTB" Value="" />
+        <Parameter Name="FOTB" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DVS" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.FR" Value="" />
+        <Output Name="status.states.FL" Value="" />
+        <Output Name="status.states.FS" Value="" />
+        <Output Name="status.states.FO" Value="" />
+        <Output Name="status.states.PF" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

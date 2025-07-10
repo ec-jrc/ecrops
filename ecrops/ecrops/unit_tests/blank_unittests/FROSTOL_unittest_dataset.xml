@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="FROSTOL" StepModule="ecrops_frostol.FROSTOL">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="LT50C" Value="" />
+        <Parameter Name="FROSTOL_H" Value="" />
+        <Parameter Name="FROSTOL_D" Value="" />
+        <Parameter Name="FROSTOL_S" Value="" />
+        <Parameter Name="FROSTOL_R" Value="" />
+        <Parameter Name="FROSTOL_SDBASE" Value="" />
+        <Parameter Name="FROSTOL_SDMAX" Value="" />
+        <Parameter Name="FROSTOL_KILLCF" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.vernalisation.ISVERNALISED" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.weather.SD" Value="" />
+        <Input Name="status.frostkill.rates.TEMP_CROWN" Value="" />
+        <Input Name="status.frostkill.rates.TMIN_CROWN" Value="" />
+        <Input Name="status.day" Value="" />
+        <Input Name="status.simulation_start_day" Value="" />
+        <Input Name="status.simulation_end_day" Value="" />
+        <Input Name="status.frostkill.states.RF_FROST_T" Value="" />
+        <Input Name="status.frostkill.states.IDFST" Value="" />
+        <Input Name="status.frostkill.states.LT50T" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.frostkill.rates.RH" Value="" />
+        <Output Name="status.frostkill.rates.RDH_TEMP" Value="" />
+        <Output Name="status.frostkill.rates.RDH_RESP" Value="" />
+        <Output Name="status.frostkill.rates.RDH_TSTR" Value="" />
+        <Output Name="status.frostkill.rates.IDFS" Value="" />
+        <Output Name="status.frostkill.rates.RF_FROST" Value="" />
+        <Output Name="status.frostkill.states.RF_FROST_T" Value="" />
+        <Output Name="status.frostkill.states.IDFST" Value="" />
+        <Output Name="status.frostkill.states.LT50T" Value="" />
+        <Output Name="status.frostkill.states.frostkill_period" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

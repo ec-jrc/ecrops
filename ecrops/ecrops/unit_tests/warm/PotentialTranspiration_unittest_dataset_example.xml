@@ -1,0 +1,55 @@
+<UnitTest Step="PotentialTranspiration" StepModule="ecrops.FPWarm.PotentialTranspiration">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FullCanopyCoefficient" Value="1.05"/>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="0.11285713740757533"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0.0"/>
+                <Input Name="status.weather.ET0" Value="0.43798828"/>
+                <Input Name="status.rates.WaterUptakeRate" Value="0"/>
+                <Input Name="status.states.Transpiration" Value="0"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.TranspirationRate" Value="0"/>
+                <Output Name="status.states.Transpiration" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FullCanopyCoefficient" Value="1.05"/>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.0833157910798725"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0.018761876226824136"/>
+                <Input Name="status.weather.ET0" Value="0.35302734"/>
+                <Input Name="status.rates.WaterUptakeRate" Value="0.0840336694344942"/>
+                <Input Name="status.states.Transpiration" Value="0.03733549908080322"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.TranspirationRate" Value="0.003"/>
+                <Output Name="status.states.Transpiration" Value="0.037"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FullCanopyCoefficient" Value="1.05"/>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.3975263194033973"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0.9820395036934568"/>
+                <Input Name="status.weather.ET0" Value="0.67802733"/>
+                <Input Name="status.rates.WaterUptakeRate" Value="3.4919821285870687"/>
+                <Input Name="status.states.Transpiration" Value="1.9159203814312877"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.TranspirationRate" Value="0.267"/>
+                <Output Name="status.states.Transpiration" Value="2.183"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

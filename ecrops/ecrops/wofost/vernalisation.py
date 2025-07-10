@@ -90,6 +90,9 @@ class Vernalisation(Step):
 
     def getparameterslist(self):
         return {
+            "IDSL": {
+                "Description": "Switch for phenological development options: temperature only (IDSL=0), daylength (IDSL=1) and including vernalization (IDSL>=2)",
+                "Type": "Number", "Mandatory": "True", "UnitOfMeasure": "unitless"},
             "VERNSAT": {"Description": "Saturated vernalisation requirements", "Type": "Number", "Mandatory": "True",
                         "UnitOfMeasure": "days"},
             "VERNBASE": {"Description": "Base vernalisation requirements", "Type": "Number", "Mandatory": "True",
@@ -107,22 +110,31 @@ class Vernalisation(Step):
             status.vernalisation = Printable()
             status.vernalisation.params = Printable()
             cropparams = status.allparameters
-            status.vernalisation.params.VERNSAT = cropparams['VERNSAT']
-            status.vernalisation.params.VERNBASE = cropparams['VERNBASE']
-            status.vernalisation.params.VERNRTB = Afgen(cropparams['VERNRTB'])
-            status.vernalisation.params.VERNDVS = cropparams['VERNDVS']
+            if 'IDSL' in cropparams:
+                status.vernalisation.params.IDSL = cropparams['IDSL']
+            else:
+                status.vernalisation.params.IDSL = 0  # if no IDSL param provided, set it to 0 (default)
+            if 'VERNSAT' in cropparams:
+                status.vernalisation.params.VERNSAT = cropparams['VERNSAT']
+            if 'VERNBASE' in cropparams:
+                status.vernalisation.params.VERNBASE = cropparams['VERNBASE']
+            if 'VERNRTB' in cropparams and cropparams['VERNRTB'] is not None:
+                status.vernalisation.params.VERNRTB = Afgen(cropparams['VERNRTB'])
+            if 'VERNDVS' in cropparams:
+                status.vernalisation.params.VERNDVS = cropparams['VERNDVS']
         except Exception as e:
-            # print('Error in method setparameters of class vernalisation:' + str(e))
-            pass  # Some crops do not require vernalization parameters, so let this pass for now
+            print('Error in method setparameters of class vernalisation:' + str(e))
+            pass  # Some crops do not require vernalization parameters, so let this pass
         return status
 
     def initialize(self, status):
         try:
-            if status.phenology.params.IDSL >= 2:  # if IDSL <2 vernalization does nothing
+            if status.vernalisation.params.IDSL >= 2:  # if IDSL <2 vernalization does nothing
                 status.vernalisation.VERN = 0.
                 status.VERNFAC = 0.
                 status.vernalisation.DOV = None
                 status.vernalisation.ISVERNALISED = False
+                status.vernalisation.VERNR = 0.
                 status.vernalisation._force_vernalisation = False
         except  Exception as e:
             print('Error in method initialize of class vernalisation:' + str(e))
@@ -134,7 +146,7 @@ class Vernalisation(Step):
             if status.states.DOE is None and status.states.DOS is None:  # before sowing and emergence
                 return status
 
-            if status.phenology.params.IDSL >= 2:  # if IDSL <2 vernalization does nothing
+            if status.vernalisation.params.IDSL >= 2:  # if IDSL <2 vernalization does nothing
                 s = status.states
                 if s.STAGE == 'vegetative':
                     if not status.vernalisation.ISVERNALISED:
@@ -159,7 +171,7 @@ class Vernalisation(Step):
             if status.states.DOE is None and status.states.DOS is None:  # before sowing and emergence
                 return status
 
-            if status.phenology.params.IDSL >= 2:  # if IDSL <2 vernalization does nothing
+            if status.vernalisation.params.IDSL >= 2:  # if IDSL <2 vernalization does nothing
                 s = status.states
                 if s.STAGE == 'vegetative':
                     status.vernalisation.VERN += status.vernalisation.VERNR
@@ -178,12 +190,14 @@ class Vernalisation(Step):
                         status.vernalisation.ISVERNALISED = False
         except Exception as e:
             print('Error in method integrate of class vernalisation:' + str(e))
+
         return status
 
     def getinputslist(self):
         return {
 
-
+            "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.day"},
             "DOS": {"Description": "Doy of sowing", "Type": "Number", "UnitOfMeasure": "doy",
                     "StatusVariable": "status.states.DOS"},
             "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
@@ -194,7 +208,7 @@ class Vernalisation(Step):
                     "StatusVariable": "status.states.DVS"},
             "TEMP": {"Description": "Average daily temperature",
                      "Type": "Number", "UnitOfMeasure": "C",
-                     "StatusVariable": "status.weather.TEMP"},
+                     "StatusVariable": "status.states.TEMP"},
             "VERN": {"Description": "Vernalisation state", "Type": "Boolean",
                      "UnitOfMeasure": "days",
                      "StatusVariable": "status.vernalisation.VERN"},
@@ -204,7 +218,7 @@ class Vernalisation(Step):
         return {
 
             "DOV": {"Description": "Doy of vernalisation end", "Type": "Number", "UnitOfMeasure": "doy",
-                    "StatusVariable": "status.states.DOV"},
+                    "StatusVariable": "status.vernalisation.DOV"},
             "ISVERNALISED": {"Description": "True if the crop is vernalised, False otherwise", "Type": "Boolean", "UnitOfMeasure": "doy",
                     "StatusVariable": "status.vernalisation.ISVERNALISED"},
             "VERN": {"Description": "Vernalisation state", "Type": "Number",

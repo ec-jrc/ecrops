@@ -6,12 +6,16 @@ class ActualRue(Step):
     """
 
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.MaximumRadiationUseEfficiency = container.allparameters['MaximumRadiationUseEfficiency']
 
         return container
 
     def initialize(self, container):
         container.states.RUEActual=0
+        container.auxiliary.GrowthRatioCO2 = 1
         return container
 
     def integrate(self, container):
@@ -56,6 +60,9 @@ class ActualRue(Step):
             "GrowthRatioCO2": {"Description": "Growth on RUE due to CO2 concentration", "Type": "Number",
                                "UnitOfMeasure": "unitless",
                                "StatusVariable": "status.auxiliary.GrowthRatioCO2"},
+            "RUEActual": {"Description": "RUE Actual", "Type": "Number",
+                          "UnitOfMeasure": "",
+                          "StatusVariable": "status.states.RUEActual"},
 
 
         }
@@ -141,5 +148,6 @@ class ActualRue(Step):
 
         except  Exception as e:
             print('Error in method runstep of class ActualRue:' + str(e))
+
 
         return container

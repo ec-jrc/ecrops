@@ -182,6 +182,8 @@ class WOFOST_Leaf_Dynamics(Step):
         status.states.SLA = []
         status.states.LVAGE = []
         status.states.LV = []
+        status.states.TWST =0
+        status.states.TWSO=0
 
         # Initial values for leaf area
         status.states.LAIEM = 0
@@ -199,6 +201,7 @@ class WOFOST_Leaf_Dynamics(Step):
         status.rates.FYSAGE = 0
         status.rates.SLAT = 0
         status.rates.GLAIEX = 0
+        status.rates.GLASOL = 0
 
         status.states.DeadLeavesBiomassDueToSenescenceIncreaseByHeatStress = 0
         status.states.DeadLeavesBiomassDueToSenescence = 0
@@ -458,10 +461,10 @@ class WOFOST_Leaf_Dynamics(Step):
                      "StatusVariable": "status.states.TEMP"},
             "TEMP_MIN": {"Description": "Minimum temperature",
                          "Type": "Number", "UnitOfMeasure": "C",
-                         "StatusVariable": "status.weather.TEMP_MIN"},
+                         "StatusVariable": "status.states.TEMP_MIN"},
             "TEMP_MAX": {"Description": "Maximum temperature",
                          "Type": "Number", "UnitOfMeasure": "C",
-                         "StatusVariable": "status.weather.TEMP_MAX"},
+                         "StatusVariable": "status.states.TEMP_MAX"},
             "DVS": {"Description": "Development stage", "Type": "Number", "UnitOfMeasure": "unitless",
                     "StatusVariable": "status.states.DVS"},
             "TRA": {"Description": "Actual transpiration rate from the plant canopy", "Type": "Number",
@@ -515,6 +518,12 @@ class WOFOST_Leaf_Dynamics(Step):
             "TAGP": {"Description": "Total (living+dead) above-ground biomass", "Type": "Number",
                      "UnitOfMeasure": "Kg/ha",
                      "StatusVariable": "status.states.TAGP"},
+            "TWST": {"Description": "Total stem biomass", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TWST"},
+            "TWSO": {"Description": "Total storage organs biomass", "Type": "Number",
+                     "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TWSO"},
 
         }
 
@@ -529,23 +538,19 @@ class WOFOST_Leaf_Dynamics(Step):
 
             "GRLV": {"Description": "Daily increase of dry weight of living leaves", "Type": "Number",
                      "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.rates.GRRT"},
+                     "StatusVariable": "status.rates.GRLV"},
             "DRLV": {"Description": "Daily increase of dry weight of dead leaves", "Type": "Number",
                      "UnitOfMeasure": "Kg/ha",
                      "StatusVariable": "status.rates.DRRT"},
-            "GWLV": {"Description": "Daily increase of total weight dry + living leaves", "Type": "Number",
-                     "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.rates.GWRT"},
-            "WLV": {"Description": " Dry weight of living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                    "StatusVariable": "status.states.WRT"},
-            "DWLV": {"Description": "Dry weight of dead leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.states.DWRT"},
-            "TWLV": {"Description": "Total weight dry + living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.states.TWRT"},
 
-            "TAGP_previousday": {"Description": "Total (living+dead) above-ground biomass of the previous day", "Type": "Number",
-                     "UnitOfMeasure": "Kg/ha",
-                     "StatusVariable": "status.states.TAGP_previousday"},
+            "WLV": {"Description": " Dry weight of living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                    "StatusVariable": "status.states.WLV"},
+            "DWLV": {"Description": "Dry weight of dead leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.DWLV"},
+            "TWLV": {"Description": "Total weight dry + living leaves", "Type": "Number", "UnitOfMeasure": "Kg/ha",
+                     "StatusVariable": "status.states.TWLV"},
+
+
             "TAGP": {"Description": "Total (living+dead) above-ground biomass", "Type": "Number", "UnitOfMeasure": "Kg/ha",
                      "StatusVariable": "status.states.TAGP"},
 

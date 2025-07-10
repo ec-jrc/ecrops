@@ -109,6 +109,12 @@ class Evapotranspiration(Step):
                     "UnitOfMeasure": "unitless"},
             "SMFCF": {"Description": "Volumetric soil moisture content at field capacity", "Type": "Number",
                       "Mandatory": "True",
+                      "UnitOfMeasure": "unitless"},
+            "num_days_oxygen_shortage": {"Description": "Number of consecutive days after there is the maximum reduction due to oxygen shortage (default = 4)", "Type": "Number",
+                      "Mandatory": "True",
+                      "UnitOfMeasure": "days"},
+            "scaling_factor_oxygen_shortage": {"Description": "Minimum value for reduction factor due to oxygen shortage (default = 0 = maximum reduction)", "Type": "Number",
+                      "Mandatory": "True",
                       "UnitOfMeasure": "unitless"}
         }
 
@@ -125,28 +131,47 @@ class Evapotranspiration(Step):
         status.evapotranspiration.params.USE_HERMES_FRROOT = False
         if hasattr(status, 'USE_HERMES_FRROOT'):
             status.evapotranspiration.params.USE_HERMES_FRROOT = status.USE_HERMES_FRROOT
+
+        if 'num_days_oxygen_shortage' in cropparams:
+            status.evapotranspiration.params.num_days_oxygen_shortage = cropparams['num_days_oxygen_shortage']
+        else:
+            status.evapotranspiration.params.num_days_oxygen_shortage = 4 #original default value
+        if 'scaling_factor_oxygen_shortage' in cropparams:
+            status.evapotranspiration.params.scaling_factor_oxygen_shortage = cropparams['scaling_factor_oxygen_shortage']
+        else:
+            status.evapotranspiration.params.scaling_factor_oxygen_shortage = 0 #original default value
+
+        if hasattr(status, 'USE_HERMES_FRROOT'):
+            status.evapotranspiration.params.USE_HERMES_FRROOT = status.USE_HERMES_FRROOT
         status.evapotranspiration.params.CFET = cropparams['CFET']
         status.evapotranspiration.params.DEPNR = cropparams['DEPNR']
         status.evapotranspiration.params.KDIFTB = ecrops.wofost_util.Afgen.Afgen(cropparams['KDIFTB'])
         status.evapotranspiration.params.IAIRDU = cropparams['IAIRDU']
         status.evapotranspiration.params.IOX = cropparams['IOX']
-        if 'CRAIRC' in status.soildata:
+        if hasattr(status,'soildata') and 'CRAIRC' in status.soildata:
             status.evapotranspiration.params.CRAIRC = status.soildata['CRAIRC']
         else:
             status.evapotranspiration.params.CRAIRC = 0
 
-        if 'SM0' in status.soildata:
+        if hasattr(status,'soildata') and 'SM0' in status.soildata:
             status.evapotranspiration.params.SM0 = status.soildata['SM0']
-        if 'SMW' in status.soildata:
+        if hasattr(status,'soildata') and 'SMW' in status.soildata:
             status.evapotranspiration.params.SMW = status.soildata['SMW']
 
-        if (not 'NSL' in status.soildata) or status.soildata['NSL'] == 0:
+        if hasattr(status,'soildata') and ((not 'NSL' in status.soildata) or status.soildata['NSL'] == 0):
             if 'SMFCF' in status.soildata:
                 status.evapotranspiration.params.SMFCF = status.soildata['SMFCF']
-                status.states.SM = status.soildata['SMFCF']
+                status.states.SM = status.soildata['SMFCF'] #initialize soil mositure to SMFCF
+            else:
+                raise Exception('Missing required variable SMFCF in soil data')
         else:
-            for il in range(0, status.soildata['NSL']):
-                status.soildata['SOIL_LAYERS'][il].SM = status.soildata['SOIL_LAYERS'][il].SMFCF
+            if  hasattr(status, 'soildata'):
+                if 'NSL' in status.soildata:
+                    for il in range(0, status.soildata['NSL']):
+                        status.soildata['SOIL_LAYERS'][il].SM = status.soildata['SOIL_LAYERS'][il].SMFCF
+                else:
+                    raise Exception('Missing required variable NSL in soil data')
+
 
         return status
 
@@ -162,13 +187,17 @@ class Evapotranspiration(Step):
         status.rates.TRAMX = 1
         status.rates.EVWMX = 0
         status.rates.EVSMX = 0
-        status.states._DSOS = 0
+        status.states._DSOS = 0 # number of days with shortage of oxigen
         status.states._IDWST = 0
         status.states._IDOST = 0
         status.rates.TRALY = 0
+        status.rates.IDWS = False
+        status.rates.IDOS = False
 
-        # Reduction factor for transpiration in case of water shortage (RFWS)
+        # Reduction factor for transpiration in case of water shortage
         status.rates.RFWS = 1
+        # Reduction factor for transpiration in case of oxygen shortage
+        status.rates.RFOS = 1
 
         return status
 
@@ -261,22 +290,23 @@ class Evapotranspiration(Step):
                 # critical soil moisture content for aeration
                 SMAIR = p.SM0 - p.CRAIRC
 
-                # count days since start oxygen shortage (up to 4 days)
+                # count days since start oxygen shortage (up to num_days days)
+                num_days = status.evapotranspiration.params.num_days_oxygen_shortage
                 if SM >= SMAIR:
-                    status.states._DSOS = min((status.states._DSOS + 1), 4)
+                    status.states._DSOS = min((status.states._DSOS + 1), num_days)
                 else:
                     status.states._DSOS = 0
 
-                # maximum reduction reached after 4 days
+                # maximum reduction reached after num_days days
                 RFOSMX = limit(0., 1., (p.SM0 - SM) / (p.SM0 - SMAIR))
-                RFOS = RFOSMX + (1. - status.states._DSOS / 4.) * (1. - RFOSMX)
+                status.rates.RFOS = (RFOSMX + (1. - status.states._DSOS / num_days) * (1. - RFOSMX))  * (1-status.evapotranspiration.params.scaling_factor_oxygen_shortage)+status.evapotranspiration.params.scaling_factor_oxygen_shortage
 
             # For rice, or non-rice crops grown on well drained land
             elif p.IAIRDU == 1 or p.IOX == 0:
-                RFOS = 1.
+                status.rates.RFOS = 1.
             # Transpiration rate multiplied with reduction factors for oxygen and
             # water
-            r.TRA = r.TRAMX * RFOS * status.rates.RFWS
+            r.TRA = r.TRAMX * status.rates.RFOS * status.rates.RFWS
 
 
         else:  # in case of layered soil, calculate the transpiration for each layer
@@ -286,6 +316,8 @@ class Evapotranspiration(Step):
                 SUMTRA = 0.0
 
                 TRALY = array.array('d', [0.0] * s.NSL)
+                RFOSi = array.array('d', [0.0] * s.NSL)
+                FRROOTi = array.array('d', [0.0] * s.NSL)
                 for il in range(0, s.NSL):
                     SM0 = s.SOIL_LAYERS[il].SM0
                     SMW = s.SOIL_LAYERS[il].SMW
@@ -296,44 +328,57 @@ class Evapotranspiration(Step):
                     # reduction in transpiration in case of water shortage
                     status.rates.RFWS = limit(0., 1., (s.SOIL_LAYERS[il].SM - SMW) / (SMCR - SMW))
 
-                    # reduction in transpiration in case of oxygen shortage
+                    # reduction in transpiration in case of oxygen shortage. Boolean EnableWaterLogging should be set to true
                     # for non-rice crops, and possibly deficient land drainage
-                    if (p.IAIRDU == 0 and p.IOX == 1):
+                    if (p.IAIRDU == 0 and p.IOX == 1 and hasattr(status.states,'EnableWaterLogging') and status.states.EnableWaterLogging):
+                        num_days = status.evapotranspiration.params.num_days_oxygen_shortage
                         # critical soil moisture content for aeration
                         SMAIR = SM0 - CRAIRC
-                        # count days since start oxygen shortage (up to 4 days)
-                        if (s.SOIL_LAYERS[il].SM >= SMAIR): self._DSOS = min((self._DSOS + 1.), 4.)
-                        if (s.SOIL_LAYERS[il].SM < SMAIR): self._DSOS = 0.
-                        # maximum reduction reached after 4 days
+                        # count days since start oxygen shortage (up to num_days days)
+                        if (s.SOIL_LAYERS[il].SM >= SMAIR): s._DSOS = min((s._DSOS + 1.), num_days)
+                        if (s.SOIL_LAYERS[il].SM < SMAIR): s._DSOS = 0.
+                        # maximum reduction reached after num_days days
                         RFOSMX = limit(0., 1., (SM0 - s.SOIL_LAYERS[il].SM) / (SM0 - SMAIR))
-                        RFOS = RFOSMX + (1. - self._DSOS / 4.) * (1. - RFOSMX)
+                        RFOSi[il] = (RFOSMX + (1. - s._DSOS / num_days) * (1. - RFOSMX)) * (1-status.evapotranspiration.params.scaling_factor_oxygen_shortage)+status.evapotranspiration.params.scaling_factor_oxygen_shortage
 
-                    # for rice, or non-rice crops grown on perfectly drained land
-                    elif (p.IAIRDU == 1 or p.IOX == 0):
-                        RFOS = 1.
+                    # for rice, or non-rice crops grown on perfectly drained land, or if the EnableWaterLogging flag is not True
+                    else:
+                        RFOSi[il] = 1.
 
                     if status.evapotranspiration.params.USE_HERMES_FRROOT:
                         # davidefuma 28-02-2022 multiply FRROOT per the factor of distribution of roots calculated by hermes root depth
-                        FRROOT = status.hermesrootdepth.hermes_roots_layer_data[il].percentageOfRootInLayer / 100
+                        FRROOTi[il] = status.hermesrootdepth.hermes_roots_layer_data[il].percentageOfRootInLayer / 100
                     else:  # original FRROOT based on ration between layer depth and root depth
                         if s.RD > 0:
-                            FRROOT = max(0.0, (min(s.RD, DEPTH + s.SOIL_LAYERS[il].TSL) - DEPTH)) / s.RD
+                            FRROOTi[il] = max(0.0, (min(s.RD, DEPTH + s.SOIL_LAYERS[il].TSL) - DEPTH)) / s.RD
                         else:
-                            FRROOT = 1
+                            FRROOTi[il] = 1
 
-                    TRALY[il] = status.rates.RFWS * RFOS * r.TRAMX * FRROOT
+                    TRALY[il] = status.rates.RFWS * RFOSi[il] * r.TRAMX * FRROOTi[il]
                     DEPTH += s.SOIL_LAYERS[il].TSL
+
                 r.TRA = sum(TRALY)
+                r.TRA = min(r.TRA, r.TRAMX) #forced than TRA should be <= TRAMX
                 r.TRALY = TRALY
                 # r.TRA=r.TRAMX #TODO:eliminazione water stress!! Nel funzionamento normale, commentare questa riga!
                 r.WaterStressReductionFactor = r.TRA / r.TRAMX
+                status.rates.RFOS = 0
+                if s.RD > 0:
+                    for il in range(0, s.NSL):
+                        status.rates.RFOS += RFOSi[il] * FRROOTi[il]
+                else:
+                    status.rates.RFOS = 1
+
             else:
-                RFOS = 1.
+                status.rates.RFOS = 1.
         # Counting stress days
+        # counting water stress days. Condition for a day to be considered a stress day is: RFWS < 1
         if status.rates.RFWS < 1.:
             r.IDWS = True
             status.states._IDWST += 1
-        if RFOS < 1.:
+
+        #counting oxygen stress days. Condition for a day to be considered a stress day is: round(RFOS,3) < 1
+        if round(status.rates.RFOS,3) < 1.:
             r.IDOS = True
             status.states._IDOST += 1
 
@@ -342,6 +387,8 @@ class Evapotranspiration(Step):
 
     def getinputslist(self):
         return {
+            "soildata": {"Description": "Soil data input", "Type": "Dictionary", "UnitOfMeasure": "-",
+                         "StatusVariable": "status.soildata"},
             "SOIL_LAYERS": {"Description": "Soil layers data (only in case of multi layer soil data)", "Type": "List",
                             "UnitOfMeasure": "-",
                             "StatusVariable": "status.states.SOIL_LAYERS"},
@@ -368,15 +415,17 @@ class Evapotranspiration(Step):
                     "StatusVariable": "status.states.SM"},
             "E0": {"Description": "Open water evapotranspiration",
                    "Type": "Number", "UnitOfMeasure": "cm",
-                   "StatusVariable": "status.weather.E0"},
+                   "StatusVariable": "status.states.E0"},
             "ES0": {"Description": "Bare soil evapotranspiration",
                     "Type": "Number", "UnitOfMeasure": "cm",
-                    "StatusVariable": "status.weather.ES0"},
+                    "StatusVariable": "status.states.ES0"},
             "ET0": {"Description": "Canopy evapotranspiration",
                     "Type": "Number", "UnitOfMeasure": "cm",
-                    "StatusVariable": "status.weather.ET0"},
+                    "StatusVariable": "status.states.ET0"},
             "RD": {"Description": "Root depth", "Type": "Number", "UnitOfMeasure": "cm",
                    "StatusVariable": "status.states.RD"},
+            "_DSOS": {"Description": "Number of days with shortage of oxygen", "Type": "Number", "UnitOfMeasure": "days",
+                   "StatusVariable": "status.states._DSOS"},
         }
 
 
@@ -385,7 +434,8 @@ class Evapotranspiration(Step):
             "SOIL_LAYERS": {"Description": "Soil layers data (only in case of multi layer soil data)", "Type": "List",
                             "UnitOfMeasure": "-",
                             "StatusVariable": "status.states.SOIL_LAYERS"},
-
+            "_DSOS": {"Description": "Number of days with shortage of oxygen", "Type": "Number", "UnitOfMeasure": "days",
+                      "StatusVariable": "status.states._DSOS"},
             "TRA": {"Description": "Actual transpiration rate from the plant canopy", "Type": "Number",
                     "UnitOfMeasure": "cm/day",
                     "StatusVariable": "status.rates.TRA"},

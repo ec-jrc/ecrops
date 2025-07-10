@@ -7,6 +7,9 @@ class CO2EffectOnRue(Step):
     """
 
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.IsC3 = container.allparameters['IsC3']
 
         return container
@@ -55,5 +58,7 @@ class CO2EffectOnRue(Step):
 
         except Exception as e:
             print('Error in method runstep of class CO2EffectOnRue:' + str(e))
+
+
 
         return container

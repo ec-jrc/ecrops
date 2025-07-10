@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="PanicleHeight" StepModule="ecrops.FPWarm.PanicleHeight">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="MaximumPanicleHeight" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.PanicleHeight" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

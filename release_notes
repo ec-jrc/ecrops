@@ -1,0 +1,141 @@
+Release notes of ECroPS project
+Description: ECroPS (Engine for Crop Parallelizable Simulations)  is a software platform to build and run agronomic models.  
++ New in version 0.4.14
+ - created project FPWofost
+ - better parameters management (method getparameterslist)
++ New in version 0.4.14.10
+ - added SeriesCumulator
++ New in version 0.4.14.14
+ - added LayeredWaterBalance
++ New in version 0.4.15.7
+ - added this release notes file :)
+ - added PlantHeight step
+ - added CanopyTemperature step (for now canopy temperature = max temperature)
+ - added HeatStress step
+ - added LinkCanopyTemperatureToHeatStress step
++ New in version 0.4.15.8
+ - added the SerializeStatus/DeSerializeStatus methods in the Wofost class
++ New in version 0.4.16.1
+ - classes re-organized in sub directories
++ New in version 0.4.17.0
+ - automatic import of wofost steps
+ - added dailydetails dictionary in status to host automatically daily values
++ New in version 0.4.18.1
+ - modified otegui-gambin: added the calculation of yield and grain weigth after grain filling
++ New in version 0.4.18.2
+ - modified otegui-gambin: added the calculation of yield and grain weigth after grain filling and translocation
++ New in version 0.4.18.3
+ - modified otegui-gambin: changed some equations parameters
++ New in version 0.4.18.4
+ - modified otegui-gambin: changed again some equations parameters
++ New in version 1.0.0.1
+ - merged projects FPWofost and pywarm into this one. This project has now name 'ecrops'.
+ - Wofost class replaced by ModelEngine
+ - namespace changed to ecrops
++ New in version 1.0.0.2
+ - Layer class is no more a dictionary. So code use its properties
++ New in version 1.0.0.3
+ - Changed SMO into SM0
+ - solved bug in soil layered water balance
++ New in version 1.0.0.4
+ - In ModelEngine, in the part that prints the output variables, added the condition '"[" in varParts[p]' to manage output variables in form of arrays like "myvariable[3]"
++ New in version 1.0.0.5
+ - Improved error log during model initialization
++ New in version 1.0.0.6
+ - Improved speed by reducing the number of eval in executeStep method of ModelEngine
++ New in version 1.0.0.7
+ - added __version__ variable and ecrops_version.py file
++ New in version 1.0.0.8
+ - added a check for wrong temperatures in weather class
++ New in version 1.0.0.9
+ - added output variables status.rates.RFWS ,status.heatstress.DailyHeatStressFactor,status.rates.factorToIncreaseSenescenceForHeatStress
++ New in version 1.0.0.10
+ - check if tavg is in input
++ New in version 1.0.0.11
+ - minor fixes
++ New in version 1.0.1.1
+ - added Hermes root depth
++ New in version 1.0.1.2
+ - fixes for start day of classic water balance. Now starts at emergence day, not 1 day later
++ New in version 1.0.1.3
+ - removed unnecessary dependencies
++ New in version 1.0.1.4
+ - added first version of hermes waterbalance
++ New in version 1.0.1.5
+ - fixed problem on calculation of nigth time temperature 7 days average.
++ New in version 1.0.2
+ - first tentative hermens npk classes
++ New in version 1.0.3
+ - in 'leafdinamics', row 289, we dont use the TEMP (avg temparature) variable, but we use (tmax+tmin)/2
++ New in version 1.1.0
+ - many bug fixes and improvements on nitrogen hermes
++ New in version 1.1.1
+ - other fixes and improvements on nitrogen hermes
++ New in version 1.2.0
+ - now simulation can start before sowing date
++ New in version 1.2.1
+ - other fixes for nitrogen
++ New in version 1.2.2
+ - fix for layered water balance: corrected a bug where the loss to subsoil water was removed twice from last layer water
++ New in version 1.3.0
+ - mystatus now called status. timedependantvariable now called timedependantvariables. added arguments first_day, simulation_start_day,
+                   simulation_end_day
++ New in version 1.3.1
+ - added hermes root depth in layered water balance
++ New in version 1.3.2
+ -removed unused steps. Added code documentation in subfolder docs. Improved code comments
++ New in version 1.4.1
+ - added DrivingVariables section in workflow file
++ New in version 1.4.2
+ - added debug_timing_mode, added WeatherColumnForVariable setting
++ New in version 1.4.3
+ - fixed nitrogen qrez calculation parameters - fixed START_MODE initialization of phenology
++ New in version 1.4.4
+ - initialization of leaves, roots, stems and storage organs moved from integrate to runstep methods. Avoid calling nitgth temperature (TMINRA) calculation twice the first simulated day
++ New in version 1.5.0
+ - added configuration boolean PrintDailyDetailsToFile
+ - added configuration boolean ReturnDekadalDetails
+ - added management of soil water calculation before sowing
+ - Added rounding in afgen results
+ - returns the daily details array if ReturnDailyDetails is True
+ - returns the dekadal details array if ReturnDekadalDetails is True
+ - update in Wofost components copyright info
++ New in version 1.5.1
+ - fix for crops having AMAXTB(2)=0, to make it similar to bioma. Class WOFOST_Assimilation line 260
++ New in version 1.5.2
+ - refactoring of FPWarm model - in HeatStress added the "Sum of the damages" case - changed daily details behaviour - added WARM cold sterility
++ New in version 1.5.4
+ - small fixes
++ New in version 1.5.6
+ - better implementation of different start type of soil water simulation in LayeredWaterBalance
++ New in version 1.5.7
+ - in Weather step, added checks to verify the weather variable are not NaN
++ New in version 1.5.8
+ - added SOIL_TEMPERATURE in Weather step, added a check to verify WeatherArray is present. Removed unused SeriesCumulator step. Removed rounding from Afgen __call__ method
++ New in version 1.6.1
+ - added methods 'getinputslist' and 'getoutputslist' to the steps
+ - added the AbstractGraphBuilder and TextualGraphBuilder classes
+ - added method createModelGraph in ModelEngine, added class ModelWorkflowReader
++ new in version 1.7.0
+ - added the ecrops.Step abstract class that all the steps should implement. Added the AbstractGraphBuilder class and the mechanism to build workflow graphs
++ new in version 1.7.1
+ - added the functionality of automatized unit test generation
++ new in version 1.7.2
+ - refactoring on ModelEngine: added the possibility of pass the XML configuration as an XML string instead of the path of the XML file. Added the SerializeModelInputConfiguration and DeSerializeModelInputConfiguration methods.
++ new in version 1.7.3
+ - added parameters 'num_days_oxygen_shortage' and 'scaling_factor_oxygen_shortage' in evapotranspiration class to regulate the oxygen shortage reduction
++ new in version 1.8.0
+ - added layered water balance from version 8 of Wofost (step LayeredWaterBalance8.py). This has differences from  old version LayeredWaterBalance regarding:
+	- initialization (in the Initialize method, s.RDM is set equal to RDMsoil, not to  min(p.RDMCR, RDMsoil)  -  different distribution of initial water WAV in the soil layers)
+	- calculation of EVSMXT (now DSLR is updated after the formula of EVSMXT, not before - change in the formula for calculating EVSMXT)
+	- UpwardFlowLimit variable now set to 0.5
+ - forced TRA <= TRAMX in evapotranspiration class
+ - in layered water balance, if root depth is zero (so, before emergence) we set the RSM equal to the RSM of the first layer, to not leave the RSM equal to zero. The same for SM_MEAN (soil moisture mean in root depth)
++ new in version 1.8.1
+- updated the methods getinputslist and getoutputslist of LayeredWaterBalance
++ new in version 1.8.4
+ - in the check of the waterbalance checksum, modified the threshold from 0.0001 to 0.001
++ new in version 1.8.5.1
+ - improvements in the water logging calculation
++ New in version 1.9.0
+  - Refactoring: classes AbstractModel and AbstractDataLoader were moved from ModelLibrary package inside the ecrops.ModelLibrary package.

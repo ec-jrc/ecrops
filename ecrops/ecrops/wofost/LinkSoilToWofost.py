@@ -40,8 +40,8 @@ class LinkSoilToWofost(Step):
     def getinputslist(self):
         return {
 
-            "soildata": {"Description": "Soil data input", "Type": "Dictionary", "UnitOfMeasure": "-",
-                         "StatusVariable": "status.soildata"},
+            "soilparameters": {"Description": "Soil data input", "Type": "Dictionary", "UnitOfMeasure": "-",
+                         "StatusVariable": "status.soilparameters"},
         }
 
     def getoutputslist(self):

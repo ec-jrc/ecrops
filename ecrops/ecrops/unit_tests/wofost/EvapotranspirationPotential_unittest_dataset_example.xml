@@ -1,0 +1,73 @@
+<UnitTest Step="EvapotranspirationPotential" StepModule="ecrops.wofost.evapotranspirationPotential">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="CFET" Value="1.0"/>
+                <Parameter Name="KDIFTB" Value="[0.0,0.6,2.0,0.6]"/>
+                <Parameter Name="Co2EffectOnPotentialTraspiration" Value="1"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.day" Value="2015-01-30 00:00:00"/>
+                <Input Name="status.states.DOE" Value="2014-10-24 00:00:00"/>
+                <Input Name="status.states.DVS" Value="0.09548496448150233"/>
+                <Input Name="status.states.LAI" Value="0.2989167749619445"/>
+                <Input Name="status.states.ET0" Value="0.103027344"/>
+                <Input Name="status.states.E0" Value="0.086035155"/>
+                <Input Name="status.states.ES0" Value="0.07695313"/>
+                <Input Name="status.evapotranspiration.params.Co2EffectOnPotentialTraspiration" Value="1"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.TRA" Value="0.013"/>
+                <Output Name="status.rates.TRAMX" Value="0.013"/>
+                <Output Name="status.rates.EVWMX" Value="0.075"/>
+                <Output Name="status.rates.EVSMX" Value="0.067"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="CFET" Value="1.0"/>
+                <Parameter Name="KDIFTB" Value="[0.0,0.6,2.0,0.6]"/>
+                <Parameter Name="Co2EffectOnPotentialTraspiration" Value="1"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.day" Value="2015-03-01 00:00:00"/>
+                <Input Name="status.states.DOE" Value="2014-10-24 00:00:00"/>
+                <Input Name="status.states.DVS" Value="0.15092518526535417"/>
+                <Input Name="status.states.LAI" Value="0.37858727681513554"/>
+                <Input Name="status.states.ET0" Value="0.08896484"/>
+                <Input Name="status.states.E0" Value="0.11396484"/>
+                <Input Name="status.states.ES0" Value="0.0959961"/>
+                <Input Name="status.evapotranspiration.params.Co2EffectOnPotentialTraspiration" Value="1"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.TRA" Value="0.014"/>
+                <Output Name="status.rates.TRAMX" Value="0.014"/>
+                <Output Name="status.rates.EVWMX" Value="0.096"/>
+                <Output Name="status.rates.EVSMX" Value="0.081"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="CFET" Value="1.0"/>
+                <Parameter Name="KDIFTB" Value="[0.0,0.6,2.0,0.6]"/>
+                <Parameter Name="Co2EffectOnPotentialTraspiration" Value="1"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.day" Value="2015-03-31 00:00:00"/>
+                <Input Name="status.states.DOE" Value="2014-10-24 00:00:00"/>
+                <Input Name="status.states.DVS" Value="0.3100622415563186"/>
+                <Input Name="status.states.LAI" Value="1.4448762086665488"/>
+                <Input Name="status.states.ET0" Value="0.29003906"/>
+                <Input Name="status.states.E0" Value="0.33603516"/>
+                <Input Name="status.states.ES0" Value="0.31396484"/>
+                <Input Name="status.evapotranspiration.params.Co2EffectOnPotentialTraspiration" Value="1"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.TRA" Value="0.139"/>
+                <Output Name="status.rates.TRAMX" Value="0.139"/>
+                <Output Name="status.rates.EVWMX" Value="0.175"/>
+                <Output Name="status.rates.EVSMX" Value="0.164"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

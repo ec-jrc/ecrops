@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="GrowingDegreesDaysTemperature" StepModule="ecrops.FPWarm.GrowingDegreesDaysTemperature">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="BaseTemperatureDevelopment" Value="" />
+        <Parameter Name="CutoffTemperatureDevelopment" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.weather.TEMP" Value="" />
+        <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="" />
+        <Input Name="status.states.GrowingDegreeDaysTemperature" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.GrowingDegreeDaysTemperatureRate" Value="" />
+        <Output Name="status.states.GrowingDegreeDaysTemperature" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

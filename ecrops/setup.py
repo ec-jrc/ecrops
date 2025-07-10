@@ -23,6 +23,7 @@ setup(name='ecrops',
       license='EUPL',
       use_2to3=False,
       packages=find_packages(),
+      
       install_requires=['numpy>=1.6.1'],
       zip_safe=False,
       package_data={

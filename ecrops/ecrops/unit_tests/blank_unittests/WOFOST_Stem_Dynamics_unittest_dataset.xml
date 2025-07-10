@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WOFOST_Stem_Dynamics" StepModule="ecrops.wofost.stemdynamics">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="RDRSTB" Value="" />
+        <Parameter Name="SSATB" Value="" />
+        <Parameter Name="TDWI" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOM" Value="" />
+        <Input Name="status.states.FS" Value="" />
+        <Input Name="status.states.FR" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.rates.ADMI" Value="" />
+        <Input Name="status.states.WST" Value="" />
+        <Input Name="status.states.DWST" Value="" />
+        <Input Name="status.states.TWST" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.SAI" Value="" />
+        <Output Name="status.rates.GRST" Value="" />
+        <Output Name="status.rates.DRST" Value="" />
+        <Output Name="status.rates.GWST" Value="" />
+        <Output Name="status.states.WST" Value="" />
+        <Output Name="status.states.DWST" Value="" />
+        <Output Name="status.states.TWST" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

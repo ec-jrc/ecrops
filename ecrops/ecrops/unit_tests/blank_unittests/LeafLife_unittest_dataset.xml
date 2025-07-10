@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="LeafLife" StepModule="ecrops.FPWarm.LeafLife">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="LeafLife" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.LeafAreaIndexAge" Value="" />
+        <Input Name="status.rates.GrowingDegreeDaysRate" Value="" />
+        <Input Name="status.states.TotalLeafAreaIndex" Value="" />
+        <Input Name="status.states.DeadLeafAreaIndex" Value="" />
+        <Input Name="status.states.GreenLeafAreaIndex" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.LeafAreaIndexAge" Value="" />
+        <Output Name="status.rates.DeadLeafAreaIndexRate" Value="" />
+        <Output Name="status.rates.GreenLeafAreaIndexRate" Value="" />
+        <Output Name="status.states.DeadLeafAreaIndex" Value="" />
+        <Output Name="status.states.GreenLeafAreaIndex" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

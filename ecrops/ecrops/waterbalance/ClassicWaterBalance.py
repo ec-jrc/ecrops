@@ -184,9 +184,10 @@ class WaterbalanceFD(Step):
 
     def setparameters(self, status):
 
-        status.classicwaterbalance = Printable()
-        status.classicwaterbalance.states = Printable()
-        status.classicwaterbalance.rates = Printable()
+        if not hasattr(status,'classicwaterbalance'):
+            status.classicwaterbalance = Printable()
+            status.classicwaterbalance.states = Printable()
+            status.classicwaterbalance.rates = Printable()
         status.soildata = Printable()
         status.soildata = status.soilparameters
         status.classicwaterbalance.params = Printable()
@@ -247,7 +248,7 @@ class WaterbalanceFD(Step):
 
         # Current, maximum and old rooting depth
         if status.classicwaterbalance.params.PerformWaterBalanceStartInAdvanceUntilSowing:
-            s.RD = ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING
+            s.RD = min(p.RDMSOL,ROOT_DEPTH_FOR_WATER_BALANCE_IN_ADVANCE_UNTIL_SOWING)
         else:
             s.RD = s.RDI
         s.RDM = max(s.RDI, min(p.RDMSOL, s.RDMCR))
@@ -565,9 +566,7 @@ class WaterbalanceFD(Step):
         return status
 
     def integrate(self, status):
-        s = status.classicwaterbalance.states
-        p = status.classicwaterbalance.params
-        r = status.classicwaterbalance.rates
+
 
         return status
 
@@ -590,6 +589,8 @@ class WaterbalanceFD(Step):
 
     def getinputslist(self):
         return {
+            "DOE": {"Description": "Doy of emergence", "Type": "Number", "UnitOfMeasure": "doy",
+                    "StatusVariable": "status.classicwaterbalance.states.DOE"},
             "day": {"Description": "Current day", "Type": "Number", "UnitOfMeasure": "doy",
                     "StatusVariable": "status.day"},
 
@@ -597,24 +598,32 @@ class WaterbalanceFD(Step):
                                                "Type": "Number",
                                                "UnitOfMeasure": "doy",
                                                "StatusVariable": "status.POTENTIAL_WATER_STARTDATE_date"},
-            "soildata": {"Description": "Soil data input", "Type": "Dictionary", "UnitOfMeasure": "-",
-                         "StatusVariable": "status.soildata"},
+            "soilparameters": {"Description": "Soil data input", "Type": "Dictionary", "UnitOfMeasure": "-",
+                         "StatusVariable": "status.soilparameters"},
 
             "E0": {"Description": "Open water evapotranspiration",
                    "Type": "Number", "UnitOfMeasure": "cm",
-                   "StatusVariable": "status.weather.E0"},
+                   "StatusVariable": "status.classicwaterbalance.rates.E0"},
             "ES0": {"Description": "Bare soil evapotranspiration",
                     "Type": "Number", "UnitOfMeasure": "cm",
-                    "StatusVariable": "status.weather.ES0"},
+                    "StatusVariable": "status.classicwaterbalance.rates.ES0"},
 
             "RD": {"Description": "Root depth", "Type": "Number", "UnitOfMeasure": "cm",
-                   "StatusVariable": "status.states.RD"},
+                   "StatusVariable": "status.classicwaterbalance.states.RD"},
             "RDold": {"Description": "Root depth of previous day", "Type": "Number", "UnitOfMeasure": "cm",
                       "StatusVariable": "status.classicwaterbalance.states.RDold"},
-        }
-
-    def getoutputslist(self):
-        return {
+            "TRA": {"Description": "Actual transpiration rate from the plant canopy", "Type": "Number",
+                    "UnitOfMeasure": "cm/day",
+                    "StatusVariable": "status.classicwaterbalance.rates.TRA"},
+            "EVWMX": {"Description": "Maximum evaporation rate from an open water surface", "Type": "Number",
+                      "UnitOfMeasure": "cm/day",
+                      "StatusVariable": "status.classicwaterbalance.rates.EVWMX"},
+            "EVSMX": {"Description": "Maximum evaporation rate from a wet soil surface", "Type": "Number",
+                      "UnitOfMeasure": "cm/day",
+                      "StatusVariable": "status.classicwaterbalance.rates.EVSMX"},
+            "SS": {"Description": "Surface storage (layer of water on surface) ",
+                   "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.classicwaterbalance.states.SS"},
             "RDold": {"Description": "Root depth of previous day", "Type": "Number", "UnitOfMeasure": "cm",
                       "StatusVariable": "status.classicwaterbalance.states.RDold"},
             "RDI": {"Description": "Initial root depth", "Type": "Number", "UnitOfMeasure": "cm",
@@ -679,24 +688,117 @@ class WaterbalanceFD(Step):
             "WBALRT": {
                 "Description": "Checksum for root zone waterbalance. If abs(WBALRT) >  0.0001 will raise a WaterBalanceError",
                 "Type": "Number", "UnitOfMeasure": "cm",
-                "StatusVariable": "status.states.classicwaterbalance.WBALRT"},
+                "StatusVariable": "status.classicwaterbalance.states.WBALRT"},
             "WBALTT": {
                 "Description": "Checksum for total waterbalance. If abs(WBALTT) >  0.0001 will raise a WaterBalanceError",
                 "Type": "Number", "UnitOfMeasure": "cm",
-                "StatusVariable": "status.states.classicwaterbalance.WBALTT"},
+                "StatusVariable": "status.classicwaterbalance.states.WBALTT"},
+            "DSLR": {
+                "Description": "Days since last rain",
+                "Type": "Number", "UnitOfMeasure": "days",
+                "StatusVariable": "status.classicwaterbalance.states.DSLR"},
+            "RAIN": {"Description": "Daily increase of rainfall",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.rates.RAIN"},
+            "RIRR": {"Description": "Daily increase of effective irrigation",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.rates.RIRR"},
+            "RDMCR": {"Description": "Maximum crop root depth" , "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.states.RDMCR"},
+            "RINold": {"Description": "Daily increase of infiltration rate for previous day   ",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.classicwaterbalance.states.RINold"},
+
+
+        }
+
+    def getoutputslist(self):
+        return {
+            "RDold": {"Description": "Root depth of previous day", "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.RDold"},
+            "RDI": {"Description": "Initial root depth", "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.classicwaterbalance.states.RDI"},
+            "SM": {"Description": "Actual volumetric soil moisture content",
+                   "Type": "Number", "UnitOfMeasure": "",
+                   "StatusVariable": "status.classicwaterbalance.states.SM"},
+            "SMUR": {"Description": "Actual volumetric soil moisture content of not rooted zone",
+                     "Type": "Number", "UnitOfMeasure": "",
+                     "StatusVariable": "status.classicwaterbalance.states.SMUR"},
+            "DSLR": {
+                "Description": "Days since last rain",
+                "Type": "Number", "UnitOfMeasure": "days",
+                "StatusVariable": "status.classicwaterbalance.states.DSLR"},
+            "SS": {"Description": "Surface storage (layer of water on surface) ",
+                   "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.classicwaterbalance.states.SS"},
+            "W": {"Description": "Amount of water in root zone",
+                  "Type": "Number", "UnitOfMeasure": "cm",
+                  "StatusVariable": "status.classicwaterbalance.states.W"},
+            "WI": {"Description": "Initial amount of water in root zone",
+                   "Type": "Number", "UnitOfMeasure": "cm",
+                   "StatusVariable": "status.classicwaterbalance.states.WI"},
+            "WLOW": {
+                "Description": "Amount of water in the subsoil (between current rooting depth and maximum rootable depth)",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.classicwaterbalance.states.WLOW"},
+            "WLOWI": {"Description": "Initial amount of water in the subsoil",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.WLOWI"},
+            "WWLOW": {"Description": "Total amount of water in the  soil profile (WLOW+W)",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.WWLOW"},
+            "WTRAT": {
+                "Description": "Total water lost as transpiration as calculated by the water balance. This can be different from the CTRAT variable which only counts transpiration for a crop cycle",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.classicwaterbalance.states.WTRAT"},
+            "EVST": {"Description": "Total evaporation from the soil surface ",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.states.EVST"},
+            "EVWT": {"Description": "Total evaporation from a water surface",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.states.EVWT"},
+            "TSR": {"Description": "Total surface runoff",
+                    "Type": "Number", "UnitOfMeasure": "cm",
+                    "StatusVariable": "status.classicwaterbalance.states.TSR"},
+            "RAINT": {"Description": "Total amount of rainfall",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.RAINT"},
+            "WDRT": {"Description": "Amount of water added to root zone by increase of root growth",
+                     "Type": "Number", "UnitOfMeasure": "cm",
+                     "StatusVariable": "status.classicwaterbalance.states.WDRT"},
+            "TOTINF": {"Description": "Total amount of infiltration",
+                       "Type": "Number", "UnitOfMeasure": "cm",
+                       "StatusVariable": "status.classicwaterbalance.states.TOTINF"},
+            "TOTIRR": {"Description": "Total amount of effective irrigation",
+                       "Type": "Number", "UnitOfMeasure": "cm",
+                       "StatusVariable": "status.classicwaterbalance.states.TOTIRR"},
+            "PERCT": {"Description": "Total amount of water percolating from rooted ",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.PERCT"},
+            "LOSST": {"Description": "Total amount of water lost to deeper soil",
+                      "Type": "Number", "UnitOfMeasure": "cm",
+                      "StatusVariable": "status.classicwaterbalance.states.LOSST"},
+            "WBALRT": {
+                "Description": "Checksum for root zone waterbalance. If abs(WBALRT) >  0.0001 will raise a WaterBalanceError",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.classicwaterbalance.states.WBALRT"},
+            "WBALTT": {
+                "Description": "Checksum for total waterbalance. If abs(WBALTT) >  0.0001 will raise a WaterBalanceError",
+                "Type": "Number", "UnitOfMeasure": "cm",
+                "StatusVariable": "status.classicwaterbalance.states.WBALTT"},
 
             "EVS": {"Description": "Daily increase of actual evaporation from soil",
                     "Type": "Number", "UnitOfMeasure": "cm",
-                    "StatusVariable": "status.rates.classicwaterbalance.EVS"},
+                    "StatusVariable": "status.classicwaterbalance.rates.EVS"},
             "EVW": {"Description": "Daily increase of actual evaporation from water surface  ",
                     "Type": "Number", "UnitOfMeasure": "cm",
-                    "StatusVariable": "status.rates.classicwaterbalance.EVW"},
+                    "StatusVariable": "status.classicwaterbalance.rates.EVW"},
             "WTRA": {"Description": "Daily increase of actual transpiration rate from plant canopy",
                      "Type": "Number", "UnitOfMeasure": "cm",
-                     "StatusVariable": "status.rates.classicwaterbalance.WTRA"},
+                     "StatusVariable": "status.classicwaterbalance.rates.WTRA"},
             "RAIN": {"Description": "Daily increase of rainfall",
                      "Type": "Number", "UnitOfMeasure": "cm",
-                     "StatusVariable": "status.rates.RAIN"},
+                     "StatusVariable": "status.classicwaterbalance.rates.RAIN"},
             "RIN": {"Description": "Daily increase of infiltration rate for current day   ",
                     "Type": "Number", "UnitOfMeasure": "cm",
                     "StatusVariable": "status.classicwaterbalance.rates.RIN"},

@@ -1,0 +1,67 @@
+<UnitTest Step="InterceptedAbsorbedRadiation" StepModule="ecrops.FPWarm.InterceptedAbsorbedRadiation">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="0.11285713740757533"/>
+                <Input Name="status.weather.IRRAD" Value="20.2"/>
+                <Input Name="status.states.TotalLeafAreaIndex" Value="0"/>
+                <Input Name="status.states.InterceptedSolarRadiation" Value="0"/>
+                <Input Name="status.states.AbsorbedSolarRadiation" Value="0"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.TotalLeafAreaIndex" Value="0"/>
+                <Output Name="status.states.GreenLeafAreaIndex" Value="0.0"/>
+                <Output Name="status.rates.InterceptedSolarRadiationRate" Value="0"/>
+                <Output Name="status.rates.AbsorbedSolarRadiationRate" Value="0"/>
+                <Output Name="status.states.InterceptedSolarRadiation" Value="0"/>
+                <Output Name="status.states.AbsorbedSolarRadiation" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.0833157910798725"/>
+                <Input Name="status.weather.IRRAD" Value="17.8"/>
+                <Input Name="status.states.TotalLeafAreaIndex" Value="0.018182058535995096"/>
+                <Input Name="status.states.InterceptedSolarRadiation" Value="1.6505301521149247"/>
+                <Input Name="status.states.AbsorbedSolarRadiation" Value="1.6493768084767126"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0.018"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.TotalLeafAreaIndex" Value="0.018"/>
+                <Output Name="status.states.GreenLeafAreaIndex" Value="0.018"/>
+                <Output Name="status.rates.InterceptedSolarRadiationRate" Value="0.161"/>
+                <Output Name="status.rates.AbsorbedSolarRadiationRate" Value="0.161"/>
+                <Output Name="status.states.InterceptedSolarRadiation" Value="1.81"/>
+                <Output Name="status.states.AbsorbedSolarRadiation" Value="1.81"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.3975263194033973"/>
+                <Input Name="status.weather.IRRAD" Value="24.2"/>
+                <Input Name="status.states.TotalLeafAreaIndex" Value="0.8689078536307712"/>
+                <Input Name="status.states.InterceptedSolarRadiation" Value="68.98570694984356"/>
+                <Input Name="status.states.AbsorbedSolarRadiation" Value="68.69390778159944"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0.864"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.TotalLeafAreaIndex" Value="0.869"/>
+                <Output Name="status.states.GreenLeafAreaIndex" Value="0.864"/>
+                <Output Name="status.rates.InterceptedSolarRadiationRate" Value="8.528"/>
+                <Output Name="status.rates.AbsorbedSolarRadiationRate" Value="8.49"/>
+                <Output Name="status.states.InterceptedSolarRadiation" Value="77.513"/>
+                <Output Name="status.states.AbsorbedSolarRadiation" Value="77.183"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

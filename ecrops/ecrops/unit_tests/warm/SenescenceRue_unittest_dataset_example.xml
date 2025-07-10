@@ -1,0 +1,37 @@
+<UnitTest Step="SenescenceRue" StepModule="ecrops.FPWarm.SenescenceRue">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="0.11285713740757533"/>
+                <Input Name="status.states.RUESenescenceEffect" Value="120"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUESenescenceEffectRate" Value="1"/>
+                <Output Name="status.states.RUESenescenceEffect" Value="121"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.0833157910798725"/>
+                <Input Name="status.states.RUESenescenceEffect" Value="150"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUESenescenceEffectRate" Value="1"/>
+                <Output Name="status.states.RUESenescenceEffect" Value="151"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.3975263194033973"/>
+                <Input Name="status.states.RUESenescenceEffect" Value="180"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.RUESenescenceEffectRate" Value="1"/>
+                <Output Name="status.states.RUESenescenceEffect" Value="181"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

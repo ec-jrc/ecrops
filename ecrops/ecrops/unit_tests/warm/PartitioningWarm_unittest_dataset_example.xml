@@ -1,0 +1,76 @@
+<UnitTest Step="PartitioningWarm" StepModule="ecrops.FPWarm.PartitioningWarm">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="PartitioningToLeavesAtEmergence" Value="0.7"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="0.11285713740757533"/>
+                <Input Name="status.rates.AbovegroundBiomassRate" Value="0.0"/>
+                <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.HeatInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.StorageOrgansBiomass" Value="0.0"/>
+                <Input Name="status.states.StemsBiomass" Value="0.0"/>
+                <Input Name="status.states.LeavesBiomass" Value="0"/>
+                <Input Name="status.auxiliary.Sterility" Value="0"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.LeavesBiomassRate" Value="0.0"/>
+                <Output Name="status.rates.StorageOrgansBiomassRate" Value="0.0"/>
+                <Output Name="status.rates.StemsBiomassRate" Value="0.0"/>
+                <Output Name="status.states.LeavesBiomass" Value="0.0"/>
+                <Output Name="status.states.StorageOrgansBiomass" Value="0.0"/>
+                <Output Name="status.states.StemsBiomass" Value="0.0"/>
+                <Output Name="status.auxiliary.Sterility" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="PartitioningToLeavesAtEmergence" Value="0.7"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.0833157910798725"/>
+                <Input Name="status.rates.AbovegroundBiomassRate" Value="0.29284525466220096"/>
+                <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.HeatInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.StorageOrgansBiomass" Value="0.0"/>
+                <Input Name="status.states.StemsBiomass" Value="1.7164268914423557"/>
+                <Input Name="status.states.LeavesBiomass" Value="3"/>
+                <Input Name="status.auxiliary.Sterility" Value="0"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.LeavesBiomassRate" Value="0.204"/>
+                <Output Name="status.rates.StorageOrgansBiomassRate" Value="0.0"/>
+                <Output Name="status.rates.StemsBiomassRate" Value="0.089"/>
+                <Output Name="status.states.LeavesBiomass" Value="3.203"/>
+                <Output Name="status.states.StorageOrgansBiomass" Value="0.0"/>
+                <Output Name="status.states.StemsBiomass" Value="1.80"/>
+                <Output Name="status.auxiliary.Sterility" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="PartitioningToLeavesAtEmergence" Value="0.7"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.3975263194033973"/>
+                <Input Name="status.rates.AbovegroundBiomassRate" Value="111.20981265072771"/>
+                <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.HeatInducedSpikeletSterilityState" Value="0"/>
+                <Input Name="status.states.StorageOrgansBiomass" Value="0.0"/>
+                <Input Name="status.states.StemsBiomass" Value="286.17278819557697"/>
+                <Input Name="status.states.LeavesBiomass" Value="450"/>
+                <Input Name="status.auxiliary.Sterility" Value="0"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.LeavesBiomassRate" Value="65.545"/>
+                <Output Name="status.rates.StorageOrgansBiomassRate" Value="0.0"/>
+                <Output Name="status.rates.StemsBiomassRate" Value="45.665"/>
+                <Output Name="status.states.LeavesBiomass" Value="515.544"/>
+                <Output Name="status.states.StorageOrgansBiomass" Value="0.0"/>
+                <Output Name="status.states.StemsBiomass" Value="331.83"/>
+                <Output Name="status.auxiliary.Sterility" Value="0"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

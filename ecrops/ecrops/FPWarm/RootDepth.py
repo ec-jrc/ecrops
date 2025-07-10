@@ -7,6 +7,9 @@ class RootDepth(Step):
     Root Depth
     """
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.MaximumRootingDepth = container.allparameters['MaximumRootingDepth']
 
         return container

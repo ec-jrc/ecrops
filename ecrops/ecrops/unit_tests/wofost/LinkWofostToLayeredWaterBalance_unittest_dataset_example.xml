@@ -1,0 +1,73 @@
+<UnitTest Step="LinkWofostToLayeredWaterBalance" StepModule="ecrops.waterbalance.LinkWofostToLayeredWaterBalance">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="RDI" Value="10.0"/>
+                <Parameter Name="IAIRDU" Value="1"/>
+                <Parameter Name="RDMCR" Value="120.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.RD" Value="20.799999999999994"/>
+                <Input Name="status.rates.TRA" Value="0.006633494641060538"/>
+                <Input Name="status.states.DOE" Value="2022-01-21 00:00:00"/>
+                <Input Name="status.rates.EVWMX" Value="0.18537043157931432"/>
+                <Input Name="status.rates.EVSMX" Value="0.1560312245943388"/>
+                <Input Name="status.rates.TRALY" Value="array('d', [0.005076654062036128, 0.0015568405790244108, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.layeredwaterbalance.states.RD" Value="20.8"/>
+                <Output Name="status.layeredwaterbalance.rates.TRA" Value="0.007"/>
+                <Output Name="status.layeredwaterbalance.states.flag_crop_emerged" Value="1"/>
+                <Output Name="status.layeredwaterbalance.rates.EVWMX" Value="0.185"/>
+                <Output Name="status.layeredwaterbalance.rates.EVSMX" Value="0.156"/>
+                <Output Name="status.layeredwaterbalance.rates.TRALY" Value="array('d', [0.005076654062036128, 0.0015568405790244108, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="RDI" Value="10.0"/>
+                <Parameter Name="IAIRDU" Value="1"/>
+                <Parameter Name="RDMCR" Value="120.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.RD" Value="56.80000000000005"/>
+                <Input Name="status.rates.TRA" Value="0.03440760159824999"/>
+                <Input Name="status.states.DOE" Value="2022-01-21 00:00:00"/>
+                <Input Name="status.rates.EVWMX" Value="0.20700239134799195"/>
+                <Input Name="status.rates.EVSMX" Value="0.17247392129146166"/>
+                <Input Name="status.rates.TRALY" Value="array('d', [0.009282626330463117, 0.009282626330463117, 0.009282626330463117, 0.006559722606860632, 0.0, 0.0, 0.0, 0.0, 0.0])"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.layeredwaterbalance.states.RD" Value="56.8"/>
+                <Output Name="status.layeredwaterbalance.rates.TRA" Value="0.034"/>
+                <Output Name="status.layeredwaterbalance.states.flag_crop_emerged" Value="1"/>
+                <Output Name="status.layeredwaterbalance.rates.EVWMX" Value="0.207"/>
+                <Output Name="status.layeredwaterbalance.rates.EVSMX" Value="0.172"/>
+                <Output Name="status.layeredwaterbalance.rates.TRALY" Value="array('d', [0.009282626330463117, 0.009282626330463117, 0.009282626330463117, 0.006559722606860632, 0.0, 0.0, 0.0, 0.0, 0.0])"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="RDI" Value="10.0"/>
+                <Parameter Name="IAIRDU" Value="1"/>
+                <Parameter Name="RDMCR" Value="120.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.RD" Value="92.80000000000013"/>
+                <Input Name="status.rates.TRA" Value="0.21454189616458164"/>
+                <Input Name="status.states.DOE" Value="2022-01-21 00:00:00"/>
+                <Input Name="status.rates.EVWMX" Value="0.12244209032592358"/>
+                <Input Name="status.rates.EVSMX" Value="0.10843504292398413"/>
+                <Input Name="status.rates.TRALY" Value="array('d', [0.035132406577169435, 0.035132406577169435, 0.035132406577169435, 0.035132406577169435, 0.04684320876955925, 0.027169061086344648, 0.0, 0.0, 0.0])"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.layeredwaterbalance.states.RD" Value="92.8"/>
+                <Output Name="status.layeredwaterbalance.rates.TRA" Value="0.215"/>
+                <Output Name="status.layeredwaterbalance.states.flag_crop_emerged" Value="1"/>
+                <Output Name="status.layeredwaterbalance.rates.EVWMX" Value="0.122"/>
+                <Output Name="status.layeredwaterbalance.rates.EVSMX" Value="0.108"/>
+                <Output Name="status.layeredwaterbalance.rates.TRALY" Value="array('d', [0.035132406577169435, 0.035132406577169435, 0.035132406577169435, 0.035132406577169435, 0.04684320876955925, 0.027169061086344648, 0.0, 0.0, 0.0])"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

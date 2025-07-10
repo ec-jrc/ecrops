@@ -1,0 +1,94 @@
+<UnitTest Step="WaterbalanceFD" StepModule="ecrops.waterbalance.ClassicWaterBalance">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="RDMSOL" Value="120.0"/>
+                <Parameter Name="WAV" Value="11.0"/>
+                <Parameter Name="SSI" Value="0"/>
+                <Parameter Name="SMW" Value="0.042747498"/>
+                <Parameter Name="SMFCF" Value="0.13475037"/>
+                <Parameter Name="SM0" Value="0.37525177"/>
+                <Parameter Name="SSMAX" Value="0"/>
+                <Parameter Name="IFUNRN" Value="0"/>
+                <Parameter Name="NOTINF" Value="0"/>
+                <Parameter Name="SOPE" Value="10"/>
+                <Parameter Name="KSUB" Value="10"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.classicwaterbalance.states.DOE" Value="2014-10-24 00:00:00"/>
+                <Input Name="status.day" Value="2015-01-30 00:00:00"/>
+                <Input Name="status.POTENTIAL_WATER_STARTDATE_date" Value="2014-08-01 00:00:00"/>
+                <Input Name="status.soilparameters" Value="{'RDMSOL': 120.0, 'SMFCF': 0.13475037, 'SM0': 0.37525177, 'SMW': 0.042747498, 'KSUB': 10, 'SOPE': 10, 'K0': 10, 'CRAIRC': 0.06, 'SSMAX': 0, 'IFUNRN': 0, 'NOTINF': 0, 'SSI': 0, 'WAV': 99.0, 'ROOTING_DEPTH_POT_WATER_ISV': 11.0}"/>
+                <Input Name="status.classicwaterbalance.rates.E0" Value="0.086035155"/>
+                <Input Name="status.classicwaterbalance.rates.ES0" Value="0.07695313"/>
+                <Input Name="status.classicwaterbalance.states.RD" Value="120.0"/>
+                <Input Name="status.classicwaterbalance.states.RDold" Value="120.0"/>
+                <Input Name="status.classicwaterbalance.rates.TRA" Value="0.012966824760461909"/>
+                <Input Name="status.classicwaterbalance.rates.EVWMX" Value="0.07520693446025459"/>
+                <Input Name="status.classicwaterbalance.rates.EVSMX" Value="0.06726795422955918"/>
+                <Input Name="status.classicwaterbalance.states.SS" Value="0.0"/>
+                <Input Name="status.classicwaterbalance.states.RDI" Value="10.0"/>
+                <Input Name="status.classicwaterbalance.states.SM" Value="0.13558369955668848"/>
+                <Input Name="status.classicwaterbalance.states.SMUR" Value="0"/>
+                <Input Name="status.classicwaterbalance.states.W" Value="16.270043946802616"/>
+                <Input Name="status.classicwaterbalance.states.WI" Value="1.347503662109375"/>
+                <Input Name="status.classicwaterbalance.states.WLOW" Value="0.0"/>
+                <Input Name="status.classicwaterbalance.states.WLOWI" Value="14.782196044921875"/>
+                <Input Name="status.classicwaterbalance.states.WWLOW" Value="16.270043946802616"/>
+                <Input Name="status.classicwaterbalance.states.WTRAT" Value="0.4071740625679325"/>
+                <Input Name="status.classicwaterbalance.states.EVST" Value="2.5775327759403637"/>
+                <Input Name="status.classicwaterbalance.states.EVWT" Value="0.0"/>
+                <Input Name="status.classicwaterbalance.states.TSR" Value="0.13532575568978578"/>
+                <Input Name="status.classicwaterbalance.states.RAINT" Value="12.843750020489097"/>
+                <Input Name="status.classicwaterbalance.states.WDRT" Value="14.787467557524"/>
+                <Input Name="status.classicwaterbalance.states.TOTINF" Value="12.843750020489097"/>
+                <Input Name="status.classicwaterbalance.states.TOTIRR" Value="0.0"/>
+                <Input Name="status.classicwaterbalance.states.PERCT" Value="9.723970454811562"/>
+                <Input Name="status.classicwaterbalance.states.LOSST" Value="9.452892126171685"/>
+                <Input Name="status.classicwaterbalance.states.WBALRT" Value="0.0"/>
+                <Input Name="status.classicwaterbalance.states.WBALTT" Value="0.1304810603479627"/>
+                <Input Name="status.classicwaterbalance.states.DSLR" Value="1.0"/>
+                <Input Name="status.classicwaterbalance.rates.RAIN" Value="0.1"/>
+                <Input Name="status.classicwaterbalance.rates.RIRR" Value="0.0"/>
+                <Input Name="status.classicwaterbalance.states.RDMCR" Value="120.0"/>
+                <Input Name="status.classicwaterbalance.states.RINold" Value="0.10000000149011612"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.classicwaterbalance.states.RDold" Value="120.0"/>
+                <Output Name="status.classicwaterbalance.states.RDI" Value="10.0"/>
+                <Output Name="status.classicwaterbalance.states.SM" Value="0.136"/>
+                <Output Name="status.classicwaterbalance.states.SMUR" Value="0"/>
+                <Output Name="status.classicwaterbalance.states.DSLR" Value="2.0"/>
+                <Output Name="status.classicwaterbalance.states.SS" Value="0.0"/>
+                <Output Name="status.classicwaterbalance.states.W" Value="16.27"/>
+                <Output Name="status.classicwaterbalance.states.WI" Value="1.348"/>
+                <Output Name="status.classicwaterbalance.states.WLOW" Value="0.0"/>
+                <Output Name="status.classicwaterbalance.states.WLOWI" Value="14.782"/>
+                <Output Name="status.classicwaterbalance.states.WWLOW" Value="16.27"/>
+                <Output Name="status.classicwaterbalance.states.WTRAT" Value="0.420"/>
+                <Output Name="status.classicwaterbalance.states.EVST" Value="2.644"/>
+                <Output Name="status.classicwaterbalance.states.EVWT" Value="0.0"/>
+                <Output Name="status.classicwaterbalance.states.TSR" Value="0.135"/>
+                <Output Name="status.classicwaterbalance.states.RAINT" Value="12.943"/>
+                <Output Name="status.classicwaterbalance.states.WDRT" Value="14.787"/>
+                <Output Name="status.classicwaterbalance.states.TOTINF" Value="12.943"/>
+                <Output Name="status.classicwaterbalance.states.TOTIRR" Value="0.0"/>
+                <Output Name="status.classicwaterbalance.states.PERCT" Value="9.743"/>
+                <Output Name="status.classicwaterbalance.states.LOSST" Value="9.472"/>
+                <Output Name="status.classicwaterbalance.states.WBALRT" Value="0.0"/>
+                <Output Name="status.classicwaterbalance.states.WBALTT" Value="0.13"/>
+                <Output Name="status.classicwaterbalance.rates.EVS" Value="0.067"/>
+                <Output Name="status.classicwaterbalance.rates.EVW" Value="0.0"/>
+                <Output Name="status.classicwaterbalance.rates.WTRA" Value="0.013"/>
+                <Output Name="status.classicwaterbalance.rates.RAIN" Value="0.1"/>
+                <Output Name="status.classicwaterbalance.rates.RIN" Value="0.1"/>
+                <Output Name="status.classicwaterbalance.rates.RIRR" Value="0.0"/>
+                <Output Name="status.classicwaterbalance.rates.PERC" Value="0.019"/>
+                <Output Name="status.classicwaterbalance.rates.LOSS" Value="0.019"/>
+                <Output Name="status.classicwaterbalance.rates.DW" Value="0"/>
+                <Output Name="status.classicwaterbalance.rates.DWLOW" Value="0.0"/>
+            </Outputs>
+        </TestSet>
+
+    </TestSets>
+</UnitTest>

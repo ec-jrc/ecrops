@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="LinkWofostToLayeredWaterBalance" StepModule="ecrops.waterbalance.LinkWofostToLayeredWaterBalance">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="RDI" Value="" />
+        <Parameter Name="RDMCR" Value="" />
+        <Parameter Name="IAIRDU" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.RD" Value="" />
+        <Input Name="status.rates.TRA" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.rates.EVWMX" Value="" />
+        <Input Name="status.rates.EVSMX" Value="" />
+        <Input Name="status.rates.TRALY" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.layeredwaterbalance.states.RD" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.TRA" Value="" />
+        <Output Name="status.layeredwaterbalance.states.flag_crop_emerged" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.EVWMX" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.EVSMX" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.TRALY" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

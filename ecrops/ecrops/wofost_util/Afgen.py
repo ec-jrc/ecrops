@@ -80,7 +80,7 @@ class Afgen(object):
     def __init__(self, tbl_xy, unit=None):
 
         self.unit = unit
-
+        self.tbl_xy = tbl_xy
         x_list, y_list = _check_x_ascending(tbl_xy)
         # if hasattr(x_list, "__len__") is False or x_list.__len__ == 1:
         #     return
@@ -117,3 +117,20 @@ class Afgen(object):
 
         v = v + "]"
         return v
+
+    def __str__(self):
+        s = 'Afgen(['
+        s += ','.join(str(x) for x in self.tbl_xy)
+        if self.unit is not None:
+            s+= '],'+self.unit+')'
+        else:
+            s += '])'
+        return s
+
+    def __round__(self,n):
+        return [round(elem, n) for elem in self.tbl_xy]
+
+if __name__ == '__main__':
+    v = Afgen([1, 2, 3, 4])
+    print(str(v))
+

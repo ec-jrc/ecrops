@@ -1,0 +1,79 @@
+<UnitTest Step="Vernalisation" StepModule="ecrops.wofost.vernalisation">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="IDSL" Value="2"/>
+                <Parameter Name="VERNSAT" Value="32.0"/>
+                <Parameter Name="VERNBASE" Value="6.0"/>
+                <Parameter Name="VERNRTB" Value="[-8.0,0.0,-4.0,0.0,3.0,1.0,10.0,1.0,17.0,0.0,20.0,0.0]"/>
+                <Parameter Name="VERNDVS" Value="0.3"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.day" Value="2015-01-30 00:00:00"/>
+                <Input Name="status.states.DOS" Value="2014-10-14 00:00:00"/>
+                <Input Name="status.states.DOE" Value="2014-10-24 00:00:00"/>
+                <Input Name="status.states.STAGE" Value="vegetative"/>
+                <Input Name="status.states.DVS" Value="0.09347744019456787"/>
+                <Input Name="status.states.TEMP" Value="6.4"/>
+                <Input Name="status.vernalisation.VERN" Value="32.64285714285714"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.vernalisation.DOV" Value="2014-12-06 00:00:00"/>
+                <Output Name="status.vernalisation.ISVERNALISED" Value="1"/>
+                <Output Name="status.vernalisation.VERN" Value="32.643"/>
+                <Output Name="status.vernalisation.VERNR" Value="0.0"/>
+                <Output Name="status.VERNFAC" Value="1.0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="IDSL" Value="2"/>
+                <Parameter Name="VERNSAT" Value="32.0"/>
+                <Parameter Name="VERNBASE" Value="6.0"/>
+                <Parameter Name="VERNRTB" Value="[-8.0,0.0,-4.0,0.0,3.0,1.0,10.0,1.0,17.0,0.0,20.0,0.0]"/>
+                <Parameter Name="VERNDVS" Value="0.3"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.day" Value="2015-03-01 00:00:00"/>
+                <Input Name="status.states.DOS" Value="2014-10-14 00:00:00"/>
+                <Input Name="status.states.DOE" Value="2014-10-24 00:00:00"/>
+                <Input Name="status.states.STAGE" Value="vegetative"/>
+                <Input Name="status.states.DVS" Value="0.1486373841452318"/>
+                <Input Name="status.states.TEMP" Value="4.3"/>
+                <Input Name="status.vernalisation.VERN" Value="32.64285714285714"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.vernalisation.DOV" Value="2014-12-06 00:00:00"/>
+                <Output Name="status.vernalisation.ISVERNALISED" Value="1"/>
+                <Output Name="status.vernalisation.VERN" Value="32.643"/>
+                <Output Name="status.vernalisation.VERNR" Value="0.0"/>
+                <Output Name="status.VERNFAC" Value="1.0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="IDSL" Value="2"/>
+                <Parameter Name="VERNSAT" Value="32.0"/>
+                <Parameter Name="VERNBASE" Value="6.0"/>
+                <Parameter Name="VERNRTB" Value="[-8.0,0.0,-4.0,0.0,3.0,1.0,10.0,1.0,17.0,0.0,20.0,0.0]"/>
+                <Parameter Name="VERNDVS" Value="0.3"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.day" Value="2015-03-31 00:00:00"/>
+                <Input Name="status.states.DOS" Value="2014-10-14 00:00:00"/>
+                <Input Name="status.states.DOE" Value="2014-10-24 00:00:00"/>
+                <Input Name="status.states.STAGE" Value="vegetative"/>
+                <Input Name="status.states.DVS" Value="0.2998683933535734"/>
+                <Input Name="status.states.TEMP" Value="13.0"/>
+                <Input Name="status.vernalisation.VERN" Value="32.64285714285714"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.vernalisation.DOV" Value="2014-12-06 00:00:00"/>
+                <Output Name="status.vernalisation.ISVERNALISED" Value="1"/>
+                <Output Name="status.vernalisation.VERN" Value="32.643"/>
+                <Output Name="status.vernalisation.VERNR" Value="0.0"/>
+                <Output Name="status.VERNFAC" Value="1.0"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

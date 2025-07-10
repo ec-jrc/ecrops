@@ -1,0 +1,41 @@
+<UnitTest Step="RueBaseBiomassAccumulation" StepModule="ecrops.FPWarm.RueBaseBiomassAccumulation">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="PARtoGlobalRadiationFactor" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="0.11285713740757533"/>
+                <Input Name="status.rates.RUEActualRate" Value="0"/>
+                <Input Name="status.rates.AbsorbedSolarRadiationRate" Value="0"/>
+                <Input Name="status.states.AbovegroundBiomass" Value="0.0"/>
+                <Input Name="status.states.BiomassRadiationDependent" Value="0.0"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.AbovegroundBiomassRate" Value="0.0"/>
+                <Output Name="status.rates.BiomassRadiationDependentRate" Value="0.0"/>
+                <Output Name="status.states.AbovegroundBiomass" Value="0.0"/>
+                <Output Name="status.states.BiomassRadiationDependent" Value="0.0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="PARtoGlobalRadiationFactor" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.0833157910798725"/>
+                <Input Name="status.rates.RUEActualRate" Value="0.3639261369919593"/>
+                <Input Name="status.rates.AbsorbedSolarRadiationRate" Value="0.1609366433984219"/>
+                <Input Name="status.states.AbovegroundBiomass" Value="5.681586053069024"/>
+                <Input Name="status.states.BiomassRadiationDependent" Value="5.681586053069024"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.AbovegroundBiomassRate" Value="0.293"/>
+                <Output Name="status.rates.BiomassRadiationDependentRate" Value="0.293"/>
+                <Output Name="status.states.AbovegroundBiomass" Value="5.974"/>
+                <Output Name="status.states.BiomassRadiationDependent" Value="5.974"/>
+            </Outputs>
+        </TestSet>
+
+    </TestSets>
+</UnitTest>

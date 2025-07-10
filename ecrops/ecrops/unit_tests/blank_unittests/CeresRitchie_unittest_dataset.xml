@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="CeresRitchie" StepModule="ritchie.CeresRitchie">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="conversion_LT5_to_LT50" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.simulation_start_day" Value="" />
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.USE_LAZAR_EQUATION" Value="" />
+        <Input Name="status.weather.TEMP_MAX" Value="" />
+        <Input Name="status.frostkill.rates.TEMP_CROWN" Value="" />
+        <Input Name="status.frostkill.rates.TMIN_CROWN" Value="" />
+        <Input Name="status.frostkill.rates.TMAX_CROWN" Value="" />
+        <Input Name="status.frostkill.states.hardening" Value="" />
+        <Input Name="status.frostkill.states.survivedplants" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.frostkill.states.frostkill_period" Value="" />
+        <Output Name="status.frostkill.rates.tcrownkill" Value="" />
+        <Output Name="status.frostkill.rates.dehardeningfirststage" Value="" />
+        <Output Name="status.frostkill.rates.dehardeningsecondstage" Value="" />
+        <Output Name="status.frostkill.rates.hardeningfirststage" Value="" />
+        <Output Name="status.frostkill.rates.hardeningsecondstage" Value="" />
+        <Output Name="status.frostkill.states.hardening" Value="" />
+        <Output Name="status.frostkill.states.survivedplants" Value="" />
+        <Output Name="status.frostkill.rates.damageoccurence" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

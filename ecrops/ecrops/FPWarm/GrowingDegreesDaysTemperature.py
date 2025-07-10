@@ -3,6 +3,9 @@ class GrowingDegreesDaysTemperature(Step):
     """Growing Degrees Days Temperature"""
 
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.BaseTemperatureDevelopment = container.allparameters['BaseTemperatureDevelopment']
         container.WarmParameters.CutoffTemperatureDevelopment = container.allparameters['CutoffTemperatureDevelopment']
 

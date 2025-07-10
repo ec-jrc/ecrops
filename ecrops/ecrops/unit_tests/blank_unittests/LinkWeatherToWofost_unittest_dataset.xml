@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="LinkWeatherToWofost" StepModule="ecrops.wofost.LinkWeatherToWofost">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters />
+      <Inputs>
+        <Input Name="status.weather.RAIN" Value="" />
+        <Input Name="status.weather.E0" Value="" />
+        <Input Name="status.weather.ES0" Value="" />
+        <Input Name="status.weather.ET0" Value="" />
+        <Input Name="status.weather.IRRAD" Value="" />
+        <Input Name="status.weather.TEMP_MIN" Value="" />
+        <Input Name="status.weather.TEMP_MAX" Value="" />
+        <Input Name="status.weather.TEMP" Value="" />
+        <Input Name="status.weather.TMINRA" Value="" />
+        <Input Name="status.astrodata.DAYL" Value="" />
+        <Input Name="status.astrodata.DAYLP" Value="" />
+        <Input Name="status.astrodata.DIFPP" Value="" />
+        <Input Name="status.astrodata.DSINBE" Value="" />
+        <Input Name="status.astrodata.SINLD" Value="" />
+        <Input Name="status.astrodata.COSLD" Value="" />
+        <Input Name="status.weather.DTEMP" Value="" />
+        <Input Name="status.weather.WIND" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.RAIN" Value="" />
+        <Output Name="status.states.E0" Value="" />
+        <Output Name="status.states.ES0" Value="" />
+        <Output Name="status.states.ET0" Value="" />
+        <Output Name="status.states.IRRAD" Value="" />
+        <Output Name="status.states.TEMP_MIN" Value="" />
+        <Output Name="status.states.TEMP_MAX" Value="" />
+        <Output Name="status.states.TEMP" Value="" />
+        <Output Name="status.states.DTEMP" Value="" />
+        <Output Name="status.states.WIND" Value="" />
+        <Output Name="status.states.TMINRA" Value="" />
+        <Output Name="status.states.DAYL" Value="" />
+        <Output Name="status.states.DAYLP" Value="" />
+        <Output Name="status.states.DIFPP" Value="" />
+        <Output Name="status.states.DSINBE" Value="" />
+        <Output Name="status.states.SINLD" Value="" />
+        <Output Name="status.states.COSLD" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

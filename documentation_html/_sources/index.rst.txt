@@ -15,7 +15,9 @@ Indices and tables
 
 
 * :ref:`ECroPS manual <ecrops-manual1>`
+* :ref:`Model Library manual <modellibrary-manual1>`
 * :ref:`ECroPS release notes <ecrops-release-notes1>`
+* :ref:`Model library release notes <model-library-release-notes1>`
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
@@ -34,6 +36,11 @@ ECroPS Manual
 .. mdinclude:: ./../../ecrops/Manual.md
 
 
+.. _modellibrary-manual1:
+
+Model Library Manual
+====================
+.. mdinclude:: ./../../ModelLibrary/Readme.md
 
 Workflow graphs
 ====================
@@ -43,6 +50,8 @@ In this section, we show the workflow graph of some of the model configurations.
    :file: ./../build/html/wofost_potential.html
 .. raw:: html
    :file: ./../build/html/wofost_waterlimited.html
+.. raw:: html
+   :file: ./../build/html/frostol.html
 .. raw:: html
    :file: ./../build/html/warm_potential.html
 .. raw:: html
@@ -55,3 +64,8 @@ ECroPS release notes
 ====================
 .. mdinclude:: ./../../ecrops/release_notes
 
+.. _model-library-release-notes1:
+
+Model library release notes
+===========================
+.. mdinclude:: ./../../ModelLibrary/release_notes

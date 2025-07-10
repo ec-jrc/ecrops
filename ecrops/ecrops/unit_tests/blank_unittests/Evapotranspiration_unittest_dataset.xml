@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="Evapotranspiration" StepModule="ecrops.waterbalance.evapotranspiration">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="CFET" Value="" />
+        <Parameter Name="DEPNR" Value="" />
+        <Parameter Name="KDIFTB" Value="" />
+        <Parameter Name="IAIRDU" Value="" />
+        <Parameter Name="IOX" Value="" />
+        <Parameter Name="CRAIRC" Value="" />
+        <Parameter Name="SM0" Value="" />
+        <Parameter Name="SMW" Value="" />
+        <Parameter Name="SMFCF" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.soildata" Value="" />
+        <Input Name="status.states.SOIL_LAYERS" Value="" />
+        <Input Name="status.states.NSL" Value="" />
+        <Input Name="status.day" Value="" />
+        <Input Name="status.sowing_emergence_day" Value="" />
+        <Input Name="status.POTENTIAL_WATER_STARTDATE_date" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.states.LAI" Value="" />
+        <Input Name="status.states.SM" Value="" />
+        <Input Name="status.states.E0" Value="" />
+        <Input Name="status.states.ES0" Value="" />
+        <Input Name="status.states.ET0" Value="" />
+        <Input Name="status.states.RD" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.SOIL_LAYERS" Value="" />
+        <Output Name="status.rates.TRA" Value="" />
+        <Output Name="status.rates.TRALY" Value="" />
+        <Output Name="status.rates.TRAMX" Value="" />
+        <Output Name="status.rates.EVWMX" Value="" />
+        <Output Name="status.rates.EVSMX" Value="" />
+        <Output Name="status.rates.RFWS" Value="" />
+        <Output Name="status.rates.WaterStressReductionFactor" Value="" />
+        <Output Name="status.rates.IDWS" Value="" />
+        <Output Name="status.rates.IDOS" Value="" />
+        <Output Name="status.states._IDWST" Value="" />
+        <Output Name="status.states._IDOST" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WaterbalanceLayered" StepModule="ecrops.waterbalance.LayeredWaterBalance">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="RDI" Value="" />
+        <Parameter Name="RDMCR" Value="" />
+        <Parameter Name="IAIRDU" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.layeredwaterbalance.states.flag_crop_emerged" Value="" />
+        <Input Name="status.POTENTIAL_WATER_STARTDATE_date" Value="" />
+        <Input Name="status.soildata" Value="" />
+        <Input Name="status.weather.E0" Value="" />
+        <Input Name="status.weather.ES0" Value="" />
+        <Input Name="status.states.RD" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.layeredwaterbalance.states.SM" Value="" />
+        <Output Name="status.layeredwaterbalance.states.SMUR" Value="" />
+        <Output Name="status.layeredwaterbalance.states.SS" Value="" />
+        <Output Name="status.layeredwaterbalance.states.W" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WI" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WLOW" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WLOWI" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WWLOW" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WBOT" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WTRAT" Value="" />
+        <Output Name="status.layeredwaterbalance.states.EVST" Value="" />
+        <Output Name="status.layeredwaterbalance.states.EVWT" Value="" />
+        <Output Name="status.layeredwaterbalance.states.TSR" Value="" />
+        <Output Name="status.layeredwaterbalance.states.RAINT" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WDRT" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WLOWDRT" Value="" />
+        <Output Name="status.layeredwaterbalance.states.TOTINF" Value="" />
+        <Output Name="status.layeredwaterbalance.states.TOTIRR" Value="" />
+        <Output Name="status.layeredwaterbalance.states.PERCT" Value="" />
+        <Output Name="status.layeredwaterbalance.states.LOSST" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WBALRT" Value="" />
+        <Output Name="status.layeredwaterbalance.states.WBALTT" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.EVS" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.EVW" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.WTRA" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.RAIN" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.RIN" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.RIRR" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.PERC" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.LOSS" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.DW" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.DWLOW" Value="" />
+        <Output Name="status.layeredwaterbalance.states.SUMSM" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

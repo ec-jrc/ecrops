@@ -66,6 +66,9 @@ class EvapotranspirationPotential(Step):
             "KDIFTB": {"Description": "Extinction coefficient for diffuse visible as function of DVS", "Type": "Number",
                        "Mandatory": "True",
                        "UnitOfMeasure": "unitless"},
+            "Co2EffectOnPotentialTraspiration": {"Description": "Co2 Effect On potential transpiration",
+                                                 "Type": "Number",  "Mandatory": "True",
+                       "UnitOfMeasure": "unitless"},
 
         }
 
@@ -117,8 +120,10 @@ class EvapotranspirationPotential(Step):
         EKL = round(exp(-KGLOB * LAI), 12)
 
         # davidefuma co2 effect
-        # print('status.evapotranspiration.params.Co2EffectOnPotentialTraspiration=' + str(status.evapotranspiration.params.Co2EffectOnPotentialTraspiration))
-        EKL *= float(status.evapotranspiration.params.Co2EffectOnPotentialTraspiration)
+        # co2 effect on potential traspiration
+        if hasattr(status.evapotranspiration.params, 'Co2EffectOnPotentialTraspiration'):
+            EKL *= float(status.evapotranspiration.params.Co2EffectOnPotentialTraspiration)
+
 
         r.EVWMX = status.states.E0 * EKL
         r.EVSMX = max(0., status.states.ES0 * EKL)
@@ -142,13 +147,17 @@ class EvapotranspirationPotential(Step):
                     "StatusVariable": "status.states.LAI"},
             "ET0": {"Description": "Canopy evapotranspiration",
                     "Type": "Number", "UnitOfMeasure": "cm",
-                    "StatusVariable": "status.weather.ET0"},
+                    "StatusVariable": "status.states.ET0"},
             "E0": {"Description": "Open water evapotranspiration",
                    "Type": "Number", "UnitOfMeasure": "cm",
-                   "StatusVariable": "status.weather.E0"},
+                   "StatusVariable": "status.states.E0"},
             "ES0": {"Description": "Bare soil evapotranspiration",
                     "Type": "Number", "UnitOfMeasure": "cm",
-                    "StatusVariable": "status.weather.ES0"},
+                    "StatusVariable": "status.states.ES0"},
+            "Co2EffectOnPotentialTraspiration": {"Description": "Co2 Effect On potential transpiration",
+                    "Type": "Number", "UnitOfMeasure": "unitless",
+                    "StatusVariable": "status.evapotranspiration.params.Co2EffectOnPotentialTraspiration"},
+
 
         }
 
@@ -168,3 +177,5 @@ class EvapotranspirationPotential(Step):
                       "UnitOfMeasure": "cm/day",
                       "StatusVariable": "status.rates.EVSMX"},
         }
+
+

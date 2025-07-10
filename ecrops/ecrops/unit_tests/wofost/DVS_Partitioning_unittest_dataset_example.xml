@@ -1,0 +1,58 @@
+<UnitTest Step="DVS_Partitioning" StepModule="ecrops.wofost.Partitioning">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FRTB" Value="[0.0,0.5,0.1,0.5,0.2,0.4,0.35,0.22,0.4,0.17,0.5,0.13,0.7,0.07,0.9,0.03,1.2,0.0,2.0,0.0]"/>
+                <Parameter Name="FLTB" Value="[0.0,0.65,0.1,0.65,0.25,0.7,0.5,0.5,0.646,0.3,0.95,0.0,1.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0]"/>
+                <Parameter Name="FSTB" Value="[0.0,0.35,0.1,0.35,0.25,0.3,0.5,0.5,0.646,0.7,0.95,1.0,1.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0]"/>
+                <Parameter Name="FOTB" Value="[0.0,0.0,0.1,0.0,0.25,0.0,0.5,0.0,0.646,0.0,0.95,0.0,1.0,1.0,2.0,1.0,0.0,0.0,0.0,0.0]"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DVS" Value="0.09548496448150233"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.FR" Value="0.5"/>
+                <Output Name="status.states.FL" Value="0.65"/>
+                <Output Name="status.states.FS" Value="0.35"/>
+                <Output Name="status.states.FO" Value="0.0"/>
+                <Output Name="status.states.PF" Value="PartioningFactors(FR=0.5, FL=0.65, FS=0.35, FO=0.0)"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FRTB" Value="[0.0,0.5,0.1,0.5,0.2,0.4,0.35,0.22,0.4,0.17,0.5,0.13,0.7,0.07,0.9,0.03,1.2,0.0,2.0,0.0]"/>
+                <Parameter Name="FLTB" Value="[0.0,0.65,0.1,0.65,0.25,0.7,0.5,0.5,0.646,0.3,0.95,0.0,1.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0]"/>
+                <Parameter Name="FSTB" Value="[0.0,0.35,0.1,0.35,0.25,0.3,0.5,0.5,0.646,0.7,0.95,1.0,1.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0]"/>
+                <Parameter Name="FOTB" Value="[0.0,0.0,0.1,0.0,0.25,0.0,0.5,0.0,0.646,0.0,0.95,0.0,1.0,1.0,2.0,1.0,0.0,0.0,0.0,0.0]"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DVS" Value="0.15092518526535417"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.FR" Value="0.449"/>
+                <Output Name="status.states.FL" Value="0.667"/>
+                <Output Name="status.states.FS" Value="0.333"/>
+                <Output Name="status.states.FO" Value="0.0"/>
+                <Output Name="status.states.PF" Value="PartioningFactors(FR=0.44907481473464583, FL=0.666975061755118, FS=0.33302493824488194, FO=0.0)"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FRTB" Value="[0.0,0.5,0.1,0.5,0.2,0.4,0.35,0.22,0.4,0.17,0.5,0.13,0.7,0.07,0.9,0.03,1.2,0.0,2.0,0.0]"/>
+                <Parameter Name="FLTB" Value="[0.0,0.65,0.1,0.65,0.25,0.7,0.5,0.5,0.646,0.3,0.95,0.0,1.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0]"/>
+                <Parameter Name="FSTB" Value="[0.0,0.35,0.1,0.35,0.25,0.3,0.5,0.5,0.646,0.7,0.95,1.0,1.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0]"/>
+                <Parameter Name="FOTB" Value="[0.0,0.0,0.1,0.0,0.25,0.0,0.5,0.0,0.646,0.0,0.95,0.0,1.0,1.0,2.0,1.0,0.0,0.0,0.0,0.0]"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DVS" Value="0.3100622415563186"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.FR" Value="0.268"/>
+                <Output Name="status.states.FL" Value="0.652"/>
+                <Output Name="status.states.FS" Value="0.348"/>
+                <Output Name="status.states.FO" Value="0.0"/>
+                <Output Name="status.states.PF" Value="PartioningFactors(FR=0.26792531013241766, FL=0.6519502067549451, FS=0.3480497932450549, FO=0.0)"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

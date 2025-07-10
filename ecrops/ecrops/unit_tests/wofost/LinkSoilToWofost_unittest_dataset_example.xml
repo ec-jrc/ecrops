@@ -1,0 +1,36 @@
+<UnitTest Step="LinkSoilToWofost" StepModule="ecrops.wofost.LinkSoilToWofost">
+    <TestSets>
+
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.soilparameters" Value="{'RDMSOL': 150.0, 'SMFCF': 0.3152008, 'SM0': 0.4013977, 'SMW': 0.15119934, 'KSUB': 10, 'SOPE': 10, 'K0': 10, 'CRAIRC': 0.06, 'SSMAX': 0, 'IFUNRN': 0, 'NOTINF': 0, 'SSI': 0, 'WAV': 99.0, 'ROOTING_DEPTH_POT_WATER_ISV': 7.375}"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.SOIL_LAYERS" Value="None"/>
+                <Output Name="status.states.NSL" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.soilparameters" Value="{'RDMSOL': 150.0, 'SMFCF': 0.3152008, 'SM0': 0.4013977, 'SMW': 0.15119934, 'KSUB': 10, 'SOPE': 10, 'K0': 10, 'CRAIRC': 0.06, 'SSMAX': 0, 'IFUNRN': 0, 'NOTINF': 0, 'SSI': 0, 'WAV': 99.0, 'ROOTING_DEPTH_POT_WATER_ISV': 7.375}"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.SOIL_LAYERS" Value="None"/>
+                <Output Name="status.states.NSL" Value="0"/>
+            </Outputs>
+        </TestSet>
+
+        <TestSet Description="">
+            <Parameters/>
+            <Inputs>
+                <Input Name="status.soilparameters" Value="{'RDMSOL': 150.0, 'SMFCF': 0.3152008, 'SM0': 0.4013977, 'SMW': 0.15119934, 'KSUB': 10, 'SOPE': 10, 'K0': 10, 'CRAIRC': 0.06, 'SSMAX': 0, 'IFUNRN': 0, 'NOTINF': 0, 'SSI': 0, 'WAV': 99.0, 'ROOTING_DEPTH_POT_WATER_ISV': 7.375}"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.states.SOIL_LAYERS" Value="None"/>
+                <Output Name="status.states.NSL" Value="0"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

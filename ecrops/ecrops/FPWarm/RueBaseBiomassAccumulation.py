@@ -5,6 +5,9 @@ class RueBaseBiomassAccumulation(Step):
     Philos. Trans. R. Soc. London, Ser. B. Biol. Sci. 281:277-294
     """
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.PARtoGlobalRadiationFactor = container.allparameters['PARtoGlobalRadiationFactor']
 
         return container

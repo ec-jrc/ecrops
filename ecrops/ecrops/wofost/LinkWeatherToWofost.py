@@ -22,13 +22,14 @@ class LinkWeatherToWofost(Step):
         status.states.E0 = status.weather.E0
         status.states.ES0 = status.weather.ES0
         status.states.RAIN = status.weather.RAIN
-        status.states.SD = status.weather.SD
         status.states.DIFPP = status.astrodata.DIFPP
         status.states.DSINBE = status.astrodata.DSINBE
         status.states.SINLD = status.astrodata.SINLD
         status.states.COSLD = status.astrodata.COSLD
         status.states.DAYL = status.astrodata.DAYL
         status.states.DAYLP = status.astrodata.DAYLP
+        status.states.WIND = status.weather.WIND
+
         return status
 
     def integrate(self, status):
@@ -40,9 +41,7 @@ class LinkWeatherToWofost(Step):
             "RAIN": {"Description": "Precipitation",
                      "Type": "Number", "UnitOfMeasure": "cm",
                      "StatusVariable": "status.weather.RAIN"},
-            "WIND": {"Description": "Windspeed",
-                     "Type": "Number", "UnitOfMeasure": "m/s",
-                     "StatusVariable": "status.weather.WIND"},
+
 
             "E0": {"Description": "Open water evapotranspiration",
                    "Type": "Number", "UnitOfMeasure": "cm",
@@ -69,7 +68,7 @@ class LinkWeatherToWofost(Step):
 
             "TMINRA": {"Description": "7-days running mean of minimum temperature",
                        "Type": "Number", "UnitOfMeasure": "C",
-                       "StatusVariable": "status.weather.TMNSAV"},
+                       "StatusVariable": "status.weather.TMINRA"},
             "DAYL": {"Description": " Astronomical daylength (base = 0 degrees)",
                      "Type": "Number", "UnitOfMeasure": "h",
                      "StatusVariable": "status.astrodata.DAYL"},
@@ -89,6 +88,12 @@ class LinkWeatherToWofost(Step):
             "COSLD": {"Description": "Amplitude of sine of solar height   ",
                       "Type": "Number", "UnitOfMeasure": "unitless",
                       "StatusVariable": "status.astrodata.COSLD"},
+            "DTEMP": {"Description": "Max temperature plus average daily temperature, divided by 2", "Type": "Number",
+                      "UnitOfMeasure": "C",
+                      "StatusVariable": "status.weather.DTEMP"},
+            "WIND": {"Description": "Windspeed",
+                     "Type": "Number", "UnitOfMeasure": "m/s",
+                     "StatusVariable": "status.weather.WIND"},
         }
 
     def getoutputslist(self):
@@ -97,10 +102,6 @@ class LinkWeatherToWofost(Step):
             "RAIN": {"Description": "Precipitation",
                      "Type": "Number", "UnitOfMeasure": "cm",
                      "StatusVariable": "status.states.RAIN"},
-            "WIND": {"Description": "Windspeed",
-                     "Type": "Number", "UnitOfMeasure": "m/s",
-                     "StatusVariable": "status.states.WIND"},
-
             "E0": {"Description": "Open water evapotranspiration",
                    "Type": "Number", "UnitOfMeasure": "cm",
                    "StatusVariable": "status.states.E0"},
@@ -126,10 +127,12 @@ class LinkWeatherToWofost(Step):
             "DTEMP": {"Description": "Max temperature plus average daily temperature, divided by 2", "Type": "Number",
                       "UnitOfMeasure": "C",
                       "StatusVariable": "status.states.DTEMP"},
-
+            "WIND": {"Description": "Windspeed",
+                     "Type": "Number", "UnitOfMeasure": "m/s",
+                     "StatusVariable": "status.states.WIND"},
             "TMINRA": {"Description": "7-days running mean of minimum temperature",
                        "Type": "Number", "UnitOfMeasure": "C",
-                       "StatusVariable": "status.states.TMNSAV"},
+                       "StatusVariable": "status.states.TMINRA"},
             "DAYL": {"Description": " Astronomical daylength (base = 0 degrees)",
                      "Type": "Number", "UnitOfMeasure": "h",
                      "StatusVariable": "status.states.DAYL"},

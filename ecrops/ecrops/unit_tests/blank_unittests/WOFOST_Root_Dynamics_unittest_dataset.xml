@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WOFOST_Root_Dynamics" StepModule="ecrops.wofost.rootdynamics">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="RDI" Value="" />
+        <Parameter Name="RRI" Value="" />
+        <Parameter Name="RDMCR" Value="" />
+        <Parameter Name="RDMSOL" Value="" />
+        <Parameter Name="TDWI" Value="" />
+        <Parameter Name="IAIRDU" Value="" />
+        <Parameter Name="RDRRTB" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.soildata" Value="" />
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOM" Value="" />
+        <Input Name="status.states.FR" Value="" />
+        <Input Name="status.rates.DMI" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.states.RD" Value="" />
+        <Input Name="status.states.WRT" Value="" />
+        <Input Name="status.states.DWRT" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.RR" Value="" />
+        <Output Name="status.states.RD" Value="" />
+        <Output Name="status.rates.DRRT" Value="" />
+        <Output Name="status.rates.GRRT" Value="" />
+        <Output Name="status.rates.GWRT" Value="" />
+        <Output Name="status.states.DWRT" Value="" />
+        <Output Name="status.states.WRT" Value="" />
+        <Output Name="status.states.TWRT" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

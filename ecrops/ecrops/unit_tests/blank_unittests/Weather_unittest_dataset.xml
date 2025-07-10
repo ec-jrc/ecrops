@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="Weather" StepModule="ecrops.weather.Weather">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters />
+      <Inputs>
+        <Input Name="status.weather.WeatherDataArray" Value="" />
+        <Input Name="status.weather.WeatherColumnForVariable" Value="" />
+        <Input Name="status.day" Value="" />
+        <Input Name="status.doy" Value="" />
+        <Input Name="status.first_day" Value="" />
+        <Input Name="status.LAT" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.weather.RAIN" Value="" />
+        <Output Name="status.weather.SD" Value="" />
+        <Output Name="status.weather.WIND" Value="" />
+        <Output Name="status.weather.RH" Value="" />
+        <Output Name="status.weather.E0" Value="" />
+        <Output Name="status.weather.ES0" Value="" />
+        <Output Name="status.weather.ET0" Value="" />
+        <Output Name="status.weather.IRRAD" Value="" />
+        <Output Name="status.weather.TEMP_MIN" Value="" />
+        <Output Name="status.weather.TEMP_MAX" Value="" />
+        <Output Name="status.weather.TEMP" Value="" />
+        <Output Name="status.states.DTEMP" Value="" />
+        <Output Name="status.weather.SOIL_TEMPERATURE_MIN" Value="" />
+        <Output Name="status.weather.SOIL_TEMPERATURE_MAX" Value="" />
+        <Output Name="status.weather.TMINRA" Value="" />
+        <Output Name="status.astrodata.DAYL" Value="" />
+        <Output Name="status.astrodata.DAYLP" Value="" />
+        <Output Name="status.astrodata.ATMTR" Value="" />
+        <Output Name="status.astrodata.ANGOT" Value="" />
+        <Output Name="status.astrodata.DIFPP" Value="" />
+        <Output Name="status.astrodata.DSINBE" Value="" />
+        <Output Name="status.astrodata.SINLD" Value="" />
+        <Output Name="status.astrodata.COSLD" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

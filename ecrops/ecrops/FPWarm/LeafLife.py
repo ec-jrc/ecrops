@@ -11,6 +11,9 @@ class LeafLife(Step):
     """Leaf Life duration """
 
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.LeafLife = container.allparameters['LeafLife']
 
         return container
@@ -128,7 +131,6 @@ class LeafLife(Step):
 
         except  Exception as e:
             print('Error in method runstep of class LeafLife:' + str(e))
-
         return container
 
 

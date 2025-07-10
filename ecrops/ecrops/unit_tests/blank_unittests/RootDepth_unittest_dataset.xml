@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="RootDepth" StepModule="ecrops.FPWarm.RootDepth">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="MaximumRootingDepth" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.RootDepth" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

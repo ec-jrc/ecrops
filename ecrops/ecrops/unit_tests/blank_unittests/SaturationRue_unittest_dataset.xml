@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="SaturationRue" StepModule="ecrops.FPWarm.SaturationRue">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="ThresholdRadiationForSaturation" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.weather.IRRAD" Value="" />
+        <Input Name="status.states.RUESaturationEffect" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.RUESaturationEffectRate" Value="" />
+        <Output Name="status.states.RUESaturationEffect" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WOFOST_GrowthRespiration" StepModule="ecrops.wofost.growthrespiration">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="CVL" Value="" />
+        <Parameter Name="CVR" Value="" />
+        <Parameter Name="CVO" Value="" />
+        <Parameter Name="CVS" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOM" Value="" />
+        <Input Name="status.states.FR" Value="" />
+        <Input Name="status.states.FL" Value="" />
+        <Input Name="status.states.FS" Value="" />
+        <Input Name="status.states.FO" Value="" />
+        <Input Name="status.rates.GASS" Value="" />
+        <Input Name="status.rates.PMRES" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.DMI" Value="" />
+        <Output Name="status.rates.ADMI" Value="" />
+        <Output Name="status.rates.ASRC" Value="" />
+        <Output Name="status.rates.MRES" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

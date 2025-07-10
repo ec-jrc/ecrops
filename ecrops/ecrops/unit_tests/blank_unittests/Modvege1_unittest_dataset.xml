@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="Modvege1" StepModule="ecrops_grassland.modvege.modvege1">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="ST1" Value="" />
+        <Parameter Name="ST2" Value="" />
+        <Parameter Name="NI" Value="" />
+        <Parameter Name="minSEA" Value="" />
+        <Parameter Name="maxSEA" Value="" />
+        <Parameter Name="W_GV" Value="" />
+        <Parameter Name="alpha_PAR" Value="" />
+        <Parameter Name="T0" Value="" />
+        <Parameter Name="T1" Value="" />
+        <Parameter Name="T2" Value="" />
+        <Parameter Name="beta_T" Value="" />
+        <Parameter Name="b_IN" Value="" />
+        <Parameter Name="SLA" Value="" />
+        <Parameter Name="LLS" Value="" />
+        <Parameter Name="rho_GV" Value="" />
+        <Parameter Name="percentLAM" Value="" />
+        <Parameter Name="W_GR" Value="" />
+        <Parameter Name="a_IN" Value="" />
+        <Parameter Name="max_fIN" Value="" />
+        <Parameter Name="rho_GR" Value="" />
+        <Parameter Name="W_DV" Value="" />
+        <Parameter Name="K_DV" Value="" />
+        <Parameter Name="Kl_DV" Value="" />
+        <Parameter Name="rho_DV" Value="" />
+        <Parameter Name="W_DR" Value="" />
+        <Parameter Name="K_DR" Value="" />
+        <Parameter Name="Kl_DR" Value="" />
+        <Parameter Name="rho_DR" Value="" />
+        <Parameter Name="init_AGE_GV" Value="" />
+        <Parameter Name="init_AGE_GR" Value="" />
+        <Parameter Name="init_AGE_DV" Value="" />
+        <Parameter Name="init_AGE_DR" Value="" />
+        <Parameter Name="RUEmax" Value="" />
+        <Parameter Name="gammaGV" Value="" />
+        <Parameter Name="gammaGR" Value="" />
+        <Parameter Name="maxOMDgv" Value="" />
+        <Parameter Name="minOMDgv" Value="" />
+        <Parameter Name="maxOMDgr" Value="" />
+        <Parameter Name="minOMDgr" Value="" />
+        <Parameter Name="meanOMDdv" Value="" />
+        <Parameter Name="meanOMDdr" Value="" />
+        <Parameter Name="cellSurface" Value="" />
+        <Parameter Name="default_cut_height" Value="" />
+        <Parameter Name="maxAmountToIngest" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.weather.WeatherDataArray" Value="" />
+        <Input Name="status.weather.WeatherColumnForVariable" Value="" />
+        <Input Name="status.doy" Value="" />
+        <Input Name="status.weather.TEMP" Value="" />
+        <Input Name="status.weather.ET0" Value="" />
+        <Input Name="status.weather.IRRAD" Value="" />
+        <Input Name="status.weather.RAIN" Value="" />
+        <Input Name="status.weather.meanTenDaysTemperature" Value="" />
+        <Input Name="status.soildata.waterHoldingCapacity" Value="" />
+        <Input Name="status.soildata.waterReserve" Value="" />
+        <Input Name="status.remotesensing.eta" Value="" />
+        <Input Name="status.remotesensing.lai" Value="" />
+        <Input Name="status.remotesensing.gcut_height" Value="" />
+        <Input Name="status.remotesensing.grazing_animal_count" Value="" />
+        <Input Name="status.remotesensing.grazing_avg_animal_weight" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.modvege.states.gvb" Value="" />
+        <Output Name="status.modvege.states.gv_biomass" Value="" />
+        <Output Name="status.modvege.states.dvb" Value="" />
+        <Output Name="status.modvege.states.dv_biomass" Value="" />
+        <Output Name="status.modvege.states.grb" Value="" />
+        <Output Name="status.modvege.states.gr_biomass" Value="" />
+        <Output Name="status.modvege.states.drb" Value="" />
+        <Output Name="status.modvege.states.dr_biomass" Value="" />
+        <Output Name="status.modvege.states.hb" Value="" />
+        <Output Name="status.modvege.states.harvestedBiomass" Value="" />
+        <Output Name="status.modvege.states.ib" Value="" />
+        <Output Name="status.modvege.states.ingestedBiomass" Value="" />
+        <Output Name="status.modvege.states.g" Value="" />
+        <Output Name="status.modvege.rates.gro" Value="" />
+        <Output Name="status.modvege.rates.dprg" Value="" />
+        <Output Name="status.modvege.states.abc" Value="" />
+        <Output Name="status.modvege.states.avBiom4cut" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

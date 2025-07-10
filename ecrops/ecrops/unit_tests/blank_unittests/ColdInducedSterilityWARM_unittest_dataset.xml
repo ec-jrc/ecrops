@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="ColdInducedSterilityWARM" StepModule="ecrops.FPWarm.ColdInducedSterilityWARM">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="ThresholdTemperatureInducingSterilityDuringFlowering" Value="" />
+        <Parameter Name="ThresholdTemperatureInducingSterilityBeforeFlowering" Value="" />
+        <Parameter Name="SensitivityToColdShockInducedSterility" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.weather.TEMP_MIN" Value="" />
+        <Input Name="status.weather.TEMP_MAX" Value="" />
+        <Input Name="status.states.ColdInducedSpikeletSterilityState" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.ColdInducedSpikeletSterilityRate" Value="" />
+        <Output Name="status.states.ColdInducedSpikeletSterilityState" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

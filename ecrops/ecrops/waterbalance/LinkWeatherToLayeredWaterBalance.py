@@ -1,3 +1,5 @@
+from ecrops.Printable import Printable
+
 from ecrops.Step import Step
 class LinkWeatherToLayeredWaterBalance(Step):
     """This step passes weather data to layered water balance"""
@@ -6,6 +8,11 @@ class LinkWeatherToLayeredWaterBalance(Step):
         return {}#no parameters in this step
 
     def setparameters(self,status):
+        if not hasattr(status,'layeredwaterbalance'):
+            status.layeredwaterbalance = Printable()
+            status.layeredwaterbalance.states = Printable()
+            status.layeredwaterbalance.rates = Printable()
+            status.layeredwaterbalance.parameters = Printable()
         return status
 
 
@@ -18,6 +25,8 @@ class LinkWeatherToLayeredWaterBalance(Step):
         status.layeredwaterbalance.rates.ES0 = status.weather.ES0
         status.layeredwaterbalance.rates.E0 = status.weather.E0
         status.layeredwaterbalance.rates.ET0 = status.weather.ET0
+
+
         return status
 
 

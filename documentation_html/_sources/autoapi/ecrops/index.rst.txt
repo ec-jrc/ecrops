@@ -3,6 +3,12 @@
 
 .. py:module:: ecrops
 
+.. autoapi-nested-parse::
+
+   ECroPS (Engine for Crop Parallelizable Simulations) is a software platform to build and run agronomic models.
+   It was developed by JRC, Unit D5.
+
+
 
 Subpackages
 -----------
@@ -10,6 +16,31 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
-   ecrops/index.rst
+   FPWarm/index.rst
+   ModelLibrary/index.rst
+   co2effect/index.rst
+   graphbuilders/index.rst
+   heatstress/index.rst
+   hermesnpk/index.rst
+   hermesrootdepth/index.rst
+   otegui_gambin/index.rst
+   unit_tests/index.rst
+   waterbalance/index.rst
+   weather/index.rst
+   wofost/index.rst
+   wofost_util/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   ModelEngine/index.rst
+   ModelWorkflowReader/index.rst
+   Printable/index.rst
+   Step/index.rst
+   ecrops_version/index.rst
 
 

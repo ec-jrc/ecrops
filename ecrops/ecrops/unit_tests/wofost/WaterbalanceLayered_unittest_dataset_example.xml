@@ -1,0 +1,170 @@
+<UnitTest Step="WaterbalanceLayered" StepModule="ecrops.waterbalance.LayeredWaterBalance">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="RDI" Value="10.0"/>
+                <Parameter Name="RDMCR" Value="110"/>
+                <Parameter Name="IAIRDU" Value="0.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.day" Value="2014-02-19 00:00:00"/>
+                <Input Name="status.sowing_emergence_day" Value="2013-10-14 00:00:00"/>
+                <Input Name="status.layeredwaterbalance.states.flag_crop_emerged" Value="True"/>
+                <Input Name="status.POTENTIAL_WATER_STARTDATE_date" Value="2013-01-01 00:00:00"/>
+                <Input Name="status.soilparameters"
+                       Value="{'RDMSOL':210, 'GW':0, 'ZTI':0, 'DD':0, 'NSL':15, 'SMLIM':0.27, 'FC_WAV':24.239999999999995, 'SOIL_LAYERS':[Layer('CH5531001',5,5,0.27,0.398,0.14,1.9900000000000002,0.7000000000000001,1.35,10,10,1698.2436524617442,Afgen([4.1846,3.23,2.0,3.23,-1.0,3.23]),Afgen([4.1846,0.14,2.0,0.27,-1.0,0.398]),Afgen([0.398,-1.0,0.27,2.0]),Afgen([-400.0,0.14,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,1.35,1698.2436524617442,1698.2436524617442,0.27,0.004082763436064509,0.03875864731223487),Layer('CH5531001',5,10,0.27,0.398,0.14,1.9900000000000002,0.7000000000000001,1.35,10,10,1698.2436524617442,Afgen([4.1846,3.23,2.0,3.23,-1.0,3.23]),Afgen([4.1846,0.14,2.0,0.27,-1.0,0.398]),Afgen([0.398,-1.0,0.27,2.0]),Afgen([-400.0,0.14,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,1.35,1698.2436524617442,1698.2436524617442,0.27,0.0010597469790334401,0.03436002202014639),Layer('CH5531001',10,20,0.27,0.398,0.14,3.9800000000000004,1.4000000000000001,2.7,10,10,1698.2436524617442,Afgen([4.1846,3.23,2.0,3.23,-1.0,3.23]),Afgen([4.1846,0.14,2.0,0.27,-1.0,0.398]),Afgen([0.398,-1.0,0.27,2.0]),Afgen([-400.0,0.14,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.7,1698.2436524617442,1698.2436524617442,0.27,0.0021194939580668768,0.032984413185088976),Layer('CH5531001',10,30,0.27,0.398,0.14,3.9800000000000004,1.4000000000000001,2.7,10,10,1698.2436524617442,Afgen([4.1846,3.23,2.0,3.23,-1.0,3.23]),Afgen([4.1846,0.14,2.0,0.27,-1.0,0.398]),Afgen([0.398,-1.0,0.27,2.0]),Afgen([-400.0,0.14,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.7,1698.2436524617442,1698.2436524617442,0.27,0.0021194939580668768,0.030233195514974154),Layer('CH5531001',10,40,0.287,0.398,0.174,3.9800000000000004,1.7399999999999998,2.8699999999999997,10,10,100.0,Afgen([4.1846,2,2.0,2,-1.0,2]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.8699999999999997,100.0,100.0,0.287,0.0021194939580668768,0.027481977844859333),Layer('CH5531001',10,50,0.287,0.398,0.174,3.9800000000000004,1.7399999999999998,2.8699999999999997,10,10,100.0,Afgen([4.1846,2,2.0,2,-1.0,2]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.8699999999999997,100.0,100.0,0.287,0.0021194939580668768,0.02473076017474451),Layer('CH5531001',10,60,0.287,0.398,0.174,3.9800000000000004,1.7399999999999998,2.8699999999999997,10,10,100.0,Afgen([4.1846,2,2.0,2,-1.0,2]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.8699999999999997,100.0,100.0,0.287,0.0021194939580668768,0.02197954250462969),Layer('CH5531001',10,70,0.287,0.398,0.174,3.9800000000000004,1.7399999999999998,2.8699999999999997,10,10,100.0,Afgen([4.1846,2,2.0,2,-1.0,2]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.8699999999999997,100.0,100.0,0.287,0.0021194939580668768,0.01922832483451487),Layer('CH5531001',20,90,0.287,0.398,0.174,7.960000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,5.739999999999999,10.0,10.0,0.287,0.004238987916133752,0.016477107164400047),Layer('CH5531001',20,110,0.287,0.398,0.174,7.960000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,5.739999999999999,10.0,10.0,0.287,0.004238987916133752,0.010974671824170406),Layer('CH5531001',20,130,0.287,0.398,0.174,7.960000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,10.0,10.0,0.287,0.0,0.005472236483940764),Layer('CH5531001',20,150,0.287,0.46,0.174,9.200000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.46]),Afgen([0.46,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.46]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,10.0,10.0,0.287,0.0,0.005472236483940764),Layer('CH5531001',20,170,0.287,0.46,0.174,9.200000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.46]),Afgen([0.46,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.46]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,10.0,10.0,0.287,0.0,0.005472236483940764),Layer('CH5531001',20,190,0.287,0.46,0.174,9.200000000000001,3.4799999999999995,5.739999999999999,10,10,1.6982436524617444,Afgen([4.1846,0.23,2.0,0.23,-1.0,0.23]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.46]),Afgen([0.46,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.46]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,1.6982436524617444,1.6982436524617444,0.287,0.0,0.005472236483940764),Layer('CH5531001',20,210,0.287,0.46,0.174,9.200000000000001,3.4799999999999995,5.739999999999999,10,10,1.6982436524617444,Afgen([4.1846,0.23,2.0,0.23,-1.0,0.23]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.46]),Afgen([0.46,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.46]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,1.6982436524617444,1.6982436524617444,0.287,0.0,0.005472236483940764),], 'AD':0.004, 'SSMAX':0, 'IFUNRN':0, 'NOTINF':0, 'SSI':0, 'WAV':24.239999999999995, 'ROOTING_DEPTH_POT_WATER_ISV':0, }"/>
+                <Input Name="status.weather.E0" Value="0.06569570954555753"/>
+                <Input Name="status.weather.ES0" Value="0.05808181403903658"/>
+                <Input Name="status.layeredwaterbalance.rates.RAIN" Value="0.04"/>
+                <Input Name="status.layeredwaterbalance.rates.TRA" Value="0.006948960832527393"/>
+                <Input Name="status.layeredwaterbalance.rates.TRALY" Value="[0.0003158618560239725, 0.0003158618560239725, 0.000631723712047945, 0.000631723712047945, 0.000631723712047945, 0.000631723712047945, 0.000631723712047945, 0.000631723712047945, 0.00126344742409589, 0.00126344742409589, 0.0, 0.0, 0.0, 0.0, 0.0]"/>
+                <Input Name="status.layeredwaterbalance.rates.EVWMX" Value="0.05744730687781496"/>
+                <Input Name="status.layeredwaterbalance.rates.EVSMX" Value="0.050789371455176646"/>
+                <Input Name="status.layeredwaterbalance.states.RD" Value="110.0"/>
+                <Input Name="status.layeredwaterbalance.states.SM" Value="0.2823636363636364"/>
+                <Input Name="status.layeredwaterbalance.states.SMUR" Value="0"/>
+                <Input Name="status.layeredwaterbalance.states.SS" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.W" Value="31.060000000000006"/>
+                <Input Name="status.layeredwaterbalance.states.WI" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.WLOW" Value="-68.46945577777899"/>
+                <Input Name="status.layeredwaterbalance.states.WLOWI" Value="18.12"/>
+                <Input Name="status.layeredwaterbalance.states.WWLOW" Value="-37.40945577777899"/>
+                <Input Name="status.layeredwaterbalance.states.WBOT" Value="28.699999999999996"/>
+                <Input Name="status.layeredwaterbalance.states.WTRAT" Value="0.2987277456605529"/>
+                <Input Name="status.layeredwaterbalance.states.EVST" Value="0.07131856096815774"/>
+                <Input Name="status.layeredwaterbalance.states.EVWT" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.TSR" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.RAINT" Value="29.51999999999999"/>
+                <Input Name="status.layeredwaterbalance.states.WDRT" Value="31.059439419851742"/>
+                <Input Name="status.layeredwaterbalance.states.WLOWDRT" Value="-99.52889519763079"/>
+                <Input Name="status.layeredwaterbalance.states.TOTINF" Value="29.51999999999999"/>
+                <Input Name="status.layeredwaterbalance.states.TOTIRR" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.PERCT" Value="89.97864352801128"/>
+                <Input Name="status.layeredwaterbalance.states.LOSST" Value="77.03920410815954"/>
+                <Input Name="status.layeredwaterbalance.states.WBALRT" Value="-60.82925041478826"/>
+                <Input Name="status.layeredwaterbalance.states.RINold" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.WBALTT" Value="7.640205362990727"/>
+                <Input Name="status.layeredwaterbalance.states.SUMSM" Value="35.586521504035005"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.layeredwaterbalance.states.SM" Value="0.282"/>
+                <Output Name="status.layeredwaterbalance.states.SMUR" Value="0"/>
+                <Output Name="status.layeredwaterbalance.states.SS" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.W" Value="31.06"/>
+                <Output Name="status.layeredwaterbalance.states.WI" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.WLOW" Value="-68.469"/>
+                <Output Name="status.layeredwaterbalance.states.WLOWI" Value="18.12"/>
+                <Output Name="status.layeredwaterbalance.states.WWLOW" Value="-37.409"/>
+                <Output Name="status.layeredwaterbalance.states.WBOT" Value="28.7"/>
+                <Output Name="status.layeredwaterbalance.states.WTRAT" Value="0.299"/>
+                <Output Name="status.layeredwaterbalance.states.EVST" Value="0.071"/>
+                <Output Name="status.layeredwaterbalance.states.EVWT" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.TSR" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.RAINT" Value="29.52"/>
+                <Output Name="status.layeredwaterbalance.states.WDRT" Value="31.059"/>
+                <Output Name="status.layeredwaterbalance.states.WLOWDRT" Value="-99.529"/>
+                <Output Name="status.layeredwaterbalance.states.TOTINF" Value="29.52"/>
+                <Output Name="status.layeredwaterbalance.states.TOTIRR" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.PERCT" Value="89.979"/>
+                <Output Name="status.layeredwaterbalance.states.LOSST" Value="77.039"/>
+                <Output Name="status.layeredwaterbalance.states.WBALRT" Value="-60.829"/>
+                <Output Name="status.layeredwaterbalance.states.WBALTT" Value="7.64"/>
+                <Output Name="status.layeredwaterbalance.rates.EVS" Value="0.021"/>
+                <Output Name="status.layeredwaterbalance.rates.EVW" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.rates.WTRA" Value="0.007"/>
+                <Output Name="status.layeredwaterbalance.rates.RAIN" Value="0.04"/>
+                <Output Name="status.layeredwaterbalance.rates.RIN" Value="0.04"/>
+                <Output Name="status.layeredwaterbalance.states.RINold" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.rates.RIRR" Value="0"/>
+                <Output Name="status.layeredwaterbalance.rates.PERC" Value="0.018"/>
+                <Output Name="status.layeredwaterbalance.rates.LOSS" Value="10"/>
+                <Output Name="status.layeredwaterbalance.rates.DW" Value="-0.006"/>
+                <Output Name="status.layeredwaterbalance.rates.DWLOW" Value="-9.98"/>
+                <Output Name="status.layeredwaterbalance.states.SUMSM" Value="35.587"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="RDI" Value="10.0"/>
+                <Parameter Name="RDMCR" Value="110"/>
+                <Parameter Name="IAIRDU" Value="0.0"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.day" Value="2014-05-30 00:00:00"/>
+                <Input Name="status.sowing_emergence_day" Value="2013-10-14 00:00:00"/>
+                <Input Name="status.layeredwaterbalance.states.flag_crop_emerged" Value="True"/>
+                <Input Name="status.POTENTIAL_WATER_STARTDATE_date" Value="2013-01-01 00:00:00"/>
+                <Input Name="status.soilparameters"
+                       Value="{'RDMSOL':210, 'GW':0, 'ZTI':0, 'DD':0, 'NSL':15, 'SMLIM':0.27, 'FC_WAV':24.239999999999995, 'SOIL_LAYERS':[Layer('CH5531001',5,5,0.27,0.398,0.14,1.9900000000000002,0.7000000000000001,1.35,10,10,1698.2436524617442,Afgen([4.1846,3.23,2.0,3.23,-1.0,3.23]),Afgen([4.1846,0.14,2.0,0.27,-1.0,0.398]),Afgen([0.398,-1.0,0.27,2.0]),Afgen([-400.0,0.14,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,1.35,1698.2436524617442,1698.2436524617442,0.27,0.0,0.019314309324952723),Layer('CH5531001',5,10,0.27,0.398,0.14,1.9900000000000002,0.7000000000000001,1.35,10,10,1698.2436524617442,Afgen([4.1846,3.23,2.0,3.23,-1.0,3.23]),Afgen([4.1846,0.14,2.0,0.27,-1.0,0.398]),Afgen([0.398,-1.0,0.27,2.0]),Afgen([-400.0,0.14,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,1.3457938315963072,1698.2436524617442,1698.2436524617442,0.26915876631926144,-0.004206168403693013,0.007554070460629855),Layer('CH5531001',10,20,0.27,0.398,0.14,3.9800000000000004,1.4000000000000001,2.7,10,10,1698.2436524617442,Afgen([4.1846,3.23,2.0,3.23,-1.0,3.23]),Afgen([4.1846,0.14,2.0,0.27,-1.0,0.398]),Afgen([0.398,-1.0,0.27,2.0]),Afgen([-400.0,0.14,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.6764795222713547,1698.2436524617442,1698.2436524617442,0.26764795222713544,-0.023520477728645735,0.0),Layer('CH5531001',10,30,0.27,0.398,0.14,3.9800000000000004,1.4000000000000001,2.7,10,10,1698.2436524617442,Afgen([4.1846,3.23,2.0,3.23,-1.0,3.23]),Afgen([4.1846,0.14,2.0,0.27,-1.0,0.398]),Afgen([0.398,-1.0,0.27,2.0]),Afgen([-400.0,0.14,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.6754802181001196,1698.2436524617442,1698.2436524617442,0.26754802181001197,-0.023520477728645735,0.0),Layer('CH5531001',10,40,0.287,0.398,0.174,3.9800000000000004,1.7399999999999998,2.8699999999999997,10,10,100.0,Afgen([4.1846,2,2.0,2,-1.0,2]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.7012968045879204,100.0,100.0,0.27012968045879204,-0.023520477728645735,0.0),Layer('CH5531001',10,50,0.287,0.398,0.174,3.9800000000000004,1.7399999999999998,2.8699999999999997,10,10,100.0,Afgen([4.1846,2,2.0,2,-1.0,2]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.4601255381359652,100.0,100.0,0.24601255381359652,-0.023520477728645735,0.0),Layer('CH5531001',10,60,0.287,0.398,0.174,3.9800000000000004,1.7399999999999998,2.8699999999999997,10,10,100.0,Afgen([4.1846,2,2.0,2,-1.0,2]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.4601255381359652,100.0,100.0,0.24601255381359652,-0.023520477728645735,0.0),Layer('CH5531001',10,70,0.287,0.398,0.174,3.9800000000000004,1.7399999999999998,2.8699999999999997,10,10,100.0,Afgen([4.1846,2,2.0,2,-1.0,2]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,2.4601255381359652,100.0,100.0,0.24601255381359652,-0.023520477728645735,0.0),Layer('CH5531001',20,90,0.287,0.398,0.174,7.960000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,3.709433441971483,10.0,10.0,0.18547167209857415,-0.025151932667964505,0.0),Layer('CH5531001',20,110,0.287,0.398,0.174,7.960000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,1.0,0.0,0.0,3.6514835320551615,10.0,10.0,0.18257417660275807,-0.018799100143614855,0.0),Layer('CH5531001',20,130,0.287,0.398,0.174,7.960000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.398]),Afgen([0.398,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.398]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,10.0,10.0,0.287,0.0,0.0),Layer('CH5531001',20,150,0.287,0.46,0.174,9.200000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.46]),Afgen([0.46,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.46]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,10.0,10.0,0.287,0.0,0.0),Layer('CH5531001',20,170,0.287,0.46,0.174,9.200000000000001,3.4799999999999995,5.739999999999999,10,10,10.0,Afgen([4.1846,1,2.0,1,-1.0,1]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.46]),Afgen([0.46,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.46]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,10.0,10.0,0.287,0.0,0.0),Layer('CH5531001',20,190,0.287,0.46,0.174,9.200000000000001,3.4799999999999995,5.739999999999999,10,10,1.6982436524617444,Afgen([4.1846,0.23,2.0,0.23,-1.0,0.23]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.46]),Afgen([0.46,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.46]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,1.6982436524617444,1.6982436524617444,0.287,0.0,0.0),Layer('CH5531001',20,210,0.287,0.46,0.174,9.200000000000001,3.4799999999999995,5.739999999999999,10,10,1.6982436524617444,Afgen([4.1846,0.23,2.0,0.23,-1.0,0.23]),Afgen([4.1846,0.174,2.0,0.287,-1.0,0.46]),Afgen([0.46,-1.0,0.287,2.0]),Afgen([-400.0,0.174,0.0,0.0,0.0,0.46]),None,None,0.09,0.0,0.0,1.0,5.739999999999999,1.6982436524617444,1.6982436524617444,0.287,0.0,0.0),], 'AD':0.004, 'SSMAX':0, 'IFUNRN':0, 'NOTINF':0, 'SSI':0, 'WAV':24.239999999999995, 'ROOTING_DEPTH_POT_WATER_ISV':0, }"/>
+                <Input Name="status.weather.E0" Value="0.35381901346010614"/>
+                <Input Name="status.weather.ES0" Value="0.3107393617801655"/>
+                <Input Name="status.layeredwaterbalance.rates.RAIN" Value="0.02"/>
+                <Input Name="status.layeredwaterbalance.rates.TRA" Value="0.2085943769120995"/>
+                <Input Name="status.layeredwaterbalance.rates.TRALY" Value="[0.011760238864322868, 0.011760238864322868, 0.023520477728645735, 0.023520477728645735, 0.023520477728645735, 0.023520477728645735, 0.023520477728645735, 0.023520477728645735, 0.025151932667964505, 0.018799100143614855, 0.0, 0.0, 0.0, 0.0, 0.0]"/>
+                <Input Name="status.layeredwaterbalance.rates.EVWMX" Value="0.03555637408704221"/>
+                <Input Name="status.layeredwaterbalance.rates.EVSMX" Value="0.03122716578449248"/>
+                <Input Name="status.layeredwaterbalance.states.RD" Value="110.0"/>
+                <Input Name="status.layeredwaterbalance.states.SM" Value="0.23173039968172957"/>
+                <Input Name="status.layeredwaterbalance.states.SMUR" Value="0"/>
+                <Input Name="status.layeredwaterbalance.states.SS" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.W" Value="25.490343964990252"/>
+                <Input Name="status.layeredwaterbalance.states.WI" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.WLOW" Value="-68.46945577777899"/>
+                <Input Name="status.layeredwaterbalance.states.WLOWI" Value="18.12"/>
+                <Input Name="status.layeredwaterbalance.states.WWLOW" Value="-42.97911181278874"/>
+                <Input Name="status.layeredwaterbalance.states.WBOT" Value="28.699999999999996"/>
+                <Input Name="status.layeredwaterbalance.states.WTRAT" Value="13.408679496047407"/>
+                <Input Name="status.layeredwaterbalance.states.EVST" Value="0.23220545171026957"/>
+                <Input Name="status.layeredwaterbalance.states.EVWT" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.TSR" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.RAINT" Value="41.740000000000045"/>
+                <Input Name="status.layeredwaterbalance.states.WDRT" Value="31.059439419851742"/>
+                <Input Name="status.layeredwaterbalance.states.WLOWDRT" Value="-99.52889519763079"/>
+                <Input Name="status.layeredwaterbalance.states.TOTINF" Value="41.740000000000045"/>
+                <Input Name="status.layeredwaterbalance.states.TOTIRR" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.PERCT" Value="94.49746092189207"/>
+                <Input Name="status.layeredwaterbalance.states.LOSST" Value="81.55802150204033"/>
+                <Input Name="status.layeredwaterbalance.states.WBALRT" Value="-60.82925041478821"/>
+                <Input Name="status.layeredwaterbalance.states.RINold" Value="0.0"/>
+                <Input Name="status.layeredwaterbalance.states.WBALTT" Value="7.64020536299077"/>
+                <Input Name="status.layeredwaterbalance.states.SUMSM" Value="62.14265869393489"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.layeredwaterbalance.states.SM" Value="0.232"/>
+                <Output Name="status.layeredwaterbalance.states.SMUR" Value="0"/>
+                <Output Name="status.layeredwaterbalance.states.SS" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.W" Value="25.49"/>
+                <Output Name="status.layeredwaterbalance.states.WI" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.WLOW" Value="-68.469"/>
+                <Output Name="status.layeredwaterbalance.states.WLOWI" Value="18.12"/>
+                <Output Name="status.layeredwaterbalance.states.WWLOW" Value="-42.979"/>
+                <Output Name="status.layeredwaterbalance.states.WBOT" Value="28.7"/>
+                <Output Name="status.layeredwaterbalance.states.WTRAT" Value="13.409"/>
+                <Output Name="status.layeredwaterbalance.states.EVST" Value="0.232"/>
+                <Output Name="status.layeredwaterbalance.states.EVWT" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.TSR" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.RAINT" Value="41.74"/>
+                <Output Name="status.layeredwaterbalance.states.WDRT" Value="31.059"/>
+                <Output Name="status.layeredwaterbalance.states.WLOWDRT" Value="-99.529"/>
+                <Output Name="status.layeredwaterbalance.states.TOTINF" Value="41.74"/>
+                <Output Name="status.layeredwaterbalance.states.TOTIRR" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.states.PERCT" Value="94.497"/>
+                <Output Name="status.layeredwaterbalance.states.LOSST" Value="81.558"/>
+                <Output Name="status.layeredwaterbalance.states.WBALRT" Value="-60.829"/>
+                <Output Name="status.layeredwaterbalance.states.WBALTT" Value="7.64"/>
+                <Output Name="status.layeredwaterbalance.rates.EVS" Value="0.012"/>
+                <Output Name="status.layeredwaterbalance.rates.EVW" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.rates.WTRA" Value="0.209"/>
+                <Output Name="status.layeredwaterbalance.rates.RAIN" Value="0.02"/>
+                <Output Name="status.layeredwaterbalance.rates.RIN" Value="0.02"/>
+                <Output Name="status.layeredwaterbalance.states.RINold" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.rates.RIRR" Value="0"/>
+                <Output Name="status.layeredwaterbalance.rates.PERC" Value="0.0"/>
+                <Output Name="status.layeredwaterbalance.rates.LOSS" Value="10.0"/>
+                <Output Name="status.layeredwaterbalance.rates.DW" Value="-0.189"/>
+                <Output Name="status.layeredwaterbalance.rates.DWLOW" Value="-10.0"/>
+                <Output Name="status.layeredwaterbalance.states.SUMSM" Value="62.143"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

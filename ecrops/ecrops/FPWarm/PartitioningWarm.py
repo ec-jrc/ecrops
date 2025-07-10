@@ -6,6 +6,9 @@ class PartitioningWarm(Step):
     simulating rice growth (Japonica type – short cycle varieties). Italian Journal of Agrometeorology, 3, 7-16"""
 
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.PartitioningToLeavesAtEmergence = container.allparameters['PartitioningToLeavesAtEmergence']
 
         return container
@@ -56,6 +59,10 @@ class PartitioningWarm(Step):
                              "Type": "Number",
                              "UnitOfMeasure": "kg/ha",
                              "StatusVariable": "status.states.StemsBiomass"},
+            "LeavesBiomass": {"Description": "Leaves biomass ",
+                              "Type": "Number",
+                              "UnitOfMeasure": "kg/ha",
+                              "StatusVariable": "status.states.LeavesBiomass"},
             "Sterility": {"Description": "Sterility (cold plus heat induced sterility)",
                           "Type": "Number",
                           "UnitOfMeasure": "unitless",

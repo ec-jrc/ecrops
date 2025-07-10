@@ -8,16 +8,19 @@ class ColdInducedSterilityWARM(Step):
     """
 
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.ThresholdTemperatureInducingSterilityBeforeFlowering = container.allparameters['ThresholdTemperatureInducingSterilityBeforeFlowering']
         container.WarmParameters.ThresholdTemperatureInducingSterilityDuringFlowering = container.allparameters['ThresholdTemperatureInducingSterilityDuringFlowering']
         container.WarmParameters.SensitivityToColdShockInducedSterility = container.allparameters['SensitivityToColdShockInducedSterility']
 
-
         return container
 
     def initialize(self, container):
-        self.HighSensitivityForManyDays=True
-        container.states.ColdInducedSpikeletSterilityState=0
+        self.HighSensitivityForManyDays = True
+        container.states.ColdInducedSpikeletSterilityState = 0
+        container.rates.ColdInducedSpikeletSterilityRate = 0
         return container
 
     def integrate(self, container):
@@ -29,11 +32,11 @@ class ColdInducedSterilityWARM(Step):
     def getparameterslist(self):
         return {
             "ThresholdTemperatureInducingSterilityDuringFlowering": {"Description": "ThresholdTemperatureInducingSterilityDuringFlowering", "Type": "Number",
-                                              "Mandatory": "True", "UnitOfMeasure": ""},
+                                                                     "Mandatory": "True", "UnitOfMeasure": ""},
             "ThresholdTemperatureInducingSterilityBeforeFlowering": {"Description": "ThresholdTemperatureInducingSterilityBeforeFlowering", "Type": "Number",
                                                                      "Mandatory": "True", "UnitOfMeasure": ""},
             "SensitivityToColdShockInducedSterility": {"Description": "SensitivityToColdShockInducedSterility", "Type": "Number",
-                                                          "Mandatory": "True", "UnitOfMeasure": ""},
+                                                       "Mandatory": "True", "UnitOfMeasure": ""},
 
         }
 
@@ -58,12 +61,12 @@ class ColdInducedSterilityWARM(Step):
     def getoutputslist(self):
         return {
             "ColdInducedSpikeletSterilityRate": {"Description": "Cold induced spikelet sterility rate", "Type": "Number",
-                               "UnitOfMeasure": "unitless",
-                               "StatusVariable": "status.rates.ColdInducedSpikeletSterilityRate"},
-            "ColdInducedSpikeletSterilityState": {"Description": "Cold induced spikelet sterility",
-                                                 "Type": "Number",
                                                  "UnitOfMeasure": "unitless",
-                                                 "StatusVariable": "status.states.ColdInducedSpikeletSterilityState"},
+                                                 "StatusVariable": "status.rates.ColdInducedSpikeletSterilityRate"},
+            "ColdInducedSpikeletSterilityState": {"Description": "Cold induced spikelet sterility",
+                                                  "Type": "Number",
+                                                  "UnitOfMeasure": "unitless",
+                                                  "StatusVariable": "status.states.ColdInducedSpikeletSterilityState"},
 
         }
 
@@ -77,8 +80,6 @@ class ColdInducedSterilityWARM(Step):
             p = container.WarmParameters  # parameters
             s = container.states  # states
             r = container.rates  # rates
-            a = container.auxiliary
-
 
 
             DailyStress = 0;
@@ -95,11 +96,8 @@ class ColdInducedSterilityWARM(Step):
                 for j in range(24):
                     HourlyTemperatureMeristematicApex.append(Tavg + DT / 2 * math.cos(0.2618 * (j - CampbellTimingVariation)))
 
-
                 for j in range(24):
-
-                     DailyStress = DailyStress +  self.HourlySterilityFactor(HourlyTemperatureMeristematicApex[j],  p.ThresholdTemperatureInducingSterilityBeforeFlowering)
-
+                    DailyStress = DailyStress + self.HourlySterilityFactor(HourlyTemperatureMeristematicApex[j], p.ThresholdTemperatureInducingSterilityBeforeFlowering)
 
                 Delta = 0.125
                 if (self.HighSensitivityForManyDays == True):
@@ -108,7 +106,7 @@ class ColdInducedSterilityWARM(Step):
                 Sigma = Delta / 2.51
                 DevelopmentStageCodeExactlyBetweenPanicleInitiationAndHeading = 1.75
 
-                r.ColdInducedSpikeletSterilityRate = p.SensitivityToColdShockInducedSterility * DailyStress *  self.BellFactor(s.DevelopmentStageCode, DevelopmentStageCodeExactlyBetweenPanicleInitiationAndHeading,  Sigma, Delta) / 100;
+                r.ColdInducedSpikeletSterilityRate = p.SensitivityToColdShockInducedSterility * DailyStress * self.BellFactor(s.DevelopmentStageCode, DevelopmentStageCodeExactlyBetweenPanicleInitiationAndHeading, Sigma, Delta) / 100;
 
             else:
                 if s.DevelopmentStageCode > 1.9 and s.DevelopmentStageCode <= 2.1:
@@ -142,21 +140,19 @@ class ColdInducedSterilityWARM(Step):
 
             s.ColdInducedSpikeletSterilityState = s.ColdInducedSpikeletSterilityState + r.ColdInducedSpikeletSterilityRate
             if (s.ColdInducedSpikeletSterilityState > 1):
-                    s.ColdInducedSpikeletSterilityState = 1
+                s.ColdInducedSpikeletSterilityState = 1
 
 
 
         except  Exception as e:
             print('Error in method runstep of class ColdInducedSterilityWARM:' + str(e))
 
-        return container
 
+        return container
 
     def BellFactor(self, DVS, DVSmiddle, Sigma, Delta):
 
-
         if (DVS >= 1.6 and DVS <= 2.1):
-
 
             F1 = Delta / (Sigma * (math.pow((2 * math.pi), 0.5)))
 
@@ -171,8 +167,7 @@ class ColdInducedSterilityWARM(Step):
 
         return result
 
-
-    def HourlySterilityFactor( self,  Thour,     ThresholdT):
+    def HourlySterilityFactor(self, Thour, ThresholdT):
 
         if (Thour > ThresholdT):
 
@@ -183,5 +178,3 @@ class ColdInducedSterilityWARM(Step):
             result = ThresholdT - Thour
 
         return result
-
-

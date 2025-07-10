@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WOFOST_Leaf_Dynamics" StepModule="ecrops.wofost.leafdinamics">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="RGRLAI" Value="" />
+        <Parameter Name="SPAN" Value="" />
+        <Parameter Name="TBASE" Value="" />
+        <Parameter Name="PERDL" Value="" />
+        <Parameter Name="TDWI" Value="" />
+        <Parameter Name="SLATB" Value="" />
+        <Parameter Name="KDIFTB" Value="" />
+        <Parameter Name="ThresholdTemperatureForHeatStressEffectOnSenescence" Value="" />
+        <Parameter Name="ConsiderHeatStressEffectOnSenescence" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOM" Value="" />
+        <Input Name="status.states.TEMP" Value="" />
+        <Input Name="status.states.TEMP_MIN" Value="" />
+        <Input Name="status.states.TEMP_MAX" Value="" />
+        <Input Name="status.states.DVS" Value="" />
+        <Input Name="status.rates.TRA" Value="" />
+        <Input Name="status.rates.TRAMX" Value="" />
+        <Input Name="status.states.FL" Value="" />
+        <Input Name="status.states.FR" Value="" />
+        <Input Name="status.rates.ADMI" Value="" />
+        <Input Name="status.states.WLV" Value="" />
+        <Input Name="status.states.DWLV" Value="" />
+        <Input Name="status.states.TWLV" Value="" />
+        <Input Name="status.states.LV" Value="" />
+        <Input Name="status.states.SLA" Value="" />
+        <Input Name="status.states.LVAGE" Value="" />
+        <Input Name="status.states.PAI" Value="" />
+        <Input Name="status.states.SAI" Value="" />
+        <Input Name="status.states.LAIMAX" Value="" />
+        <Input Name="status.states.LASUM" Value="" />
+        <Input Name="status.states.LAIEXP" Value="" />
+        <Input Name="status.states.TAGP" Value="" />
+        <Input Name="status.states.TWST" Value="" />
+        <Input Name="status.states.TWSO" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.LAI" Value="" />
+        <Output Name="status.states.LAICR" Value="" />
+        <Output Name="status.rates.GRLV" Value="" />
+        <Output Name="status.rates.DRLV" Value="" />
+        <Output Name="status.states.WLV" Value="" />
+        <Output Name="status.states.DWLV" Value="" />
+        <Output Name="status.states.TWLV" Value="" />
+        <Output Name="status.states.TAGP" Value="" />
+        <Output Name="status.states.DeadLeavesBiomassDueToSenescence" Value="" />
+        <Output Name="status.states.DeadLeavesBiomassDueToSenescenceIncreaseByHeatStress" Value="" />
+        <Output Name="status.states.DeadLeavesBiomassDueToSenescenceWithoutEffectOfHeatStress" Value="" />
+        <Output Name="status.states.LV" Value="" />
+        <Output Name="status.states.SLA" Value="" />
+        <Output Name="status.states.LVAGE" Value="" />
+        <Output Name="status.states.LASUM" Value="" />
+        <Output Name="status.states.LAIEXP" Value="" />
+        <Output Name="status.states.LAIMAX" Value="" />
+        <Output Name="status.rates.SLAT" Value="" />
+        <Output Name="status.rates.GLAIEX" Value="" />
+        <Output Name="status.rates.GLASOL" Value="" />
+        <Output Name="status.rates.FYSAGE" Value="" />
+        <Output Name="status.rates.DALV" Value="" />
+        <Output Name="status.rates.DSLV" Value="" />
+        <Output Name="status.rates.DSLV1" Value="" />
+        <Output Name="status.rates.DSLV2" Value="" />
+        <Output Name="status.rates.DSLV3" Value="" />
+        <Output Name="status.rates.DALV_Original" Value="" />
+        <Output Name="status.rates.factorToIncreaseSenescenceForHeatStress" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

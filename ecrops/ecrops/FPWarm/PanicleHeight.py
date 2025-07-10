@@ -5,6 +5,9 @@ class PanicleHeight(Step):
     warning system at high latitudes. Proceedings of the International Rice Cold Tolerance Workshop, Canberra, Australia, 22-23 July 2004
     """
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.MaximumPanicleHeight = container.allparameters['MaximumPanicleHeight']
 
         return container

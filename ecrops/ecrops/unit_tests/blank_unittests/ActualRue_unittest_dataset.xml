@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="ActualRue" StepModule="ecrops.FPWarm.ActualRue">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="MaximumRadiationUseEfficiency" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.rates.RUESaturationEffectRate" Value="" />
+        <Input Name="status.rates.RUESenescenceEffectRate" Value="" />
+        <Input Name="status.rates.RUETemperatureEffectRate" Value="" />
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.UseSaturation" Value="" />
+        <Input Name="status.UseSenescence" Value="" />
+        <Input Name="status.UseTemperature" Value="" />
+        <Input Name="status.UseCO2" Value="" />
+        <Input Name="status.auxiliary.GrowthRatioCO2" Value="" />
+        <Input Name="status.states.RUEActual" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.RUEActualRate" Value="" />
+        <Output Name="status.states.RUEActual" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

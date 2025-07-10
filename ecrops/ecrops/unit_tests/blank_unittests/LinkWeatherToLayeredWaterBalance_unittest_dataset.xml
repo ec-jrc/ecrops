@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="LinkWeatherToLayeredWaterBalance" StepModule="ecrops.waterbalance.LinkWeatherToLayeredWaterBalance">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters />
+      <Inputs>
+        <Input Name="status.weather.RAIN" Value="" />
+        <Input Name="status.weather.E0" Value="" />
+        <Input Name="status.weather.ES0" Value="" />
+        <Input Name="status.weather.ET0" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.layeredwaterbalance.rates.RAIN" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.E0" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.ES0" Value="" />
+        <Output Name="status.layeredwaterbalance.rates.ET0" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

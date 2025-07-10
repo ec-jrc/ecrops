@@ -1,0 +1,49 @@
+<UnitTest Step="PotentialWaterUptake" StepModule="ecrops.FPWarm.PotentialWaterUptake">
+    <TestSets>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FullCanopyWaterUptakeMaximum" Value="9.0"/>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="0.11285713740757533"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0.0"/>
+                <Input Name="status.states.WaterUptake" Value="0"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.WaterUptakeRate" Value="0"/>
+                <Output Name="status.states.WaterUptake" Value="0"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FullCanopyWaterUptakeMaximum" Value="9.0"/>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.0833157910798725"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0.018761876226824136"/>
+                <Input Name="status.states.WaterUptake" Value="0.8842547549732457"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.WaterUptakeRate" Value="0.084"/>
+                <Output Name="status.states.WaterUptake" Value="0.968"/>
+            </Outputs>
+        </TestSet>
+        <TestSet Description="">
+            <Parameters>
+                <Parameter Name="FullCanopyWaterUptakeMaximum" Value="9.0"/>
+                <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="0.5"/>
+            </Parameters>
+            <Inputs>
+                <Input Name="status.states.DevelopmentStageCode" Value="1.3975263194033973"/>
+                <Input Name="status.states.GreenLeafAreaIndex" Value="0.9820395036934568"/>
+                <Input Name="status.states.WaterUptake" Value="29.550658795343082"/>
+            </Inputs>
+            <Outputs>
+                <Output Name="status.rates.WaterUptakeRate" Value="3.492"/>
+                <Output Name="status.states.WaterUptake" Value="33.042"/>
+            </Outputs>
+        </TestSet>
+    </TestSets>
+</UnitTest>

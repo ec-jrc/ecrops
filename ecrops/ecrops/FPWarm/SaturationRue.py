@@ -5,6 +5,9 @@ class SaturationRue(Step):
     simulating rice growth (Japonica type – short cycle varieties). Italian Journal of Agrometeorology, 3, 7-16
     """
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.ThresholdRadiationForSaturation = container.allparameters['ThresholdRadiationForSaturation']
 
         return container

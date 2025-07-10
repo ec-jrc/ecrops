@@ -6,6 +6,9 @@ class PotentialWaterUptake(Step):
     Growing Degrees Days Temperature
     """
     def setparameters(self, container):
+        if not hasattr(container, 'WarmParameters'):
+            from ecrops.Printable import Printable
+            container.WarmParameters = Printable()
         container.WarmParameters.FullCanopyWaterUptakeMaximum = container.allparameters['FullCanopyWaterUptakeMaximum']
         container.WarmParameters.ExtinctionCoefficientSolarRadiation = container.allparameters['ExtinctionCoefficientSolarRadiation']
 

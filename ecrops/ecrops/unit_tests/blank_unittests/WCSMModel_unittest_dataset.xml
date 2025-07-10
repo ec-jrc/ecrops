@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="WCSMModel" StepModule="wcsm.WCSMModel">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="photoCoeff" Value="" />
+        <Parameter Name="photoCritical" Value="" />
+        <Parameter Name="VERNSAT" Value="" />
+        <Parameter Name="LT50c" Value="" />
+        <Parameter Name="FROSTOL_KILLCF" Value="" />
+        <Parameter Name="initLT50" Value="" />
+        <Parameter Name="minDD" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.LAT" Value="" />
+        <Input Name="status.LON" Value="" />
+        <Input Name="status.day" Value="" />
+        <Input Name="status.states.DOE" Value="" />
+        <Input Name="status.states.DOS" Value="" />
+        <Input Name="status.frostkill.rates.TMIN_CROWN" Value="" />
+        <Input Name="status.frostkill.states.RF_FROST_T" Value="" />
+        <Input Name="status.frostkill.states.IDFST" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.frostkill.rates.daylength" Value="" />
+        <Output Name="status.frostkill.states.vernDays" Value="" />
+        <Output Name="status.frostkill.states.dehardAmt" Value="" />
+        <Output Name="status.frostkill.states.dehardAmtStress" Value="" />
+        <Output Name="status.frostkill.states.accAmt" Value="" />
+        <Output Name="status.frostkill.states.respProg" Value="" />
+        <Output Name="status.frostkill.states.LT50raw" Value="" />
+        <Output Name="status.frostkill.states.photoReqFraction" Value="" />
+        <Output Name="status.frostkill.states.minLT50" Value="" />
+        <Output Name="status.frostkill.states.mflnFraction" Value="" />
+        <Output Name="status.frostkill.states.vernProg" Value="" />
+        <Output Name="status.frostkill.states.fiveDayTemp" Value="" />
+        <Output Name="status.frostkill.states.fiveDayTempSD" Value="" />
+        <Output Name="status.frostkill.states.fiveDayTempMean" Value="" />
+        <Output Name="status.frostkill.rates.IDFS" Value="" />
+        <Output Name="status.frostkill.rates.RF_FROST" Value="" />
+        <Output Name="status.frostkill.states.RF_FROST_T" Value="" />
+        <Output Name="status.frostkill.states.IDFST" Value="" />
+        <Output Name="status.frostkill.rates.CROP_FRACTION_REMAINING" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

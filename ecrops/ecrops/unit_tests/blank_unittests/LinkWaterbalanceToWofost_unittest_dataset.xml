@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="LinkWaterbalanceToWofost" StepModule="ecrops.waterbalance.LinkWaterbalanceToWofost">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters />
+      <Inputs>
+        <Input Name="status.classicwaterbalance.states.SM" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.states.SM" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>

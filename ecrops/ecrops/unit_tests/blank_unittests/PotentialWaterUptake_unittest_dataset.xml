@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UnitTest Step="PotentialWaterUptake" StepModule="ecrops.FPWarm.PotentialWaterUptake">
+  <TestSets>
+    <TestSet Description="">
+      <Parameters>
+        <Parameter Name="FullCanopyWaterUptakeMaximum" Value="" />
+        <Parameter Name="ExtinctionCoefficientSolarRadiation" Value="" />
+      </Parameters>
+      <Inputs>
+        <Input Name="status.states.DevelopmentStageCode" Value="" />
+        <Input Name="status.states.GreenLeafAreaIndex" Value="" />
+        <Input Name="status.states.WaterUptake" Value="" />
+      </Inputs>
+      <Outputs>
+        <Output Name="status.rates.WaterUptakeRate" Value="" />
+        <Output Name="status.states.WaterUptake" Value="" />
+      </Outputs>
+    </TestSet>
+  </TestSets>
+</UnitTest>
